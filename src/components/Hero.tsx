@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FactCard } from "@/components/FactCard";
 import { Mount } from "@/components/Motion";
+import { AlmondGlyph } from "@/components/AlmondMark";
 import type { PostMeta } from "@/lib/posts";
 
 const FACTS = [
@@ -84,7 +85,7 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
             className="chip-accent inline-flex items-center gap-[6px]"
           >
             <span>{chipLabel}</span>
-            <ChevronRight />
+            <AlmondGlyph size={12} />
           </Link>
         </Mount>
 
@@ -142,19 +143,3 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
   );
 }
 
-function ChevronRight() {
-  return (
-    <svg
-      width="9"
-      height="9"
-      viewBox="0 0 9 9"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
-    >
-      <circle cx="2.5" cy="1.5" r="1.5" fill="currentColor" />
-      <circle cx="2.5" cy="7.5" r="1.5" fill="currentColor" />
-      <circle cx="6.5" cy="4.5" r="1.5" fill="currentColor" />
-    </svg>
-  );
-}
