@@ -1,13 +1,7 @@
 import Link from "next/link";
 import { Reveal, Stagger, StaggerItem } from "@/components/Motion";
 import type { PostMeta } from "@/lib/posts";
-import { formatPostDate } from "@/lib/postFormat";
-
-const COVERS = [
-  "/almond/avatar-2.png",
-  "/almond/avatar-4.png",
-  "/almond/avatar-3.png",
-];
+import { formatPostDate, getPostCover } from "@/lib/postFormat";
 
 export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
   const top = posts.slice(0, 3);
@@ -35,9 +29,9 @@ export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
             as="ul"
             className="mt-[40px] grid grid-cols-1 gap-[16px] md:mt-[56px] md:grid-cols-2 md:gap-[20px] lg:grid-cols-3"
           >
-            {top.map((post, i) => (
+            {top.map((post) => (
               <StaggerItem as="li" key={post.slug}>
-                <PostCard post={post} cover={COVERS[i % COVERS.length]!} />
+                <PostCard post={post} cover={getPostCover(post.slug)} />
               </StaggerItem>
             ))}
           </Stagger>

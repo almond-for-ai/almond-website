@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteNav } from "@/components/SiteNav";
-import { formatPostDate, getAllPosts, getPostBySlug } from "@/lib/posts";
+import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import { formatPostDate, getPostCover } from "@/lib/postFormat";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -35,6 +36,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) notFound();
+  const cover = getPostCover(post.slug);
 
   return (
     <main className="relative flex min-h-dvh w-full flex-col bg-white">
@@ -42,7 +44,18 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       <article className="flex-1 pt-[140px] pb-[160px] md:pt-[160px]">
         <div className="container-x" style={{ maxWidth: 720 }}>
-          <div className="text-[13px] uppercase tracking-[0.18em] text-black/50">
+          {/* Cover image — same image shown on the blog card */}
+          <div
+            className="relative aspect-[16/9] w-full overflow-hidden rounded-[20px] bg-black md:aspect-[2/1] md:rounded-[24px]"
+            aria-hidden
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${cover})` }}
+            />
+          </div>
+
+          <div className="mt-[32px] text-[13px] uppercase tracking-[0.18em] text-black/50 md:mt-[40px]">
             <time dateTime={post.date}>{formatPostDate(post.date)}</time>
             {post.author ? (
               <>

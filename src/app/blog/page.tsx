@@ -3,21 +3,14 @@ import type { Metadata } from "next";
 import { RawView } from "@/components/RawView";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteNav, getViewFromSearchParams } from "@/components/SiteNav";
-import { getAllPosts, formatPostDate } from "@/lib/posts";
+import { getAllPosts } from "@/lib/posts";
+import { formatPostDate, getPostCover } from "@/lib/postFormat";
 import { buildSiteData } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Blog · Almond AI",
   description: "Notes on attention, memory, and taste.",
 };
-
-const COVERS = [
-  "/almond/avatar-2.png",
-  "/almond/avatar-4.png",
-  "/almond/avatar-3.png",
-  "/almond/avatar-5.png",
-  "/almond/avatar-1.png",
-];
 
 export default async function BlogIndexPage({
   searchParams,
@@ -64,7 +57,7 @@ export default async function BlogIndexPage({
             </p>
           ) : (
             <ul className="grid grid-cols-1 gap-[20px] md:grid-cols-2 lg:grid-cols-3">
-              {posts.map((post, i) => (
+              {posts.map((post) => (
                 <li key={post.slug}>
                   <Link
                     href={`/blog/${post.slug}`}
@@ -72,7 +65,7 @@ export default async function BlogIndexPage({
                   >
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.03]"
-                      style={{ backgroundImage: `url(${COVERS[i % COVERS.length]})` }}
+                      style={{ backgroundImage: `url(${getPostCover(post.slug)})` }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[50%] to-black to-[88%]" />
                     <div className="absolute inset-x-0 bottom-0 p-[20px]">
