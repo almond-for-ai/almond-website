@@ -192,28 +192,17 @@ export function SiteNavClient({ active }: { active?: Active }) {
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-controls="mobile-nav-menu"
-              className="inline-flex h-[30px] items-center gap-1 rounded-full border border-black/[0.1] bg-white px-3 text-[12px] font-medium leading-none tracking-[-0.005em] text-black transition-colors hover:bg-black/[0.03]"
+              className="inline-flex h-[30px] w-[30px] items-center justify-center rounded-full border border-black/[0.1] bg-white text-black transition-colors hover:bg-black/[0.03]"
             >
-              Menu
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 10 10"
-                fill="none"
-                aria-hidden
-                style={{
-                  transform: menuOpen ? "rotate(180deg)" : "rotate(0deg)",
-                  transition: "transform 200ms ease",
-                }}
-              >
-                <path
-                  d="M2 4L5 7L8 4"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              {menuOpen ? (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+                  <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+                  <path d="M2 4h10M2 7h10M2 10h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
+              )}
             </button>
           </div>
 
