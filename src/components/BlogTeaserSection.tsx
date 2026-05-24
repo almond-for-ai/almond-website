@@ -23,17 +23,7 @@ export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
               <br />
               memory, and taste
             </h2>
-            {/* Desktop — pill beside heading */}
-            <div className="hidden shrink-0 sm:block">
-              <Link href="/blog" className="btn-secondary">
-                View All
-              </Link>
-            </div>
-          </div>
-
-          {/* Mobile — full-width below heading */}
-          <div className="mt-5 sm:hidden">
-            <Link href="/blog" className="btn-secondary w-full justify-center">
+            <Link href="/blog" className="btn-secondary shrink-0">
               View All
             </Link>
           </div>
