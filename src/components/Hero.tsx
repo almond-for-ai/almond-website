@@ -75,7 +75,7 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
   const chipHref = latestPost ? `/blog/${latestPost.slug}` : "/blog";
 
   return (
-    <section className="relative w-full overflow-clip pb-[80px] pt-[140px] md:pt-[160px]">
+    <section id="hero-section" className="relative w-full overflow-clip pb-[80px] pt-[140px] md:pt-[160px]">
       <div className="container-x">
         {/* Chip */}
         <Mount delay={0.05} y={10}>

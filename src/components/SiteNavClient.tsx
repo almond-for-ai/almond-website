@@ -1,15 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import { AlmondMark } from "@/components/AlmondMark";
 import type { View } from "@/lib/view";
 
 type Active = "game" | "blog";
-type Mode = "roasted" | "raw";
-type RawFormat = "json" | "yaml";
+type SectionLabel = "Home" | "Game" | "Blog";
 
 const NAV_ITEMS: { key: Active; label: string; href: string }[] = [
   { key: "game", label: "Game", href: "/#game" },
@@ -19,30 +18,15 @@ const NAV_ITEMS: { key: Active; label: string; href: string }[] = [
 export function SiteNavClient({ active }: { active?: Active }) {
   const pathname = usePathname();
   const sp = useSearchParams();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
   const wrapperRef = useRef<HTMLElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [sectionLabel, setSectionLabel] = useState<SectionLabel>("Home");
 
   const current: View = (sp.get("view") as View) || "roasted";
-  const mode: Mode = current === "roasted" ? "roasted" : "raw";
-  const rawFormat: RawFormat = current === "yaml" ? "yaml" : "json";
+  const isRaw = current !== "roasted";
 
-  // Close menu on navigation
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname, sp]);
-
-  // Close menu on outside click
-  useEffect(() => {
-    if (!menuOpen) return;
-    function onPointerDown(e: PointerEvent) {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
-    }
-    document.addEventListener("pointerdown", onPointerDown);
-    return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [menuOpen]);
-
+  // Build href for each view mode
   function viewHref(view: View) {
     const params = new URLSearchParams(sp.toString());
     if (view === "roasted") params.delete("view");
@@ -51,14 +35,73 @@ export function SiteNavClient({ active }: { active?: Active }) {
     return `${pathname}${qs ? "?" + qs : ""}`;
   }
 
-  function modeHref(target: Mode) {
-    return viewHref(target === "roasted" ? "roasted" : rawFormat);
+  // Single click toggles between roasted and raw (json)
+  function toggleView() {
+    router.push(isRaw ? viewHref("roasted") : viewHref("json"), { scroll: false });
   }
 
-  // Status label for mobile breadcrumb pill
-  const pageLabel = active === "blog" ? "Blog" : "Game";
-  const viewLabel =
-    current === "roasted" ? "Roasted" : current === "yaml" ? "YAML" : "JSON";
+  // Close menu on route / search-param change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname, sp]);
+
+  // Close menu on outside click
+  useEffect(() => {
+    if (!menuOpen) return;
+    function onDown(e: PointerEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, [menuOpen]);
+
+  // ── Scroll-based section tracking (home page, roasted view only) ──────────
+  useEffect(() => {
+    if (pathname !== "/" || isRaw) {
+      // On the blog page the label is always "Blog"; on raw it doesn't change
+      if (active === "blog") setSectionLabel("Blog");
+      return;
+    }
+
+    const SECTIONS: { id: string; label: SectionLabel }[] = [
+      { id: "hero-section", label: "Home" },
+      { id: "game", label: "Game" },
+      { id: "blog-posts-section", label: "Blog" },
+    ];
+
+    // Track how much of each section is visible; pick the dominant one
+    const ratios: Record<string, number> = {};
+
+    const observers = SECTIONS.map(({ id, label: _ }) => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          ratios[id] = entry.intersectionRatio;
+          // Pick the section with the highest visible ratio
+          let best: { id: string; ratio: number } = { id: "", ratio: -1 };
+          for (const [k, r] of Object.entries(ratios)) {
+            if (r > best.ratio) best = { id: k, ratio: r };
+          }
+          if (best.id === "game") setSectionLabel("Game");
+          else if (best.id === "blog-posts-section") setSectionLabel("Blog");
+          else setSectionLabel("Home");
+        },
+        { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
+      );
+      observer.observe(el);
+      return observer;
+    });
+
+    return () => observers.forEach((o) => o?.disconnect());
+  }, [pathname, isRaw, active]);
+
+  // Label shown in the breadcrumb pill
+  const breadcrumbSection: SectionLabel =
+    active === "blog" ? "Blog" : sectionLabel;
+  const viewLabel = isRaw ? "Raw" : "Roasted";
 
   return (
     <div className="pointer-events-none fixed inset-x-0 top-4 z-50 md:top-6">
@@ -71,12 +114,12 @@ export function SiteNavClient({ active }: { active?: Active }) {
           className="pointer-events-auto relative flex w-full items-center justify-between rounded-full border border-black/[0.08] bg-white/80 px-3 py-2.5 backdrop-blur-xl"
           style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)" }}
         >
-          {/* ─── Logo ─────────────────────────────────────── */}
+          {/* ─── Logo ───────────────────────────────────────── */}
           <Link href="/" aria-label="Almond AI home" className="flex shrink-0 items-center pl-1">
             <AlmondMark size={20} glyphSize={24} />
           </Link>
 
-          {/* ─── Desktop nav (≥ md) ───────────────────────── */}
+          {/* ─── Desktop nav (md+) ──────────────────────────── */}
           <div className="hidden items-center gap-2 md:flex">
             <nav aria-label="Primary" className="flex items-center gap-0.5">
               {NAV_ITEMS.map((it) => {
@@ -99,56 +142,55 @@ export function SiteNavClient({ active }: { active?: Active }) {
 
             <div className="h-5 w-px bg-black/10" aria-hidden />
 
-            {/* Roasted / Raw segmented control */}
-            <div
-              className="relative flex items-center rounded-full bg-black/[0.04] p-0.5"
-              role="group"
-              aria-label="View mode"
+            {/* Roasted / Raw — true toggle switch */}
+            <button
+              type="button"
+              onClick={toggleView}
+              role="switch"
+              aria-checked={isRaw}
+              aria-label={`Switch to ${isRaw ? "Roasted" : "Raw"} view`}
+              className="relative flex h-[30px] cursor-pointer items-center rounded-full bg-black/[0.04] p-[3px]"
             >
-              {(["roasted", "raw"] as const).map((m) => {
-                const isOn = mode === m;
-                return (
-                  <Link
-                    key={m}
-                    href={modeHref(m)}
-                    scroll={false}
-                    className="relative isolate inline-flex items-center"
-                  >
-                    {isOn && (
-                      <motion.span
-                        layoutId="nav-mode-pill"
-                        className="absolute inset-0 rounded-full bg-white"
-                        style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}
-                        transition={{ type: "spring", stiffness: 420, damping: 36, mass: 0.6 }}
-                      />
-                    )}
-                    <span
-                      className={
-                        "relative z-10 rounded-full px-3 py-1.5 text-[11px] font-medium leading-[14px] tracking-[-0.005em] transition-colors " +
-                        (isOn ? "text-black" : "text-black/45 hover:text-black")
-                      }
-                    >
-                      {m === "roasted" ? "Roasted" : "Raw"}
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
+              {/* Sliding pill */}
+              <motion.span
+                className="absolute inset-y-[3px] rounded-full bg-white"
+                style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.12)" }}
+                animate={isRaw ? { left: "50%", right: "3px" } : { left: "3px", right: "50%" }}
+                transition={{ type: "spring", stiffness: 380, damping: 28 }}
+              />
+              <span
+                className={`relative z-10 w-[56px] select-none text-center text-[11px] font-medium leading-none tracking-[-0.005em] transition-colors ${
+                  !isRaw ? "text-black" : "text-black/40"
+                }`}
+              >
+                Roasted
+              </span>
+              <span
+                className={`relative z-10 w-[36px] select-none text-center text-[11px] font-medium leading-none tracking-[-0.005em] transition-colors ${
+                  isRaw ? "text-black" : "text-black/40"
+                }`}
+              >
+                Raw
+              </span>
+            </button>
           </div>
 
-          {/* ─── Mobile right cluster (< md) ─────────────── */}
+          {/* ─── Mobile: breadcrumb + Menu (< md) ──────────── */}
           <div className="flex shrink-0 items-center gap-2 md:hidden">
-            {/* Breadcrumb status — shows current page & view */}
-            <span className="rounded-full bg-black/[0.04] px-2.5 py-[5px] text-[11px] font-medium leading-none tracking-[-0.005em] text-black/55">
-              {pageLabel} · {viewLabel}
-            </span>
+            {/* Dynamic breadcrumb pill */}
+            <motion.span
+              key={`${breadcrumbSection}-${viewLabel}`}
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-full bg-black/[0.04] px-2.5 py-[5px] text-[11px] font-medium leading-none tracking-[-0.005em] text-black/55"
+            >
+              {breadcrumbSection} · {viewLabel}
+            </motion.span>
 
-            {/* Menu toggle */}
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
-              aria-haspopup="true"
               aria-controls="mobile-nav-menu"
               className="inline-flex h-[30px] items-center gap-1 rounded-full border border-black/[0.1] bg-white px-3 text-[12px] font-medium leading-none tracking-[-0.005em] text-black transition-colors hover:bg-black/[0.03]"
             >
@@ -159,8 +201,10 @@ export function SiteNavClient({ active }: { active?: Active }) {
                 viewBox="0 0 10 10"
                 fill="none"
                 aria-hidden
-                className="transition-transform duration-200"
-                style={{ transform: menuOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                style={{
+                  transform: menuOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "transform 200ms ease",
+                }}
               >
                 <path
                   d="M2 4L5 7L8 4"
@@ -173,7 +217,7 @@ export function SiteNavClient({ active }: { active?: Active }) {
             </button>
           </div>
 
-          {/* ─── Mobile dropdown menu ─────────────────────── */}
+          {/* ─── Mobile dropdown ────────────────────────────── */}
           {menuOpen && (
             <div
               id="mobile-nav-menu"
@@ -204,52 +248,44 @@ export function SiteNavClient({ active }: { active?: Active }) {
                 })}
               </nav>
 
-              {/* View mode */}
+              {/* View toggle */}
               <p className="mb-2.5 mt-4 px-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-black/35">
                 View
               </p>
-              <div className="flex gap-2">
-                {(["roasted", "raw"] as const).map((m) => {
-                  const isOn = mode === m;
-                  return (
-                    <Link
-                      key={m}
-                      href={modeHref(m)}
-                      scroll={false}
-                      className={`flex-1 rounded-[10px] py-2.5 text-center text-[13px] font-medium leading-none tracking-[-0.005em] transition-colors ${
-                        isOn
-                          ? "bg-black text-white"
-                          : "bg-black/[0.04] text-black/65 hover:bg-black/[0.08] hover:text-black"
-                      }`}
-                    >
-                      {m === "roasted" ? "Roasted" : "Raw"}
-                    </Link>
-                  );
-                })}
-              </div>
-
-              {/* Raw format: JSON / YAML — only when Raw is active */}
-              {mode === "raw" && (
-                <div className="mt-2 flex gap-2">
-                  {(["json", "yaml"] as const).map((fmt) => {
-                    const isOn = current === fmt;
-                    return (
-                      <Link
-                        key={fmt}
-                        href={viewHref(fmt)}
-                        scroll={false}
-                        className={`flex-1 rounded-[10px] py-2 text-center text-[12px] font-medium leading-none tracking-[-0.005em] transition-colors ${
-                          isOn
-                            ? "bg-walnut-500 text-white"
-                            : "bg-walnut-50 text-walnut-600 hover:bg-walnut-100"
-                        }`}
-                      >
-                        {fmt.toUpperCase()}
-                      </Link>
-                    );
-                  })}
-                </div>
-              )}
+              <button
+                type="button"
+                onClick={toggleView}
+                role="switch"
+                aria-checked={isRaw}
+                aria-label={`Switch to ${isRaw ? "Roasted" : "Raw"} view`}
+                className="relative flex h-[44px] w-full cursor-pointer items-center rounded-[10px] bg-black/[0.04] p-1"
+              >
+                {/* Sliding pill */}
+                <motion.span
+                  className="absolute inset-y-1 rounded-[8px] bg-white"
+                  style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.1)" }}
+                  animate={
+                    isRaw
+                      ? { left: "calc(50%)", right: "4px" }
+                      : { left: "4px", right: "calc(50%)" }
+                  }
+                  transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                />
+                <span
+                  className={`relative z-10 flex-1 select-none text-center text-[13px] font-medium leading-none tracking-[-0.005em] transition-colors ${
+                    !isRaw ? "text-black" : "text-black/40"
+                  }`}
+                >
+                  Roasted
+                </span>
+                <span
+                  className={`relative z-10 flex-1 select-none text-center text-[13px] font-medium leading-none tracking-[-0.005em] transition-colors ${
+                    isRaw ? "text-black" : "text-black/40"
+                  }`}
+                >
+                  Raw
+                </span>
+              </button>
             </div>
           )}
         </motion.header>

@@ -13,7 +13,7 @@ export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
   const top = posts.slice(0, 3);
 
   return (
-    <section className="w-full bg-black py-[80px] md:py-[100px]">
+    <section id="blog-posts-section" className="w-full bg-black py-[80px] md:py-[100px]">
       <div className="container-x">
         {/* Header row */}
         <Reveal y={24}>
@@ -23,17 +23,18 @@ export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
               <br />
               memory, and taste
             </h2>
-            {/* Desktop "View all" — beside the heading on sm+ */}
-            <div className="hidden sm:block">
-              <Link href="/blog" className="btn-ghost-dark shrink-0">
-                View all
+            {/* Desktop — pill beside heading */}
+            <div className="hidden shrink-0 sm:block">
+              <Link href="/blog" className="btn-secondary">
+                View All
               </Link>
             </div>
           </div>
-          {/* Mobile "View all" — full-width below heading */}
+
+          {/* Mobile — full-width below heading */}
           <div className="mt-5 sm:hidden">
-            <Link href="/blog" className="btn-ghost-dark w-full justify-center">
-              View all posts
+            <Link href="/blog" className="btn-secondary w-full justify-center">
+              View All
             </Link>
           </div>
         </Reveal>
@@ -71,15 +72,11 @@ function PostCard({ post, cover }: { post: PostMeta; cover: string }) {
       href={`/blog/${post.slug}`}
       className="group relative block aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-white/15 bg-black"
     >
-      {/* Cover */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.03]"
         style={{ backgroundImage: `url(${cover})` }}
       />
-      {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[50%] to-black to-[88%]" />
-
-      {/* Meta */}
       <div className="absolute inset-x-0 bottom-0 p-[20px]">
         <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/55">
           {formatPostDate(post.date)}
