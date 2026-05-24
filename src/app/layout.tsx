@@ -24,6 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://almondai.tech"),
   title: "Almond AI · Coming Soon",
   description:
     "Almond AI builds tools for the mind. Test your memory with a mind game.",
@@ -32,11 +33,21 @@ export const metadata: Metadata = {
     description: "Almond AI. Tools for the mind. Coming soon.",
     siteName: "Almond AI",
     type: "website",
+    url: "/",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1024,
+        height: 576,
+        alt: "Almond AI",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Almond AI",
     description: "Tools for the mind. Coming soon.",
+    images: ["/og-image.png"],
   },
 };
 
