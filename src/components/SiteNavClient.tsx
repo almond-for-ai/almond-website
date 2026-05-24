@@ -149,24 +149,24 @@ export function SiteNavClient({ active }: { active?: Active }) {
               role="switch"
               aria-checked={isRaw}
               aria-label={`Switch to ${isRaw ? "Roasted" : "Raw"} view`}
-              className="relative flex h-[30px] cursor-pointer items-center rounded-full bg-black/[0.04] p-[3px]"
+              className="relative grid h-[30px] cursor-pointer grid-cols-2 items-center rounded-full bg-black/[0.04] p-[3px]"
             >
-              {/* Sliding pill — same width as each label half */}
+              {/* Sliding pill — exactly half the button's inner width */}
               <motion.span
-                className="absolute inset-y-[3px] w-[calc(50%-1.5px)] rounded-full bg-white"
-                style={{ left: "3px", boxShadow: "0 1px 3px rgba(0,0,0,0.12)" }}
-                animate={{ x: isRaw ? "calc(100% + 3px)" : "0px" }}
+                className="pointer-events-none absolute inset-y-[3px] left-[3px] w-[calc(50%-3px)] rounded-full bg-white"
+                style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.12)" }}
+                animate={{ x: isRaw ? "100%" : "0%" }}
                 transition={{ type: "spring", stiffness: 380, damping: 28 }}
               />
               <span
-                className={`relative z-10 flex-1 select-none px-3 text-center text-[11px] font-medium leading-none tracking-[-0.005em] transition-colors ${
+                className={`relative z-10 select-none px-3 text-center text-[11px] font-medium leading-none tracking-[-0.005em] transition-colors ${
                   !isRaw ? "text-black" : "text-black/40"
                 }`}
               >
                 Roasted
               </span>
               <span
-                className={`relative z-10 flex-1 select-none px-3 text-center text-[11px] font-medium leading-none tracking-[-0.005em] transition-colors ${
+                className={`relative z-10 select-none px-3 text-center text-[11px] font-medium leading-none tracking-[-0.005em] transition-colors ${
                   isRaw ? "text-black" : "text-black/40"
                 }`}
               >
