@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "almond-website",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-05-24",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      // Must match "name" above. The Worker is deployed as "almond-website",
+      // and the auto-generated binding used to derive this from package.json
+      // (which gave the wrong value and made the deploy fail with code 10143).
+      "service": "almond-website"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
