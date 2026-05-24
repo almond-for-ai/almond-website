@@ -23,7 +23,7 @@ export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
               <br />
               memory, and taste
             </h2>
-            <Link href="/blog" className="btn-secondary mt-6 md:mt-[28px]">
+            <Link href="/blog" className="btn-ghost-dark mt-6 md:mt-[28px]">
               View All
             </Link>
           </div>
