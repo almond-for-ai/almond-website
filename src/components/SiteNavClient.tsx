@@ -151,22 +151,22 @@ export function SiteNavClient({ active }: { active?: Active }) {
               aria-label={`Switch to ${isRaw ? "Roasted" : "Raw"} view`}
               className="relative flex h-[30px] cursor-pointer items-center rounded-full bg-black/[0.04] p-[3px]"
             >
-              {/* Sliding pill */}
+              {/* Sliding pill — same width as each label half */}
               <motion.span
-                className="absolute inset-y-[3px] rounded-full bg-white"
-                style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.12)" }}
-                animate={isRaw ? { left: "50%", right: "3px" } : { left: "3px", right: "50%" }}
+                className="absolute inset-y-[3px] w-[calc(50%-1.5px)] rounded-full bg-white"
+                style={{ left: "3px", boxShadow: "0 1px 3px rgba(0,0,0,0.12)" }}
+                animate={{ x: isRaw ? "calc(100% + 3px)" : "0px" }}
                 transition={{ type: "spring", stiffness: 380, damping: 28 }}
               />
               <span
-                className={`relative z-10 w-[56px] select-none text-center text-[11px] font-medium leading-none tracking-[-0.005em] transition-colors ${
+                className={`relative z-10 flex-1 select-none px-3 text-center text-[11px] font-medium leading-none tracking-[-0.005em] transition-colors ${
                   !isRaw ? "text-black" : "text-black/40"
                 }`}
               >
                 Roasted
               </span>
               <span
-                className={`relative z-10 w-[36px] select-none text-center text-[11px] font-medium leading-none tracking-[-0.005em] transition-colors ${
+                className={`relative z-10 flex-1 select-none px-3 text-center text-[11px] font-medium leading-none tracking-[-0.005em] transition-colors ${
                   isRaw ? "text-black" : "text-black/40"
                 }`}
               >
