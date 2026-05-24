@@ -13,18 +13,27 @@ export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
   const top = posts.slice(0, 3);
 
   return (
-    <section className="w-full bg-black py-[100px]">
+    <section className="w-full bg-black py-[80px] md:py-[100px]">
       <div className="container-x">
         {/* Header row */}
         <Reveal y={24}>
-          <div className="flex items-center justify-between">
-            <h2 className="font-sans text-[40px] font-medium leading-[44px] tracking-[-0.8px] text-white">
+          <div className="flex items-end justify-between gap-6">
+            <h2 className="font-sans text-[32px] font-medium leading-[1.1] tracking-[-0.64px] text-white md:text-[40px] md:leading-[44px] md:tracking-[-0.8px]">
               Notes on attention,
               <br />
               memory, and taste
             </h2>
-            <Link href="/blog" className="btn-ghost-dark">
-              View All
+            {/* Desktop "View all" — beside the heading on sm+ */}
+            <div className="hidden sm:block">
+              <Link href="/blog" className="btn-ghost-dark shrink-0">
+                View all
+              </Link>
+            </div>
+          </div>
+          {/* Mobile "View all" — full-width below heading */}
+          <div className="mt-5 sm:hidden">
+            <Link href="/blog" className="btn-ghost-dark w-full justify-center">
+              View all posts
             </Link>
           </div>
         </Reveal>
@@ -33,7 +42,7 @@ export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
         {top.length > 0 ? (
           <Stagger
             as="ul"
-            className="mt-[56px] grid grid-cols-1 gap-[20px] md:grid-cols-2 lg:grid-cols-3"
+            className="mt-[40px] grid grid-cols-1 gap-[16px] md:mt-[56px] md:grid-cols-2 md:gap-[20px] lg:grid-cols-3"
           >
             {top.map((post, i) => (
               <StaggerItem as="li" key={post.slug}>
@@ -42,7 +51,7 @@ export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
             ))}
           </Stagger>
         ) : (
-          <ul className="mt-[56px] grid grid-cols-1 gap-[20px] md:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-[40px] grid grid-cols-1 gap-[16px] md:mt-[56px] md:grid-cols-2 md:gap-[20px] lg:grid-cols-3">
             {[0, 1, 2].map((i) => (
               <li
                 key={i}
@@ -62,7 +71,7 @@ function PostCard({ post, cover }: { post: PostMeta; cover: string }) {
       href={`/blog/${post.slug}`}
       className="group relative block aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-white/15 bg-black"
     >
-      {/* Cover image */}
+      {/* Cover */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.03]"
         style={{ backgroundImage: `url(${cover})` }}
