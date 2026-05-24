@@ -17,13 +17,13 @@ export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
       <div className="container-x">
         {/* Header row */}
         <Reveal y={24}>
-          <div className="flex items-end justify-between gap-6">
+          <div>
             <h2 className="font-sans text-[32px] font-medium leading-[1.1] tracking-[-0.64px] text-white md:text-[40px] md:leading-[44px] md:tracking-[-0.8px]">
               Notes on attention,
               <br />
               memory, and taste
             </h2>
-            <Link href="/blog" className="btn-secondary shrink-0">
+            <Link href="/blog" className="btn-secondary mt-6 md:mt-[28px]">
               View All
             </Link>
           </div>
