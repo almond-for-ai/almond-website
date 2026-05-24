@@ -20,74 +20,73 @@ const FALLBACK_POSTS: FallbackPost[] = [
   {
     slug: "hello-almond",
     title: "Hello, Almond",
-    description:
-      "A small note on what we're building, and why it's named after the part of your brain that feels first.",
+    description: "A short first note from a quiet workshop.",
     date: "2026-01-14",
     author: "The Almond Team",
     content: `
-The **amygdala** is an almond-shaped cluster of nuclei sitting deep in your
-brain. It processes the things that matter before you have words for them:
-fear, salience, the quiet sense that something is important.
+We started with a name. The rest will come slowly.
 
-We named the company after it for a reason.
+An almond is the seed inside the stone of a drupe — the part the tree spent its
+summer protecting. The shell is dense, deliberate. You have to mean it, to get
+to what's inside.
 
-## Why "Almond"
+That kind of patience is hard to find on a screen.
 
-Most AI today reasons quickly and feels nothing. We think the next leap is the
-other direction: software that pays attention to what *matters* to you, not
-just what's true in general.
+## Why the name
 
-That's a long road. This blog is where we'll write about the work along the
-way: short notes, longer essays, occasional product updates.
+There's a small almond-shaped cluster of nuclei buried near the base of every
+brain. The Greeks named it after the seed it resembles — _amygdala_. It's
+quiet. It's old. It notices things before the rest of you has caught up.
 
-## What's next
+We liked that.
 
-- A first product preview in the coming weeks.
-- Notes on how we're thinking about evaluation, memory, and taste.
-- Open roles for people who want to build the thing with us.
+## What this place is
 
-Until then, stay tuned.
+A notebook. Notes from the workshop. Some weeks it will be one line, some
+weeks longer.
+
+We're not in a rush.
+
+If you found this, thank you for being early.
 `.trim(),
   },
   {
     slug: "notes-on-taste",
     title: "Notes on taste",
-    description:
-      "A short list of opinions that are shaping the first version of Almond.",
+    description: "A few observations from a quiet week.",
     date: "2026-01-08",
     author: "The Almond Team",
     content: `
-A few opinions we keep coming back to while building the first version of
-Almond. These aren't laws. They're the things we currently believe enough to
-ship against.
+A handful of things kept turning over this week. None of them are conclusions.
 
-## On surface area
+## On the shell
 
-> The best tools have a small front door and a deep back room.
+> Some forms are slow on purpose.
 
-The product should feel obvious in the first ten seconds and surprising in the
-first ten days. If it requires a tour, we got something wrong.
+The almond doesn't open itself for everyone. That seems closer to the truth of
+most things worth keeping.
 
-## On taste vs. preference
+## On attention
 
-Preference is what you click. Taste is what you'd choose if you slowed down.
-We want to optimize for the second one, even when it costs us a little of the
-first.
+There's a difference between what gets your eyes and what stays in your hands.
+The first is loud. The second is rare.
 
-## On speed
+## On weight
 
-Latency is a feature. So is restraint. Not every input deserves an answer,
-and the model should know the difference.
+A small object, held well, can outlast a large one given thoughtlessly. We've
+been thinking about that a lot.
 
-## On honesty
+## On time
 
-If we don't know, the product should say so. If we're guessing, it should look
-like a guess. Confidence theater is the easiest way to lose someone's trust,
-and the hardest way to win it back.
+Most of an almond's life is invisible. The hull, the husk, the season, the
+soil — all of that has already happened by the time it shows up in someone's
+palm.
+
+It seems right to be patient with the things still under the husk.
 
 ---
 
-These will change. That's the point of writing them down.
+Back to the workshop.
 `.trim(),
   },
 ];

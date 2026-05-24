@@ -1,38 +1,37 @@
 ---
 title: Notes on taste
-description: A short list of opinions that are shaping the first version of Almond.
+description: A few observations from a quiet week.
 date: 2026-01-08
 author: The Almond Team
 ---
 
-A few opinions we keep coming back to while building the first version of
-Almond. These aren't laws. They're the things we currently believe enough to
-ship against.
+A handful of things kept turning over this week. None of them are conclusions.
 
-## On surface area
+## On the shell
 
-> The best tools have a small front door and a deep back room.
+> Some forms are slow on purpose.
 
-The product should feel obvious in the first ten seconds and surprising in the
-first ten days. If it requires a tour, we got something wrong.
+The almond doesn't open itself for everyone. That seems closer to the truth of
+most things worth keeping.
 
-## On taste vs. preference
+## On attention
 
-Preference is what you click. Taste is what you'd choose if you slowed down.
-We want to optimize for the second one, even when it costs us a little of the
-first.
+There's a difference between what gets your eyes and what stays in your hands.
+The first is loud. The second is rare.
 
-## On speed
+## On weight
 
-Latency is a feature. So is restraint. Not every input deserves an answer,
-and the model should know the difference.
+A small object, held well, can outlast a large one given thoughtlessly. We've
+been thinking about that a lot.
 
-## On honesty
+## On time
 
-If we don't know, the product should say so. If we're guessing, it should look
-like a guess. Confidence theater is the easiest way to lose someone's trust,
-and the hardest way to win it back.
+Most of an almond's life is invisible. The hull, the husk, the season, the
+soil — all of that has already happened by the time it shows up in someone's
+palm.
+
+It seems right to be patient with the things still under the husk.
 
 ---
 
-These will change. That's the point of writing them down.
+Back to the workshop.
