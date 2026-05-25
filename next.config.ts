@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Required by @opennextjs/cloudflare when using `--skipNextBuild`
+  // so .next/standalone/ exists before the OpenNext bundler runs.
+  output: "standalone",
   outputFileTracingRoot: path.resolve(__dirname),
 };
 
