@@ -1,0 +1,48 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    env:
+      # Required secrets — set these in the repo settings:
+      #   - CLOUDFLARE_API_TOKEN: Workers Edit + Cache Purge scopes
+      #   - CLOUDFLARE_ACCOUNT_ID: account id
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (Next + OpenNext)
+        run: npm run build
+
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/main'
+        run: npx wrangler deploy
+
+      - name: Deploy to staging
+        if: github.ref == 'refs/heads/staging'
+        run: npx wrangler deploy --env staging
