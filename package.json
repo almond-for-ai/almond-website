@@ -13,6 +13,7 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
+    "@next/third-parties": "^16.2.6",
     "gray-matter": "^4.0.3",
     "motion": "^12.40.0",
     "next": "^15.5.0",

@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { AlmondGlyph } from "@/components/AlmondMark";
+import { EmailCopy } from "@/components/EmailCopy";
 import { Reveal } from "@/components/Motion";
 
 export const SOCIAL_LINKS = {
   x: "https://x.com/Hey_AlmondAI",
   linkedin: "https://www.linkedin.com/company/hey-almond-ai",
+  email: "contact.almondai@gmail.com",
 } as const;
 
 export function SiteFooter() {
@@ -51,6 +53,10 @@ export function SiteFooter() {
             >
               X
             </a>
+            <EmailCopy
+              email={SOCIAL_LINKS.email}
+              className="cursor-pointer text-left text-[15px] leading-[18px] text-white/80 hover:text-white"
+            />
           </div>
         </div>
 
@@ -62,7 +68,7 @@ export function SiteFooter() {
         {/* Copyright row */}
         <div className="flex flex-col items-start justify-between gap-2 text-[13px] tracking-[-0.484px] text-white/40 md:flex-row md:items-center">
           <span>© 2026 Almond AI</span>
-          <span>Stay tuned for more info</span>
+          <span>amygdala (n.) — Greek &ldquo;almond.&rdquo;</span>
         </div>
       </div>
     </footer>

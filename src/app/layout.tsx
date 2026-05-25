@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Crimson_Pro, Geist_Mono, Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
+
+const GA_ID = "G-G1LDQSFETL";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -67,6 +70,7 @@ export default function RootLayout({
       className={`${inter.variable} ${crimsonPro.variable} ${geistMono.variable}`}
     >
       <body className="antialiased">{children}</body>
+      <GoogleAnalytics gaId={GA_ID} />
     </html>
   );
 }
