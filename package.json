@@ -10,6 +10,7 @@
     "lint": "next lint",
     "deploy": "npm run build && opennextjs-cloudflare deploy",
     "deploy:staging": "npm run build && opennextjs-cloudflare deploy -- --env staging",
+    "deploy:full-wip": "npm run build && opennextjs-cloudflare deploy -- --env full-wip",
     "preview": "npm run build && opennextjs-cloudflare preview",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },

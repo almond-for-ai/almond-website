@@ -77,6 +77,45 @@
           "head_sampling_rate": 1
         }
       }
+    },
+    "full-wip": {
+      "name": "almond-website-full-wip",
+      "main": ".open-next/worker.js",
+      "compatibility_date": "2026-05-24",
+      "compatibility_flags": [
+        "nodejs_compat",
+        "global_fetch_strictly_public"
+      ],
+      "assets": {
+        "directory": ".open-next/assets",
+        "binding": "ASSETS"
+      },
+      "services": [
+        {
+          "binding": "WORKER_SELF_REFERENCE",
+          // Must match the env's "name" so the self-reference resolves
+          // to the full-wip worker, not production.
+          "service": "almond-website-full-wip"
+        }
+      ],
+      "images": {
+        "binding": "IMAGES"
+      },
+      "observability": {
+        "enabled": false,
+        "head_sampling_rate": 1,
+        "logs": {
+          "enabled": true,
+          "head_sampling_rate": 1,
+          "persist": true,
+          "invocation_logs": true
+        },
+        "traces": {
+          "enabled": false,
+          "persist": true,
+          "head_sampling_rate": 1
+        }
+      }
     }
   }
 }
