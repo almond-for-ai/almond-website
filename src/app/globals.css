@@ -74,7 +74,11 @@
 }
 
 @layer base {
-  html,
+  html {
+    /* Match footer / menu so iOS Safari rubber-band overscroll
+       past the bottom shows brand black, not white. */
+    background-color: var(--color-black);
+  }
   body {
     background-color: var(--color-bg);
     color: var(--color-fg);
