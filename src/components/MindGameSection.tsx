@@ -1,3 +1,4 @@
+import { MindGame } from "@/components/MindGame";
 import { Reveal, Stagger, StaggerItem } from "@/components/Motion";
 
 const RULES = [
@@ -37,20 +38,13 @@ export function MindGameSection() {
                   <br />
                   <span className="text-white/70">a mind game</span>
                 </h2>
-                <button type="button" className="btn-secondary mt-6 md:mt-[28px]" disabled>
-                  Restart
-                </button>
               </div>
             </div>
 
-            {/* Game placeholder */}
-            <div className="relative h-[400px] w-full md:h-[540px]">
+            {/* Game */}
+            <div className="relative h-[560px] w-full md:h-[620px]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.18)_1px,transparent_1px)] [background-size:18px_18px]" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="rounded-full bg-white/15 px-4 py-2 text-[13px] font-medium text-white/90">
-                  Game coming soon
-                </span>
-              </div>
+              <MindGame />
             </div>
 
             {/* Rules row */}
