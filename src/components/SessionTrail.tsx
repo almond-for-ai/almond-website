@@ -268,7 +268,7 @@ export function SessionTrail() {
             </div>
           ) : null}
 
-          {/* Audience toggle — slides in when hero leaves viewport (home) or always (non-home) */}
+          {/* Audience toggle - slides in when hero leaves viewport (home) or always (non-home) */}
           <AnimatePresence initial={false}>
             {showAudienceInPill ? (
               <motion.div

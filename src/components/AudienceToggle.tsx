@@ -43,8 +43,8 @@ const SIZE_PILL_PADX: Record<Size, string> = {
 };
 
 const SIZE_INNER_H: Record<Size, string> = {
-  md: "h-[30px]",
-  sm: "h-[22px]",
+  md: "h-[28px]",
+  sm: "h-[20px]",
 };
 
 export function AudienceToggle({

@@ -105,16 +105,9 @@ export function SiteFooter() {
         <Reveal
           y={28}
           duration={0.9}
-          className="my-[80px] flex w-full justify-center text-white"
+          className="mt-[100px] mb-[80px] flex w-full justify-center text-white"
         >
           <AlmondGlyph size={180} />
-        </Reveal>
-
-        {/* Tagline above legal */}
-        <Reveal y={12} duration={0.7} className="mb-[24px] text-center">
-          <p className="font-display text-[28px] font-normal leading-[32px] tracking-[-0.56px] text-white/85 md:text-[36px] md:leading-[40px] md:tracking-[-0.72px]">
-            Memory, not models.
-          </p>
         </Reveal>
 
         {/* Copyright row */}

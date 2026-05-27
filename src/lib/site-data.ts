@@ -2,12 +2,75 @@ import type { PostMeta } from "@/lib/posts";
 
 export type NavItem = { label: string; href: string };
 
+export type ToolKey =
+  | "claude-code"
+  | "cursor"
+  | "figma"
+  | "chatgpt"
+  | "claude"
+  | "linear"
+  | "github"
+  | "notion"
+  | "windsurf"
+  | "v0"
+  | "cline"
+  | "antigravity"
+  | "lovable";
+
+export type StatSlot = {
+  label: string;
+  number: string; // string so "∞" or "1" both work
+  suffix?: string; // e.g. "hrs", "day"
+  caption: string;
+  logoTrail: ToolKey[];
+};
+
+export type CompareSlot = {
+  label: string;
+  before: { name: string; value: string };
+  after: { name: string; value: string };
+  numeric?: { before: number; after: number; unit?: string }; // optional for bar widths
+};
+
+export type OrbitSlot = {
+  title: string;
+  logos: ToolKey[];
+};
+
+export type OutcomeSlot = {
+  label: string;
+  title: string;
+  highlight: string; // substring of title that gets the animated underline
+  body: string;
+};
+
+export type StackedSlot = {
+  label: string;
+  caption: string;
+  beforeFilled: number; // 0..total
+  afterFilled: number; // 0..total
+  total: number; // typically 10
+};
+
+export type ValueBlock = {
+  heading: string;
+  lead: string;
+  slots: {
+    stat: StatSlot;
+    compare: CompareSlot;
+    orbit: OrbitSlot;
+    outcome: OutcomeSlot;
+    stacked: StackedSlot;
+  };
+};
+
 export type AudienceCopyBlock = {
   body: string;
   finalCta: {
     heading: string;
     body: string;
   };
+  value: ValueBlock;
 };
 
 export type SiteData = {
@@ -23,6 +86,13 @@ export type SiteData = {
   audience: {
     solo: AudienceCopyBlock;
     team: AudienceCopyBlock;
+  };
+  outcomes: string[]; // marquee chips
+  terminalLines: string[]; // shared TerminalCard slot
+  impact: {
+    eyebrow: string;
+    logoWallLabel: string;
+    logoWallTools: ToolKey[];
   };
   tagline: string;
   quote: string;
@@ -84,6 +154,49 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
           heading: "Memory across every tool you open.",
           body: "Set it up in ten minutes. Bring your own stack.",
         },
+        value: {
+          heading: "Your time back. Your focus back.",
+          lead: "You stop re-explaining. You stop re-prompting. You stop losing the thread between Cursor, Figma, and Claude Code.",
+          slots: {
+            stat: {
+              label: "Time",
+              number: "10",
+              suffix: "hrs",
+              caption: "back every week",
+              logoTrail: ["cursor", "claude-code", "figma"],
+            },
+            compare: {
+              label: "Onboarding a new project",
+              before: { name: "Without Almond", value: "3 days" },
+              after: { name: "With Almond", value: "1 hour" },
+              numeric: { before: 72, after: 1, unit: "hr" },
+            },
+            orbit: {
+              title: "Your stack, but it remembers.",
+              logos: [
+                "claude-code",
+                "cursor",
+                "figma",
+                "chatgpt",
+                "linear",
+                "github",
+              ],
+            },
+            outcome: {
+              label: "Continuity",
+              title: "Your context survives the prompt.",
+              highlight: "survives the prompt",
+              body: "Switch editors. Switch laptops. Your memory follows you.",
+            },
+            stacked: {
+              label: "Hours",
+              caption: "actually spent building",
+              beforeFilled: 3,
+              afterFilled: 9,
+              total: 10,
+            },
+          },
+        },
       },
       team: {
         body: "Your team's memory, alive in every tool you ship in. Decisions persist where the work happens, not in a doc no one reads.",
@@ -91,7 +204,93 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
           heading: "One brain for the whole team.",
           body: "Run a 30-minute demo on your real codebase.",
         },
+        value: {
+          heading: "One brain for the whole team.",
+          lead: "Decisions persist. Context stays. New hires ramp on what the team actually built, not the doc nobody updated.",
+          slots: {
+            stat: {
+              label: "Ramp",
+              number: "1",
+              suffix: "day",
+              caption: "to fully onboarded",
+              logoTrail: ["linear", "github", "claude-code", "notion"],
+            },
+            compare: {
+              label: "Time to ship a decision again",
+              before: { name: "Without Almond", value: "2 weeks" },
+              after: { name: "With Almond", value: "20 min" },
+              numeric: { before: 336, after: 0.33, unit: "hr" },
+            },
+            orbit: {
+              title: "Every tool your team opens. One memory across all of them.",
+              logos: [
+                "claude-code",
+                "cursor",
+                "figma",
+                "linear",
+                "github",
+                "notion",
+                "chatgpt",
+                "claude",
+              ],
+            },
+            outcome: {
+              label: "Persistence",
+              title: "Decisions still alive next quarter.",
+              highlight: "still alive",
+              body: "What you decided last sprint shows up in next sprint's prompts. Citable, searchable, real.",
+            },
+            stacked: {
+              label: "Decisions",
+              caption: "still active after one quarter",
+              beforeFilled: 2,
+              afterFilled: 9,
+              total: 10,
+            },
+          },
+        },
       },
+    },
+    outcomes: [
+      "10 hrs/week back",
+      "1 day onboarding",
+      "0 context resets",
+      "Decisions persist",
+      "Memory across every tool",
+      "5× faster ramp",
+      "Stop re-explaining",
+      "Context survives the prompt",
+      "Your stack stays yours",
+      "On-prem in one command",
+      "Every choice searchable",
+      "No new tool to open",
+      "One brain, every editor",
+      "Tribal knowledge becomes structure",
+    ],
+    terminalLines: [
+      "> almond connect claude-code",
+      "✓ MCP wired",
+      "✓ memory streaming",
+      "> almond status",
+      "running · on-prem · 12 tools",
+    ],
+    impact: {
+      eyebrow: "Impact",
+      logoWallLabel: "Works inside",
+      logoWallTools: [
+        "claude-code",
+        "cursor",
+        "figma",
+        "chatgpt",
+        "linear",
+        "github",
+        "notion",
+        "windsurf",
+        "v0",
+        "claude",
+        "cline",
+        "lovable",
+      ],
     },
     tagline:
       "We don't build another chat. We connect the ones you already use.",

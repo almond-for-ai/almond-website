@@ -57,6 +57,10 @@
   --radius-md: 16px;
   --radius-sm: 8px;
 
+  /* Custom animations (Tailwind v4 - registers `animate-*` utilities) */
+  --animate-marquee-x: marquee-x 38s linear infinite;
+  --animate-marquee-logos: marquee-x 64s linear infinite;
+
   /* Spacing tokens */
   --space-3xs: 4px;
   --space-2xs: 6px;

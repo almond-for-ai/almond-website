@@ -14,6 +14,9 @@ import { PersonaChips } from "@/components/PersonaChips";
 import { ConnectorDiagram } from "@/components/ConnectorDiagram";
 import { FlowTabs } from "@/components/FlowTabs";
 import { MetricStrip } from "@/components/MetricStrip";
+import { OutcomeMarquee } from "@/components/OutcomeMarquee";
+import { ToolLogoWall } from "@/components/ToolLogoWall";
+import { ValueCardsGrid } from "@/components/ValueCardsGrid";
 import { Lazy3D } from "@/components/illustrations/Lazy3D";
 import { SectionTracker } from "@/components/SectionTracker";
 import { getAllPosts } from "@/lib/posts";
@@ -171,13 +174,76 @@ export default async function Home({
         </div>
       </section>
 
+      {/* ── Impact: outcome marquee + value cards + logo wall ─ */}
+      <section
+        data-section="Impact"
+        className="w-full bg-grey-96 py-[100px] md:py-[140px]"
+      >
+        <div className="container-x">
+          <Reveal y={16}>
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-walnut-500">
+              {data.impact.eyebrow}
+            </p>
+          </Reveal>
+          <Reveal y={20} delay={0.05}>
+            <h2 className="mt-[16px] max-w-[760px] font-sans text-[28px] font-medium leading-[1.15] tracking-[-0.56px] text-black md:text-[44px] md:leading-[50px] md:tracking-[-0.88px]">
+              <AudienceCopy
+                solo={<>{data.audience.solo.value.heading}</>}
+                team={<>{data.audience.team.value.heading}</>}
+              />
+            </h2>
+          </Reveal>
+          <Reveal y={16} delay={0.1}>
+            <p className="mt-[18px] max-w-[640px] text-[16px] leading-[24px] text-black/65 md:text-[18px] md:leading-[28px]">
+              <AudienceCopy
+                solo={<>{data.audience.solo.value.lead}</>}
+                team={<>{data.audience.team.value.lead}</>}
+              />
+            </p>
+          </Reveal>
+        </div>
+
+        {/* Slim outcome marquee, full-bleed */}
+        <div className="mt-[48px] md:mt-[56px]">
+          <OutcomeMarquee chips={data.outcomes} />
+        </div>
+
+        {/* Value cards grid */}
+        <div className="container-x mt-[40px] md:mt-[56px]">
+          <ValueCardsGrid
+            audienceBlocks={data.audience}
+            terminalLines={data.terminalLines}
+          />
+        </div>
+
+        {/* Companion social-proof: tool logo wall */}
+        <div className="container-x mt-[64px] md:mt-[88px]">
+          <ToolLogoWall
+            label={data.impact.logoWallLabel}
+            tools={data.impact.logoWallTools}
+          />
+        </div>
+      </section>
+
       {/* ── Metric strip ───────────────────────────────────── */}
       <section
         data-section="Numbers"
         className="w-full py-[100px] md:py-[140px]"
       >
         <div className="container-x">
-          <MetricStrip />
+          <Reveal y={16}>
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-walnut-500">
+              The model
+            </p>
+          </Reveal>
+          <Reveal y={20} delay={0.05}>
+            <h2 className="mt-[16px] max-w-[640px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-black md:text-[40px] md:leading-[44px] md:tracking-[-0.8px]">
+              Three numbers. One idea.
+            </h2>
+          </Reveal>
+          <Reveal y={24} delay={0.1} className="mt-[48px] md:mt-[56px]">
+            <MetricStrip />
+          </Reveal>
         </div>
       </section>
 
@@ -208,20 +274,6 @@ export default async function Home({
         </div>
       </section>
 
-      {/* ── Quote ──────────────────────────────────────────── */}
-      <section
-        data-section="Quote"
-        className="w-full py-[100px] md:py-[140px]"
-      >
-        <div className="container-x text-center">
-          <Reveal y={24}>
-            <p className="mx-auto max-w-[820px] font-display text-[44px] font-normal leading-[48px] tracking-[-0.88px] text-black md:text-[80px] md:leading-[80px] md:tracking-[-1.6px]">
-              {data.quote}
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
       {/* MindGame kept */}
       <div data-section="Game" id="game">
         <MindGameSection />
@@ -235,7 +287,7 @@ export default async function Home({
       {/* ── Final CTA (audience-aware) ─────────────────────── */}
       <section
         data-section="CTA"
-        className="w-full bg-grey-96 py-[80px] md:py-[120px]"
+        className="w-full bg-black py-[80px] md:py-[120px]"
       >
         <div className="container-x">
           <Reveal y={28} duration={0.8}>

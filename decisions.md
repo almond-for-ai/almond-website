@@ -118,6 +118,87 @@ Owner shorthand: **Atishay** = Atishay Jain (atishay1743@gmail.com), founder.
 
 ---
 
+## 2026-05-28
+
+### D-019 · Impact section: six-card value grid
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Add an Impact block on home with `OutcomeMarquee`, `ValueCardsGrid` (six purpose-built cards), and `ToolLogoWall`. Card types: Stat, Compare, Integrations, Outcome, Stacked, Terminal. Audience-aware slots swap on Solo / Team toggle.
+- **Why:** Phase 2 home needed concrete proof points, not more prose. Grid pattern references anam.ai / Vercel-style product marketing.
+- **Status:** Done. `src/components/ValueCardsGrid.tsx`, `src/components/cards/*`, `src/lib/site-data.ts`.
+
+### D-020 · UI creation context doc
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Add `CREATE_UI_CONTEXT.md` at repo root: tokens, typography, card tones, motion rules for future UI work.
+- **Why:** Keeps new components aligned with the existing visual system without re-reading `globals.css` every time.
+- **Status:** Done.
+
+### D-021 · Inline tool logo library
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Centralize product logos in `src/components/tool-logos.tsx` with `LOGO_BY_KEY`, `LOGO_NAME`, and per-brand `TOOL_WORDMARK` styles. Used by Impact cards, ConnectorDiagram, and logo wall.
+- **Why:** One source of truth for integration marks across the site.
+- **Status:** Done.
+
+### D-022 · Remove duplicate "Memory, not models." surfaces
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Remove the home Quote section and the footer tagline both rendering "Memory, not models." Manifesto page and metadata strings unchanged.
+- **Why:** Repetition diluted the line. Home flow reads cleaner from MemoryGraph → MindGame → Blog → CTA without a floating quote block.
+- **Status:** Done. `src/app/page.tsx`, `src/components/SiteFooter.tsx`.
+
+### D-023 · Black band continuity: Blog → CTA → Footer
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Change the final CTA section background from `bg-grey-96` to `bg-black` so it runs continuously with `BlogTeaserSection` above and `SiteFooter` below.
+- **Why:** Visual seam between grey CTA card and black footer broke the page rhythm.
+- **Status:** Done. `src/app/page.tsx`.
+
+### D-024 · Footer spacing + MindGame padding
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Increase gap above footer Almond glyph (`mt-[100px]`). Give MindGame section symmetric vertical padding (`py-[100px] md:py-[140px]`).
+- **Why:** Footer felt cramped; MindGame had bottom padding only and looked unbalanced against adjacent sections.
+- **Status:** Done. `src/components/SiteFooter.tsx`, `src/components/MindGameSection.tsx`.
+
+### D-025 · Numbers section: principle cards
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Redesign `MetricStrip` as three `CardFrame` cards (1 Memory / ∞ Tools / 0 Chat windows) with specimen index, caption, and section header ("The model" / "Three numbers. One idea.").
+- **Why:** Floating numerals looked unfinished. Cards match the Impact grid language.
+- **Status:** Done. `src/components/MetricStrip.tsx`, `src/app/page.tsx`.
+
+### D-026 · Mature Impact card micro-interactions
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Tone down all six value-card animations: no hover lift, no logo bobbing, no typewriter terminal, no bar pulse, no orbit layout. Shared `CARD_EASE` in `src/components/cards/motion.ts`. CardFrame uses subtle border brighten + low-opacity spotlight only.
+- **Why:** Previous motion read playful / childish. Target reference: Vercel-grade restraint.
+- **Status:** Done. Supersedes playful motion implied in D-012 for Impact cards only.
+
+### D-027 · Tool logo wall: infinite marquee
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Convert `ToolLogoWall` from static centered row to infinite horizontal scroll (`animate-marquee-logos`, 64s). Expand list to 12 integrations. Brand wordmarks use `TOOL_WORDMARK`, not mono uppercase.
+- **Why:** Static row felt sparse; marquee matches `OutcomeMarquee` and reads as live ecosystem breadth.
+- **Status:** Done. `src/components/ToolLogoWall.tsx`, `src/app/globals.css`, `src/lib/site-data.ts`.
+
+### D-028 · Integrations card: editorial list over orbit
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Redesign `LogoOrbitCard` (slot 3 in Impact grid): white card, left-aligned headline, two-column integration list with hairline dividers, footer meta line. Remove central Almond glyph and logo orbit rows.
+- **Why:** Orbit layout looked immature next to the other five cards.
+- **Status:** Done. `src/components/cards/LogoOrbitCard.tsx`.
+
+### D-029 · Deploy Phase 3 home polish to full-wip worker
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip` → Cloudflare worker `almond-website-full-wip` (`full-wip` env)
+- **What:** Commit all Phase 3 changes on `full-website-wip`, push to `origin/full-website-wip`, deploy via `npm run deploy:full-wip`.
+- **Why:** Keep the preview worker in sync with the latest home/Impact refinements before merging to main.
+- **Status:** In progress (this deploy).
+
+---
+
 ## How to log a new decision
 
-Append a new `### D-NNN · Title` block under the current date heading (or add a new date heading if it's a new day). Required fields: **Decided by**, **What**, **Why**, **Status**. Keep the bullets terse. If a decision is later reversed, mark the original `Status: Superseded by D-NNN` and write the new decision underneath.
+Append a new `### D-NNN · Title` block under the current date heading (or add a new date heading if it's a new day). Required fields: **Decided by**, **Branch** (when applicable), **What**, **Why**, **Status**. Keep the bullets terse. If a decision is later reversed, mark the original `Status: Superseded by D-NNN` and write the new decision underneath.
