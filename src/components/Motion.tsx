@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 /* ============================================================
-   Reveal — single element fade + slide up when in viewport
+   Reveal: single element fade + slide up when in viewport
    ============================================================ */
 
 export function Reveal({
@@ -41,7 +41,7 @@ export function Reveal({
 }
 
 /* ============================================================
-   Mount — fade + slide up on mount (no scroll trigger)
+   Mount: fade + slide up on mount (no scroll trigger)
    ============================================================ */
 
 export function Mount({
@@ -73,7 +73,7 @@ export function Mount({
 }
 
 /* ============================================================
-   Stagger — parent that staggers its motion children
+   Stagger: parent that staggers its motion children
    Pair with StaggerItem inside.
    ============================================================ */
 

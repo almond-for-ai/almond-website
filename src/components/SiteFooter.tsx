@@ -9,33 +9,74 @@ export const SOCIAL_LINKS = {
   email: "contact.almondai@gmail.com",
 } as const;
 
+type FooterLink = { label: string; href: string; external?: boolean };
+type FooterColumn = { label: string; links: FooterLink[] };
+
+const COLUMNS: FooterColumn[] = [
+  {
+    label: "Product",
+    links: [
+      { label: "How it works", href: "/product" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Manifesto", href: "/manifesto" },
+    ],
+  },
+  {
+    label: "Company",
+    links: [
+      { label: "Blog", href: "/blog" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  {
+    label: "Trust",
+    links: [
+      { label: "Security", href: "/contact" },
+      { label: "Self-host", href: "/contact" },
+      { label: "SOC 2 (in progress)", href: "/contact" },
+    ],
+  },
+];
+
 export function SiteFooter() {
   return (
-    <footer className="w-full bg-black pb-[40px] pt-[40px] text-white">
+    <footer className="w-full bg-black pb-[40px] pt-[64px] text-white">
       <div className="container-x flex flex-col">
         {/* Top: link columns */}
-        <div className="grid grid-cols-1 gap-[40px] md:grid-cols-2 md:gap-0">
+        <div className="grid grid-cols-2 gap-[40px] md:grid-cols-4 md:gap-[24px]">
+          {COLUMNS.map((col) => (
+            <div key={col.label} className="flex flex-col gap-[16px]">
+              <span className="text-[13px] uppercase tracking-[0.18em] text-white/50">
+                {col.label}
+              </span>
+              {col.links.map((link) =>
+                link.external ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="text-[15px] leading-[18px] text-white/80 hover:text-white"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="text-[15px] leading-[18px] text-white/80 hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                ),
+              )}
+            </div>
+          ))}
+
+          {/* Connect column: socials + email-copy */}
           <div className="flex flex-col gap-[16px]">
             <span className="text-[13px] uppercase tracking-[0.18em] text-white/50">
-              About
-            </span>
-            <Link
-              href="/blog"
-              className="text-[15px] leading-[18px] text-white/80 hover:text-white"
-            >
-              Blog
-            </Link>
-            <Link
-              href="/#game"
-              className="text-[15px] leading-[18px] text-white/80 hover:text-white"
-            >
-              Test your Mind
-            </Link>
-          </div>
-
-          <div className="flex flex-col gap-[16px] md:justify-self-end">
-            <span className="text-[13px] uppercase tracking-[0.18em] text-white/50">
-              Contact
+              Connect
             </span>
             <a
               href={SOCIAL_LINKS.linkedin}
@@ -61,14 +102,25 @@ export function SiteFooter() {
         </div>
 
         {/* Big glyph */}
-        <Reveal y={28} duration={0.9} className="my-[80px] flex w-full justify-center text-white">
+        <Reveal
+          y={28}
+          duration={0.9}
+          className="my-[80px] flex w-full justify-center text-white"
+        >
           <AlmondGlyph size={180} />
         </Reveal>
 
+        {/* Tagline above legal */}
+        <Reveal y={12} duration={0.7} className="mb-[24px] text-center">
+          <p className="font-display text-[28px] font-normal leading-[32px] tracking-[-0.56px] text-white/85 md:text-[36px] md:leading-[40px] md:tracking-[-0.72px]">
+            Memory, not models.
+          </p>
+        </Reveal>
+
         {/* Copyright row */}
-        <div className="flex flex-col items-start justify-between gap-2 text-[13px] tracking-[-0.484px] text-white/40 md:flex-row md:items-center">
+        <div className="flex flex-col items-start justify-between gap-2 border-t border-white/[0.08] pt-[24px] text-[13px] tracking-[-0.484px] text-white/40 md:flex-row md:items-center">
           <span>© 2026 Almond AI</span>
-          <span>amygdala (n.) — Greek &ldquo;almond.&rdquo;</span>
+          <span>amygdala (n.) · Greek for &ldquo;almond.&rdquo;</span>
         </div>
       </div>
     </footer>

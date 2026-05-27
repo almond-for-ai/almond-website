@@ -25,7 +25,7 @@ export default async function BlogIndexPage({
     const data = buildSiteData(posts);
     return (
       <main className="relative flex min-h-dvh w-full flex-col bg-white">
-        <SiteNav active="blog" />
+        <SiteNav />
         <RawView data={data} format={view} scope="blog" />
         <SiteFooter />
       </main>
@@ -34,7 +34,7 @@ export default async function BlogIndexPage({
 
   return (
     <main className="relative flex min-h-dvh w-full flex-col bg-white">
-      <SiteNav active="blog" />
+      <SiteNav />
 
       {/* Hero */}
       <section className="w-full pt-[160px] pb-[64px] md:pt-[200px]">

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Crimson_Pro, Geist_Mono, Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { SessionTrail } from "@/components/SessionTrail";
 import "./globals.css";
 
 const GA_ID = "G-G1LDQSFETL";
@@ -33,12 +34,13 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://almondai.tech"),
-  title: "Almond AI · Coming Soon",
+  title: "Almond AI · The company compiler",
   description:
-    "Almond AI builds tools for the mind. Test your memory with a mind game.",
+    "The memory layer for AI-native companies. Almond captures the decisions your team makes inside Claude Code, Figma, and Figma Make. Then injects that memory back into every prompt, every doc, every build.",
   openGraph: {
-    title: "Almond AI · Coming Soon",
-    description: "Almond AI. Tools for the mind. Coming soon.",
+    title: "Almond AI · The company compiler",
+    description:
+      "Memory, not models. The memory layer for AI-native companies.",
     siteName: "Almond AI",
     type: "website",
     url: "/",
@@ -53,8 +55,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Almond AI",
-    description: "Tools for the mind. Coming soon.",
+    title: "Almond AI · The company compiler",
+    description: "Memory, not models.",
     images: ["/og-image.png"],
   },
 };
@@ -69,7 +71,10 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${crimsonPro.variable} ${geistMono.variable}`}
     >
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <SessionTrail />
+      </body>
       <GoogleAnalytics gaId={GA_ID} />
     </html>
   );

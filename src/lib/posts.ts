@@ -26,7 +26,7 @@ const FALLBACK_POSTS: FallbackPost[] = [
     content: `
 We started with a name. The rest will come slowly.
 
-An almond is the seed inside the stone of a drupe — the part the tree spent its
+An almond is the seed inside the stone of a drupe, the part the tree spent its
 summer protecting. The shell is dense, deliberate. You have to mean it, to get
 to what's inside.
 
@@ -35,7 +35,7 @@ That kind of patience is hard to find on a screen.
 ## Why the name
 
 There's a small almond-shaped cluster of nuclei buried near the base of every
-brain. The Greeks named it after the seed it resembles — _amygdala_. It's
+brain. The Greeks named it after the seed it resembles: _amygdala_. It's
 quiet. It's old. It notices things before the rest of you has caught up.
 
 We liked that.
@@ -79,7 +79,7 @@ been thinking about that a lot.
 ## On time
 
 Most of an almond's life is invisible. The hull, the husk, the season, the
-soil — all of that has already happened by the time it shows up in someone's
+soil. All of that has already happened by the time it shows up in someone's
 palm.
 
 It seems right to be patient with the things still under the husk.

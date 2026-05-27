@@ -1,25 +1,31 @@
 import type { PostMeta } from "@/lib/posts";
 
+export type NavItem = { label: string; href: string };
+
+export type AudienceCopyBlock = {
+  body: string;
+  finalCta: {
+    heading: string;
+    body: string;
+  };
+};
+
 export type SiteData = {
   brand: { name: string; status: string };
-  nav: { label: string; href: string }[];
+  nav: NavItem[];
   hero: {
     chip: string;
-    title: string;
-    subtitle: string;
+    chipHref: string;
+    titleLead: string;
+    rotatingWords: string[];
     ctas: { label: string; href: string; kind: "primary" | "secondary" }[];
   };
-  facts: {
-    label: string;
-    title: string;
-    body?: string;
-    big?: string;
-    chips?: string[];
-  }[];
-  game: {
-    title: string;
-    rules: { title: string; desc: string }[];
+  audience: {
+    solo: AudienceCopyBlock;
+    team: AudienceCopyBlock;
   };
+  tagline: string;
+  quote: string;
   blog: {
     heading: string;
     viewAll: string;
@@ -39,71 +45,59 @@ export type SiteData = {
   };
 };
 
+export const SITE_NAV: NavItem[] = [
+  { label: "Product", href: "/product" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Manifesto", href: "/manifesto" },
+  { label: "Blog", href: "/blog" },
+];
+
+export const SITE_CTA = { label: "Book demo", href: "/contact" };
+
+export const ROTATING_TOOLS = [
+  "Claude Code",
+  "Figma",
+  "Cursor",
+  "Linear",
+  "Notion",
+  "your stack",
+];
+
 export function buildSiteData(posts: PostMeta[]): SiteData {
   return {
-    brand: { name: "Almond AI", status: "Coming Soon" },
-    nav: [
-      { label: "Game", href: "/#game" },
-      { label: "Blog", href: "/blog" },
-    ],
+    brand: { name: "Almond AI", status: "Private beta" },
+    nav: SITE_NAV,
     hero: {
-      chip: posts[0]
-        ? `New post · ${posts[0].title}`
-        : "New writing in the journal",
-      title: "Almond AI",
-      subtitle: "Coming Soon",
+      chip: "Read the manifesto",
+      chipHref: "/manifesto",
+      titleLead: "One memory for",
+      rotatingWords: ROTATING_TOOLS,
       ctas: [
-        { label: "Test your mind", href: "/#game", kind: "primary" },
-        { label: "Blogs", href: "/blog", kind: "secondary" },
+        { label: "Book demo", href: "/contact", kind: "primary" },
+        { label: "Read the manifesto", href: "/manifesto", kind: "secondary" },
       ],
     },
-    facts: [
-      {
-        label: "Fact · 01",
-        title: "Drupe, not a nut",
-        body: "Botanically a stone fruit. The seed sits inside the pit, kin to peach and cherry.",
-      },
-      {
-        label: "Etym",
-        title: "amygdala",
-        body: "Greek for almond. The brain region named after the seed it resembles.",
-      },
-      {
-        label: "Specimen",
-        title: "Prunus dulcis",
-        body: "Family Rosaceae. Origin Iran & Levant. Domesticated ~3000 BC.",
-      },
-      {
-        label: "Supply · world",
-        title: "One valley feeds the world",
-        big: "80%",
-        body: "of global almonds grown in California's Central Valley.",
-      },
-      {
-        label: "Varieties",
-        title: "Six names, one tree",
-        chips: ["Nonpareil", "Mission", "Carmel", "Butte", "Padre", "Sonora"],
-      },
-      {
-        label: "almond.log",
-        title: "Timeline",
-        body: "3000 BC Levant · 100 AD Roman trade · 1840 California · 1890 Van Gogh · today 80% supply CA",
-      },
-    ],
-    game: {
-      title: "Test your memory with a mind game",
-      rules: [
-        { title: "Tap matching pairs", desc: "Find the twin almonds." },
-        { title: "Beat the clock", desc: "Faster runs score higher." },
-        {
-          title: "No misses allowed",
-          desc: "Three strikes restart the board.",
+    audience: {
+      solo: {
+        body: "Your Claude Code, your Figma, your Cursor. Finally sharing memory. Stop re-explaining the same context every session.",
+        finalCta: {
+          heading: "Memory across every tool you open.",
+          body: "Set it up in ten minutes. Bring your own stack.",
         },
-        { title: "Climb the streak", desc: "Daily reps build muscle memory." },
-      ],
+      },
+      team: {
+        body: "Your team's memory, alive in every tool you ship in. Decisions persist where the work happens, not in a doc no one reads.",
+        finalCta: {
+          heading: "One brain for the whole team.",
+          body: "Run a 30-minute demo on your real codebase.",
+        },
+      },
     },
+    tagline:
+      "We don't build another chat. We connect the ones you already use.",
+    quote: "Memory, not models.",
     blog: {
-      heading: "Notes on attention, memory, and taste",
+      heading: "Notes on memory, models, and the company brain",
       viewAll: "/blog",
       posts: posts.map((p) => ({
         slug: p.slug,
@@ -116,23 +110,40 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
     footer: {
       columns: [
         {
-          label: "About",
+          label: "Product",
           items: [
-            { label: "Blog", href: "/blog" },
-            { label: "Test your Mind", href: "/#game" },
+            { label: "How it works", href: "/product" },
+            { label: "Pricing", href: "/pricing" },
+            { label: "Manifesto", href: "/manifesto" },
           ],
         },
         {
-          label: "Contact",
+          label: "Company",
+          items: [
+            { label: "Blog", href: "/blog" },
+            { label: "Contact", href: "/contact" },
+          ],
+        },
+        {
+          label: "Trust",
+          items: [
+            { label: "Security", href: "/contact" },
+            { label: "Self-host", href: "/contact" },
+            { label: "SOC 2 (in progress)", href: "/contact" },
+          ],
+        },
+        {
+          label: "Connect",
           items: [
             { label: "LinkedIn", href: "https://www.linkedin.com/company/hey-almond-ai" },
             { label: "X", href: "https://x.com/Hey_AlmondAI" },
+            { label: "Email", href: "mailto:contact.almondai@gmail.com" },
           ],
         },
       ],
       wordmark: "Almond",
       copyright: "© 2026 Almond AI",
-      compliance: "Stay tuned for more info",
+      compliance: "amygdala (n.) · Greek for \"almond.\"",
     },
   };
 }

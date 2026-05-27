@@ -40,11 +40,11 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <main className="relative flex min-h-dvh w-full flex-col bg-white">
-      <SiteNav active="blog" />
+      <SiteNav />
 
       <article className="flex-1 pt-[140px] pb-[160px] md:pt-[160px]">
         <div className="container-x" style={{ maxWidth: 720 }}>
-          {/* Cover image — same image shown on the blog card */}
+          {/* Cover image: same image shown on the blog card */}
           <div
             className="relative aspect-[16/9] w-full overflow-hidden rounded-[20px] bg-black md:aspect-[2/1] md:rounded-[24px]"
             aria-hidden

@@ -8,7 +8,7 @@ export function formatPostDate(iso: string): string {
 }
 
 // All available cover images, in order. The cover for a given post is
-// deterministic — the same slug always resolves to the same image across
+// deterministic: the same slug always resolves to the same image across
 // the home page teaser, the blog index, and the post detail page.
 export const POST_COVERS = [
   "/almond/avatar-2.png",

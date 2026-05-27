@@ -1,20 +1,23 @@
 import YAML from "yaml";
 import { RawCode } from "@/components/RawCode";
 import { RawFormatToggle } from "@/components/RawFormatToggle";
-import type { SiteData } from "@/lib/site-data";
 
 export type RawFormat = "json" | "yaml";
 
-export function RawView({
-  data,
+/**
+ * Generic raw view for any page payload.
+ * Accepts a serializable object and renders it as JSON/YAML.
+ * Use this on sub-pages where per-page data lives inline.
+ */
+export function PageRawView({
+  payload,
   format,
   scope,
 }: {
-  data: SiteData;
+  payload: unknown;
   format: RawFormat;
-  scope: "home" | "blog" | "post";
+  scope: string;
 }) {
-  const payload = pickScope(data, scope);
   const serialized =
     format === "json"
       ? JSON.stringify(payload, null, 2)
@@ -35,27 +38,4 @@ export function RawView({
       </div>
     </section>
   );
-}
-
-function pickScope(data: SiteData, scope: "home" | "blog" | "post"): unknown {
-  switch (scope) {
-    case "home":
-      return {
-        brand: data.brand,
-        nav: data.nav,
-        hero: data.hero,
-        audience: data.audience,
-        tagline: data.tagline,
-        quote: data.quote,
-        blog: {
-          heading: data.blog.heading,
-          posts: data.blog.posts.slice(0, 3),
-        },
-        footer: data.footer,
-      };
-    case "blog":
-      return { brand: data.brand, nav: data.nav, blog: data.blog };
-    case "post":
-      return { brand: data.brand, post: data.blog.posts[0] };
-  }
 }

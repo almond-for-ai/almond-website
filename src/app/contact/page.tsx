@@ -1,0 +1,240 @@
+import type { Metadata } from "next";
+import { SiteNav, getViewFromSearchParams } from "@/components/SiteNav";
+import { SiteFooter } from "@/components/SiteFooter";
+import { PageRawView } from "@/components/PageRawView";
+import { Mount, Reveal, Stagger, StaggerItem } from "@/components/Motion";
+import { EmailCopy } from "@/components/EmailCopy";
+import { SOCIAL_LINKS } from "@/components/SiteFooter";
+import { SectionTracker } from "@/components/SectionTracker";
+
+export const metadata: Metadata = {
+  title: "Contact · Almond AI",
+  description:
+    "Book a demo of Almond AI. 30 minutes on your real stack: Claude Code, Figma, Figma Make.",
+};
+
+const CONTACT_DATA = {
+  hero: {
+    chip: "Talk to us",
+    title: "Book a demo.",
+    subtitle:
+      "30 minutes. Bring your real codebase. We'll show you decisions you forgot you made.",
+  },
+  expect: [
+    {
+      n: "01",
+      title: "Intro · 5 min",
+      body: "Tell us what you're building and where memory is leaking today.",
+    },
+    {
+      n: "02",
+      title: "Walkthrough · 20 min",
+      body: "Live demo of capture, compile, and inject on your stack. Not a slide deck.",
+    },
+    {
+      n: "03",
+      title: "Trial · 14 days",
+      body: "Walk out with a working instance. Bring it back, or don't.",
+    },
+  ],
+  channels: [
+    {
+      label: "Schedule directly",
+      value: "Cal.com · slot opens in 24h",
+      kind: "cal" as const,
+      href: "mailto:contact.almondai@gmail.com?subject=Almond%20demo",
+    },
+    {
+      label: "Email",
+      value: "contact.almondai@gmail.com",
+      kind: "email" as const,
+      href: "mailto:contact.almondai@gmail.com",
+    },
+    {
+      label: "LinkedIn",
+      value: "linkedin.com/company/hey-almond-ai",
+      kind: "link" as const,
+      href: SOCIAL_LINKS.linkedin,
+    },
+    {
+      label: "X",
+      value: "@Hey_AlmondAI",
+      kind: "link" as const,
+      href: SOCIAL_LINKS.x,
+    },
+  ],
+};
+
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ view?: string }>;
+}) {
+  const sp = await searchParams;
+  const view = getViewFromSearchParams(sp);
+
+  if (view !== "roasted") {
+    return (
+      <main className="relative min-h-dvh w-full overflow-x-hidden bg-white">
+        <SiteNav />
+        <PageRawView payload={CONTACT_DATA} format={view} scope="contact" />
+        <SiteFooter />
+      </main>
+    );
+  }
+
+  return (
+    <main className="relative min-h-dvh w-full overflow-x-hidden bg-white">
+      <SiteNav />
+      <SectionTracker page="/contact" />
+
+      {/* ── Hero ────────────────────────────────────────────── */}
+      <section data-section="Hero" className="w-full pt-[140px] pb-[64px] md:pt-[200px] md:pb-[80px]">
+        <div className="container-x">
+          <Mount delay={0.05} y={10}>
+            <span className="chip-accent">{CONTACT_DATA.hero.chip}</span>
+          </Mount>
+          <Mount delay={0.15} y={14} className="mt-[28px]">
+            <h1 className="font-sans text-[44px] font-medium leading-[48px] tracking-[-0.88px] text-black md:text-[64px] md:leading-[68px] md:tracking-[-1.28px]">
+              {CONTACT_DATA.hero.title}
+            </h1>
+          </Mount>
+          <Mount delay={0.25} y={14} className="mt-[20px] max-w-[640px]">
+            <p className="text-[18px] leading-[28px] text-black/60 md:text-[20px] md:leading-[30px]">
+              {CONTACT_DATA.hero.subtitle}
+            </p>
+          </Mount>
+        </div>
+      </section>
+
+      {/* ── 2-col: Schedule + channels ──────────────────────── */}
+      <section data-section="Schedule" className="w-full pb-[80px] md:pb-[120px]">
+        <div className="container-x">
+          <div className="grid grid-cols-1 gap-[24px] md:grid-cols-[1.2fr_1fr] md:gap-[40px]">
+            {/* Cal placeholder */}
+            <Reveal y={20}>
+              <div className="flex h-full flex-col rounded-[24px] border border-black/[0.08] bg-black p-[28px] text-white md:rounded-[32px] md:p-[40px]">
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-walnut-300">
+                  Live scheduler
+                </span>
+                <h2 className="mt-[16px] font-sans text-[28px] font-medium leading-[32px] tracking-[-0.56px] md:text-[32px] md:leading-[36px] md:tracking-[-0.64px]">
+                  Pick a slot.
+                </h2>
+                <p className="mt-[12px] text-[15px] leading-[22px] text-white/65">
+                  Cal.com embed lands here once the workspace is finished. In
+                  the meantime, email us with two times that work. We&apos;ll
+                  send a confirm within 24h.
+                </p>
+
+                <div className="mt-[28px] flex flex-1 items-end">
+                  <div className="w-full rounded-[16px] border border-white/[0.1] bg-white/[0.04] p-[20px]">
+                    <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/45">
+                      // calendar placeholder
+                    </div>
+                    <div className="mt-[8px] font-mono text-[13px] leading-[20px] text-white/75">
+                      $ almond schedule --duration 30m
+                    </div>
+                    <div className="mt-[2px] font-mono text-[13px] leading-[20px] text-white/55">
+                      → opening contact.almondai@gmail.com
+                    </div>
+                    <div className="mt-[2px] font-mono text-[13px] leading-[20px] text-white/55">
+                      → response &lt; 24h
+                    </div>
+                  </div>
+                </div>
+
+                <a
+                  href="mailto:contact.almondai@gmail.com?subject=Almond%20demo"
+                  className="mt-[28px] inline-flex w-fit items-center justify-center rounded-full bg-white px-[24px] py-[10px] text-[15px] font-medium leading-[18px] tracking-[-0.3px] text-black transition-opacity hover:opacity-90"
+                >
+                  Email to schedule
+                </a>
+              </div>
+            </Reveal>
+
+            {/* Channels */}
+            <Stagger
+              as="ul"
+              className="grid grid-cols-1 gap-[12px]"
+            >
+              {CONTACT_DATA.channels.map((c) => (
+                <StaggerItem
+                  key={c.label}
+                  as="li"
+                  className="rounded-[20px] border border-black/[0.08] bg-white p-[20px] md:p-[24px]"
+                >
+                  <div className="flex items-start justify-between gap-[16px]">
+                    <div className="min-w-0">
+                      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-walnut-500">
+                        {c.label}
+                      </div>
+                      {c.kind === "email" ? (
+                        <EmailCopy
+                          email={c.value}
+                          className="mt-[8px] block truncate text-left font-sans text-[16px] font-medium leading-[22px] tracking-[-0.16px] text-black hover:text-walnut-500"
+                        />
+                      ) : (
+                        <a
+                          href={c.href}
+                          target={c.kind === "link" ? "_blank" : undefined}
+                          rel={c.kind === "link" ? "noreferrer noopener" : undefined}
+                          className="mt-[8px] block truncate font-sans text-[16px] font-medium leading-[22px] tracking-[-0.16px] text-black hover:text-walnut-500"
+                        >
+                          {c.value}
+                        </a>
+                      )}
+                    </div>
+                    <span className="shrink-0 text-black/30" aria-hidden>
+                      ↗
+                    </span>
+                  </div>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </div>
+        </div>
+      </section>
+
+      {/* ── What to expect ─────────────────────────────────── */}
+      <section data-section="Expect" className="w-full bg-grey-96 py-[80px] md:py-[120px]">
+        <div className="container-x">
+          <Reveal y={16}>
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-walnut-500">
+              What to expect
+            </p>
+          </Reveal>
+          <Reveal y={20} delay={0.05}>
+            <h2 className="mt-[16px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-black md:text-[36px] md:leading-[40px] md:tracking-[-0.72px]">
+              30 minutes. No deck.
+            </h2>
+          </Reveal>
+
+          <Stagger
+            as="ul"
+            className="mt-[48px] grid grid-cols-1 gap-px overflow-hidden rounded-[24px] border border-black/[0.08] bg-black/[0.08] md:grid-cols-3"
+          >
+            {CONTACT_DATA.expect.map((e) => (
+              <StaggerItem
+                key={e.n}
+                as="li"
+                className="bg-white p-[24px] md:p-[32px]"
+              >
+                <div className="font-display text-[40px] font-normal leading-[40px] tracking-[-0.8px] text-walnut-500">
+                  {e.n}
+                </div>
+                <h3 className="mt-[16px] font-sans text-[18px] font-medium leading-[24px] tracking-[-0.36px] text-black">
+                  {e.title}
+                </h3>
+                <p className="mt-[10px] text-[14px] leading-[22px] text-black/65">
+                  {e.body}
+                </p>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      <SiteFooter />
+    </main>
+  );
+}
