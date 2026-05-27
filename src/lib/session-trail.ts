@@ -13,15 +13,12 @@ type TrailState = {
   visits: Visit[];
   currentPage: string;
   currentSection?: string;
-  dismissed: boolean;
   recordPageVisit: (page: string) => void;
   recordSectionVisit: (page: string, section?: string) => void;
-  dismiss: () => void;
-  resetDismiss: () => void;
   clear: () => void;
 };
 
-const MAX_VISITS = 12;
+const MAX_VISITS = 30;
 
 export const useSessionTrail = create<TrailState>()(
   persist(
@@ -29,12 +26,11 @@ export const useSessionTrail = create<TrailState>()(
       visits: [],
       currentPage: "",
       currentSection: undefined,
-      dismissed: false,
 
       recordPageVisit: (page) => {
         const now = Date.now();
         const last = get().visits[get().visits.length - 1];
-        if (last && last.page === page) {
+        if (last && last.page === page && !last.section) {
           set({ currentPage: page });
           return;
         }
@@ -55,15 +51,11 @@ export const useSessionTrail = create<TrailState>()(
         set({ visits: v, currentSection: section, currentPage: page });
       },
 
-      dismiss: () => set({ dismissed: true }),
-      resetDismiss: () => set({ dismissed: false }),
-      clear: () =>
-        set({ visits: [], currentSection: undefined, dismissed: false }),
+      clear: () => set({ visits: [], currentSection: undefined }),
     }),
     {
       name: "almond-trail-v1",
       storage: createJSONStorage(() => localStorage),
-      // dismissed should reset on full reload. Only persist visits.
       partialize: (state) => ({ visits: state.visits }),
     },
   ),

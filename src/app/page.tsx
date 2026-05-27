@@ -6,7 +6,8 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteNav, getViewFromSearchParams } from "@/components/SiteNav";
 import { Mount, Reveal } from "@/components/Motion";
 import { AlmondGlyph } from "@/components/AlmondMark";
-import { AudienceToggle } from "@/components/AudienceToggle";
+import { HeroAudienceToggle } from "@/components/HeroAudienceToggle";
+import { HeroVisibilityTracker } from "@/components/HeroVisibilityTracker";
 import { AudienceCopy } from "@/components/AudienceCopy";
 import { RotatingWord } from "@/components/RotatingWord";
 import { PersonaChips } from "@/components/PersonaChips";
@@ -43,10 +44,13 @@ export default async function Home({
       <SiteNav />
       <SectionTracker page="/" />
 
+      <HeroVisibilityTracker />
+
       {/* ── Hero ────────────────────────────────────────────── */}
       <section
         id="hero-section"
         data-section="Hero"
+        data-hero-tracker
         className="relative w-full pt-[120px] pb-[40px] md:pt-[160px] md:pb-[60px]"
       >
         <div className="container-x">
@@ -63,7 +67,7 @@ export default async function Home({
 
           {/* audience toggle */}
           <Mount delay={0.1} y={8} className="mt-[20px]">
-            <AudienceToggle />
+            <HeroAudienceToggle />
           </Mount>
 
           {/* headline + rotating word */}
