@@ -195,7 +195,7 @@ Owner shorthand: **Atishay** = Atishay Jain (atishay1743@gmail.com), founder.
 - **Branch:** `full-website-wip` → Cloudflare worker `almond-website-full-wip` (`full-wip` env)
 - **What:** Commit all Phase 3 changes on `full-website-wip`, push to `origin/full-website-wip`, deploy via `npm run deploy:full-wip`.
 - **Why:** Keep the preview worker in sync with the latest home/Impact refinements before merging to main.
-- **Status:** In progress (this deploy).
+- **Status:** Done. Deployed worker `almond-website-full-wip` (commit `4fb6aa6`).
 
 ---
 
