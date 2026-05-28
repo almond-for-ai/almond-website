@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useAnimationFrame, useMotionValue } from "motion/react";
 import { AlmondGlyph } from "@/components/AlmondMark";
 import {
@@ -44,6 +44,17 @@ type Tool = {
 const SIZE = 560;
 const CENTER = SIZE / 2;
 
+/** Radius of the brown circle ring — spokes start from its edge, not the center. */
+const HUB_R = 52;
+
+/** Compute the point on the hub circle edge in the direction of (tx, ty). */
+function hubEdge(tx: number, ty: number) {
+  const dx = tx - CENTER;
+  const dy = ty - CENTER;
+  const len = Math.hypot(dx, dy);
+  return { ex: round(CENTER + (dx / len) * HUB_R), ey: round(CENTER + (dy / len) * HUB_R) };
+}
+
 // Three concentric rings: radius + node disc + logo sizing per ring.
 const RINGS = [
   { r: 118, discR: 28, logoSize: 22 },
@@ -51,28 +62,39 @@ const RINGS = [
   { r: 246, discR: 22, logoSize: 17 },
 ];
 
-// Revolution speed per ring in degrees/second. Alternating sign = reversed
-// direction per ring. All slow.
+// Revolution speed per ring in degrees/second.
+// Alternating sign = reversed direction per ring (solar-system feel).
+// Idle: completely still. Rotation only while held.
 const RING_SPEED = [5, -3.5, 2.5];
 
+// 12 nodes evenly spread at 30° each. Sorted by angle, no two adjacent nodes
+// share a ring → max angular separation between same-ring siblings, and no
+// radial overlap clusters between rings.
 const TOOLS: Tool[] = [
-  // Inner orbit: primary surfaces
+  // 0°   — ring 0
   { id: "claude-code", Logo: ClaudeCodeLogo, ring: 0, angle: 0 },
+  // 30°  — ring 1
+  { id: "claude", Logo: ClaudeLogo, ring: 1, angle: 30 },
+  // 60°  — ring 2
+  { id: "windsurf", Logo: WindsurfLogo, ring: 2, angle: 60 },
+  // 90°  — ring 1
+  { id: "linear", Logo: LinearLogo, ring: 1, angle: 90 },
+  // 120° — ring 0
   { id: "cursor", Logo: CursorLogo, ring: 0, angle: 120 },
+  // 150° — ring 2
+  { id: "v0", Logo: V0Logo, ring: 2, angle: 150 },
+  // 180° — ring 1
+  { id: "chatgpt", Logo: ChatGPTLogo, ring: 1, angle: 180 },
+  // 210° — ring 2
+  { id: "cline", Logo: ClineLogo, ring: 2, angle: 210 },
+  // 240° — ring 0
   { id: "figma", Logo: FigmaLogo, ring: 0, angle: 240 },
-
-  // Mid orbit: agents + knowledge
-  { id: "claude", Logo: ClaudeLogo, ring: 1, angle: 45 },
-  { id: "linear", Logo: LinearLogo, ring: 1, angle: 135 },
-  { id: "github", Logo: GitHubLogo, ring: 1, angle: 225 },
-  { id: "chatgpt", Logo: ChatGPTLogo, ring: 1, angle: 315 },
-
-  // Outer orbit: emerging surfaces
-  { id: "windsurf", Logo: WindsurfLogo, ring: 2, angle: 18 },
-  { id: "v0", Logo: V0Logo, ring: 2, angle: 90 },
-  { id: "cline", Logo: ClineLogo, ring: 2, angle: 162 },
-  { id: "antigravity", Logo: AntigravityLogo, ring: 2, angle: 234 },
-  { id: "notion", Logo: NotionLogo, ring: 2, angle: 306 },
+  // 270° — ring 1
+  { id: "github", Logo: GitHubLogo, ring: 1, angle: 270 },
+  // 300° — ring 2
+  { id: "antigravity", Logo: AntigravityLogo, ring: 2, angle: 300 },
+  // 330° — ring 2
+  { id: "notion", Logo: NotionLogo, ring: 2, angle: 330 },
 ];
 
 // Round to 2 decimals so server- and client-stringified numbers match
@@ -167,19 +189,23 @@ export function ConnectorDiagram({
               }}
             >
               {/* spokes + traveling dots */}
-              {nodes.map((p) => (
+              {nodes.map((p) => {
+                const { ex, ey } = hubEdge(p.x, p.y);
+                return (
                 <g key={p.id}>
-                  {/* spoke line: colors on hold, propagates outward */}
+                  {/* spoke line: starts from brown circle edge.
+                      Lighter + dotted to match orbit rings; solid + walnut on hold. */}
                   <motion.line
-                    x1={CENTER}
-                    y1={CENTER}
+                    x1={ex}
+                    y1={ey}
                     x2={p.x}
                     y2={p.y}
                     strokeWidth={1}
+                    strokeDasharray={isHeld ? "0" : "2 6"}
                     animate={{
                       stroke: isHeld
-                        ? "rgba(123,64,25,0.6)"
-                        : "rgba(0,0,0,0.16)",
+                        ? "rgba(123,64,25,0.55)"
+                        : `rgba(0,0,0,${0.1 - p.ringIndex * 0.02})`,
                     }}
                     transition={{
                       duration: 0.15,
@@ -187,19 +213,19 @@ export function ConnectorDiagram({
                     }}
                   />
 
-                  {/* outbound dot: center -> tool, only while held */}
+                  {/* outbound dot: hub edge -> tool, only while held */}
                   <motion.circle
                     r={3}
                     fill="#7b4019"
-                    initial={{ cx: CENTER, cy: CENTER, opacity: 0 }}
+                    initial={{ cx: ex, cy: ey, opacity: 0 }}
                     animate={
                       isHeld
                         ? {
-                            cx: [CENTER, p.x],
-                            cy: [CENTER, p.y],
+                            cx: [ex, p.x],
+                            cy: [ey, p.y],
                             opacity: [0, 1, 0],
                           }
-                        : { cx: CENTER, cy: CENTER, opacity: 0 }
+                        : { cx: ex, cy: ey, opacity: 0 }
                     }
                     transition={
                       isHeld
@@ -214,7 +240,7 @@ export function ConnectorDiagram({
                     }
                   />
 
-                  {/* inbound dot: tool -> center, only while held */}
+                  {/* inbound dot: tool -> hub edge, only while held */}
                   <motion.circle
                     r={2}
                     fill="rgba(0,0,0,0.45)"
@@ -222,8 +248,8 @@ export function ConnectorDiagram({
                     animate={
                       isHeld
                         ? {
-                            cx: [p.x, CENTER],
-                            cy: [p.y, CENTER],
+                            cx: [p.x, ex],
+                            cy: [p.y, ey],
                             opacity: [0, 1, 0],
                           }
                         : { cx: p.x, cy: p.y, opacity: 0 }
@@ -241,7 +267,8 @@ export function ConnectorDiagram({
                     }
                   />
                 </g>
-              ))}
+                );
+              })}
 
               {/* tool nodes: white disc + real logo (logo counter-rotates) */}
               {nodes.map((p) => (
@@ -273,27 +300,31 @@ export function ConnectorDiagram({
                       delay: isHeld ? propDelay(p.ringIndex) : 0,
                     }}
                   />
-                  {/* logo: rides with the disc as one rigid entity */}
-                  <svg
-                    x={p.x - p.ring.logoSize / 2}
-                    y={p.y - p.ring.logoSize / 2}
-                    width={p.ring.logoSize}
-                    height={p.ring.logoSize}
-                    overflow="visible"
-                  >
-                    <p.Logo size={p.ring.logoSize} />
-                  </svg>
+                  {/* Logos are rendered OUTSIDE this rotating group
+                      (see `<OrbitingLogo>` layer below) so they translate
+                      with the orbit but never rotate themselves. */}
                 </g>
               ))}
             </motion.g>
           );
         })}
 
+        {/* logos layer: each logo tracks its rotated orbit position via
+            useTransform but renders OUTSIDE the rotating ring group, so
+            it translates with the orbit and never rotates itself. */}
+        {POSITIONS.map((p) => (
+          <OrbitingLogo
+            key={`logo-${p.id}`}
+            node={p}
+            ringRot={ringRot[p.ringIndex]}
+          />
+        ))}
+
         {/* center halo fill: breathes while idle, strengthens on hold */}
         <motion.circle
           cx={CENTER}
           cy={CENTER}
-          r={56}
+          r={42}
           style={{ transformBox: "fill-box", transformOrigin: "center" }}
           animate={
             isHeld
@@ -320,7 +351,7 @@ export function ConnectorDiagram({
         <motion.circle
           cx={CENTER}
           cy={CENTER}
-          r={70}
+          r={52}
           fill="none"
           strokeWidth={1}
           style={{ transformBox: "fill-box", transformOrigin: "center" }}
@@ -358,11 +389,62 @@ export function ConnectorDiagram({
           onPointerCancel={release}
         >
           <AlmondGlyph size={42} />
-          <span className="mt-[6px] font-mono text-[10px] uppercase tracking-[0.2em] text-walnut-500">
-            almond
-          </span>
         </motion.div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Logo positioned at the rotated orbit coordinate.
+ *
+ * Reads the ring's revolution angle via `useTransform` and computes the
+ * new (x, y) for the logo's center each frame. The logo itself is never
+ * rotated — only translated — so logos always stay upright while their
+ * orbit ring spins around the center.
+ */
+type OrbitNode = (typeof POSITIONS)[number];
+
+function OrbitingLogo({
+  node,
+  ringRot,
+}: {
+  node: OrbitNode;
+  ringRot: ReturnType<typeof useMotionValue<number>>;
+}) {
+  const dx = node.x - CENTER;
+  const dy = node.y - CENTER;
+  const size = node.ring.logoSize;
+  const gRef = useRef<SVGGElement>(null);
+
+  // Subscribe to ringRot and write the SVG `transform` attribute on
+  // every change. Bypasses motion's CSS-only path — SVG transform
+  // attribute takes `translate(x y)` without units.
+  useEffect(() => {
+    const apply = (deg: number) => {
+      const a = (deg * Math.PI) / 180;
+      const cx = CENTER + dx * Math.cos(a) - dy * Math.sin(a);
+      const cy = CENTER + dx * Math.sin(a) + dy * Math.cos(a);
+      gRef.current?.setAttribute("transform", `translate(${cx} ${cy})`);
+    };
+    apply(ringRot.get());
+    return ringRot.on("change", apply);
+  }, [ringRot, dx, dy]);
+
+  const Logo = node.Logo;
+  // Inner <svg> centered on (0,0) so the transform moves the logo to
+  // its disc center exactly. Logo never rotates → always upright.
+  return (
+    <g ref={gRef}>
+      <svg
+        x={-size / 2}
+        y={-size / 2}
+        width={size}
+        height={size}
+        overflow="visible"
+      >
+        <Logo size={size} />
+      </svg>
+    </g>
   );
 }

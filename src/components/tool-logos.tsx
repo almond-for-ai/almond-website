@@ -114,17 +114,21 @@ export function WindsurfLogo({ size = 22, className }: LogoProps) {
 }
 
 export function V0Logo({ size = 22, className }: LogoProps) {
+  // Square viewBox so the logo centers inside square containers.
+  // Path is shifted down by (40 - 21) / 2 = 9.5 to vertically center.
   return (
     <svg
       width={size}
-      height={(size * 21) / 40}
-      viewBox="0 0 40 21"
+      height={size}
+      viewBox="0 0 40 40"
       fill="#0f0f0f"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-hidden
     >
-      <path d="M23.392 0h9.527a6.995 6.995 0 0 1 6.995 6.995v9.085H36V6.995c0-.093-.004-.186-.011-.277l-9.527 9.361.096.002h9.442v3.695H26.56c-3.864 0-7.081-3.162-7.081-7.025V3.689h3.913v9.062c0 .174.013.347.04.516L33.168 3.7a3.02 3.02 0 0 0-.25-.01h-9.526V0zM13.769 19.096L0 3.688h5.54l8.083 9.046V3.688h4.13v13.887c0 2.096-2.588 3.083-3.984 1.52z" />
+      <g transform="translate(0 9.5)">
+        <path d="M23.392 0h9.527a6.995 6.995 0 0 1 6.995 6.995v9.085H36V6.995c0-.093-.004-.186-.011-.277l-9.527 9.361.096.002h9.442v3.695H26.56c-3.864 0-7.081-3.162-7.081-7.025V3.689h3.913v9.062c0 .174.013.347.04.516L33.168 3.7a3.02 3.02 0 0 0-.25-.01h-9.526V0zM13.769 19.096L0 3.688h5.54l8.083 9.046V3.688h4.13v13.887c0 2.096-2.588 3.083-3.984 1.52z" />
+      </g>
     </svg>
   );
 }
