@@ -121,8 +121,9 @@ function MetricCard({ m }: { m: Metric }) {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.65, ease: EASE }}
             className={[
-              "relative font-display text-[72px] font-normal leading-none tracking-[-0.04em] md:text-[96px]",
-              m.value === "∞" ? "motion-reduce:animate-none" : "",
+              "relative font-display font-normal leading-none tracking-[-0.04em]",
+              "text-[72px] md:text-[88px]",
+              m.tone === "accent" || m.tone === "dark" ? "text-white" : "text-walnut-500",
             ].join(" ")}
           >
             {m.numeric !== undefined ? (

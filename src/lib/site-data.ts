@@ -96,6 +96,11 @@ export type SiteData = {
   };
   tagline: string;
   quote: string;
+  network: {
+    eyebrow: string;
+    solo: { heading: string; body: string };
+    team: { heading: string; body: string };
+  };
   blog: {
     heading: string;
     viewAll: string;
@@ -295,6 +300,17 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
     tagline:
       "We don't build another chat. We connect the ones you already use.",
     quote: "Memory, not models.",
+    network: {
+      eyebrow: "The network",
+      solo: {
+        heading: "Your tools. Your work. One thread.",
+        body: "Almond sits between you and the stack you already run. Context follows both.",
+      },
+      team: {
+        heading: "Every person. Every tool. One company memory.",
+        body: "Founders, designers, engineers. Claude Code, Figma, Linear. Almond connects them.",
+      },
+    },
     blog: {
       heading: "Notes on memory, models, and the company brain",
       viewAll: "/blog",

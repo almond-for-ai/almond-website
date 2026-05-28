@@ -197,6 +197,95 @@ Owner shorthand: **Atishay** = Atishay Jain (atishay1743@gmail.com), founder.
 - **Why:** Keep the preview worker in sync with the latest home/Impact refinements before merging to main.
 - **Status:** Done. Deployed worker `almond-website-full-wip` (commit `4fb6aa6`).
 
+### D-030 · Anam-aligned motion + layout pass
+- **Decided by:** Atishay
+- **Branch:** `full-website-wip`
+- **What:** Shared motion tokens (`src/lib/motion-tokens.ts`); faster 500ms reveals; 50px demo capsules on connector, FlowTabs, and MemoryGraph; halftone on `ConnectionConstellation`; FlowTabs SVG loops pause off-screen; pricing Popular badge + mid-page demo CTA + compare row hover; footer/persona/chip hovers at 200ms; globals utilities (`.capsule-50`, `.halftone-bg`, `.stat-display`, `.footer-link`, `.pricing-row`).
+- **Why:** Anam.ai audit showed mature scroll rhythm and quiet hovers without changing Almond walnut brand or copy tone.
+- **Status:** Done.
+
+### D-031 · Home closing sequence: Network before footer
+- **Decided by:** Atishay (Cursor implementation)
+- **Branch:** `full-website-wip`
+- **What:** Final home flow is MindGame → Blog → **Network** (`ConnectionConstellation`) → `SiteFooter`. Remove the standalone final grey/black CTA band; Network section carries headline + demo CTAs as the closing beat.
+- **Why:** Avoid duplicate conversion blocks and a long empty white tail before the footer. Network is the Anam-style “people + tools orbiting copy” finale.
+- **Status:** Done. `src/app/page.tsx`.
+
+### D-032 · Network section: audience-specific tile constellations
+- **Decided by:** Atishay (Cursor implementation)
+- **Branch:** `full-website-wip`
+- **What:** New `ConnectionConstellation` component. **Solo:** eight tool tiles only (64–72px), no portraits or GIF. **Team:** portrait people tiles (taller/narrower cards) + one talking GIF + smaller perimeter tool chips (48–58px). Toggle swaps tile set via existing audience store.
+- **Why:** Solo narrative is “your stack”; team narrative is “people + tools connected.” One section, two compositions.
+- **Status:** Done. `src/components/ConnectionConstellation.tsx`.
+
+### D-033 · Network section: minimal on-screen copy
+- **Decided by:** Atishay (Cursor implementation)
+- **Branch:** `full-website-wip`
+- **What:** Network UI renders **headline + CTAs only**. Do not show eyebrow (“The network”), body paragraph, or center almond glyph. Copy strings remain in `site-data.ts` for raw view / future use.
+- **Why:** Visual section should read from tiles + headline, not duplicate Impact prose. Matches Anam’s sparse center copy.
+- **Status:** Done.
+
+### D-034 · Network scroll choreography: layered upward exit
+- **Decided by:** Atishay (Cursor implementation)
+- **Branch:** `full-website-wip`
+- **What:** Full-viewport sticky pin (`100dvh`) with short **vh-based** runway (`solo: 8vh + layers×0.6`, `team: 10vh + layers×0.6`). On scroll: outer tiles exit first, drifting **upward off-screen** with smoothstep easing. **No opacity fade** on tiles during scroll (positional exit only). Center headline + CTAs stay fixed until the section unpins. Connector SVG fades out in the first ~8% of scroll progress (lines stay static in viewBox; do not track tile transforms).
+- **Why:** Prior iterations faded or scaled tiles away (“vanishing”) and left dead whitespace before the footer. Anam-style handoff = physical peel-up, then footer.
+- **Status:** Done (iterating). `src/components/ConnectionConstellation.tsx`.
+
+### D-035 · Network idle motion: subtle circular drift
+- **Decided by:** Atishay (Cursor implementation)
+- **Branch:** `full-website-wip`
+- **What:** At rest, each tile runs a slow **5-keyframe elliptical orbit** (~28–40s, `easeInOut`, unique delay per tile). Do **not** use scale-to-zero, opacity fade, or a hard `scrollStarted` state flip when scroll begins (those caused jerk / disappear). `prefers-reduced-motion`: static tiles, no orbit, pin runway collapsed to `100dvh`.
+- **Why:** Section should feel alive before scroll without looking playful or breaking on first wheel tick.
+- **Status:** Done. `MOTION_DURATION.orbit = 30` added in `src/lib/motion-tokens.ts`.
+
+### D-036 · Network layout: centered copy, edge tiles, legibility scrim
+- **Decided by:** Atishay (Cursor implementation)
+- **Branch:** `full-website-wip`
+- **What:** Headline + CTAs **vertically centered** (`justify-center`). Copy stack at `z-20`; tiles at `z-[1]`. Soft white blur scrim behind copy block. Tiles pushed toward viewport edges; team GIF moved off center (was `50%, 20%`, overlapping headline → `14%, 10%`). Hub for connectors at `50%, 50%`.
+- **Why:** Asymmetric padding and center-anchored GIF caused copy to sit too high and tiles to overlap text. Center copy must remain readable and truly centered.
+- **Status:** Done.
+
+### D-037 · AudienceCopy polymorphic `as` prop (hydration fix)
+- **Decided by:** Atishay (Cursor implementation)
+- **Branch:** `full-website-wip`
+- **What:** Add optional `as` prop to `AudienceCopy` (`div` | `p` | `h1` | `h2` | `h3` | `span`) so the animated wrapper is the same semantic element as its parent context. Impact heading uses `as="h2"`; lead uses `as="p"`; Network heading uses `as="h2"`.
+- **Why:** Wrapping `AudienceCopy` (which rendered `motion.div`) inside `<p>` / `<h2>` caused invalid HTML and three Next.js hydration errors.
+- **Status:** Done. `src/components/AudienceCopy.tsx`, `src/app/page.tsx`, `ConnectionConstellation.tsx`.
+
+### D-038 · Network portrait asset: replace 404 Unsplash URL
+- **Decided by:** Atishay (Cursor implementation)
+- **Branch:** `full-website-wip`
+- **What:** Replace broken Unsplash portrait (`photo-1507003211169…`, upstream 404) with a working asset for team tile `p5`. Add `images.remotePatterns` for `images.unsplash.com` in `next.config.ts` so `next/image` can optimize Network portraits.
+- **Why:** Next.js image optimizer logged `upstream image response failed` and tile rendered broken in dev.
+- **Status:** Done. `ConnectionConstellation.tsx`, `next.config.ts`.
+
+### D-039 · Pricing page polish: Popular badge, mid CTA, tier Link fix
+- **Decided by:** Atishay (Cursor implementation)
+- **Branch:** `full-website-wip`
+- **What:** Rename featured tier badge from “Most teams” to **“Popular”**. Add mid-page **Live demo** CTA block below compare table. Fix featured-tier `Link` `className` ternary (dead `btn-primary` branch on featured card). Compare rows use `.pricing-row` hover utility.
+- **Why:** Anam-style pricing rhythm (social proof badge + secondary conversion surface). Bugfix restores correct white CTA styling on featured tier.
+- **Status:** Done. `src/app/pricing/page.tsx`, `src/app/globals.css`.
+
+### D-040 · Network exit animation: long runway + spring smoothing + symmetric easing
+- **Decided by:** Claude (implementation) by Atishay (direction)
+- **Branch:** `full-website-wip`
+- **What:** Overhaul of `ConnectionConstellation` scroll choreography.
+  - `SCROLL_RUNWAY_VH` raised from `{ solo: 8, team: 10 }` to `{ solo: 75, team: 95 }` (initially 120/150, tuned down to reduce headline-only tail before footer).
+  - Replaced `smoothstep` with `easeInOutCubic` for per-tile scroll interpolation (symmetric curve, smoother at both endpoints, identical feel forward and back).
+  - Added `useSpring(scrollYProgress, { stiffness: 70, damping: 26, mass: 0.5, restDelta: 0.0005 })` and routed the smoothed progress into tile transforms and connector opacity. Spring absorbs trackpad inertia jerks; forward and reverse paths feel identical.
+  - `layerTiming` rewritten to cover the full `0 → 1` progress range with 68% per-layer span and 32% stagger. Outer ring (layer 0) starts immediately at 0; innermost layer finishes exactly at 1.0. No dead tail.
+  - Connector hairline fade stretched from `[0, 0.04, 0.08] → [1, 0.3, 0]` to `[0, 0.18, 0.42] → [1, 0.5, 0]` so it matches the slower runway.
+- **Why:** Previous setup completed the exit in ~10vh of scroll. Single wheel tick blew past it — the section read as "flash and gone" rather than a cinematic peel-up. Spring + cubic easing + longer runway gives a buttery feel both on the way out and on the way back. Runway then trimmed because the original 122vh left a visible headline-only whitespace stretch before the footer, which Atishay had flagged repeatedly.
+- **Status:** Done. `src/components/ConnectionConstellation.tsx`.
+
+### D-041 · Fix sticky pin on home `<main>`: overflow-x-clip instead of overflow-x-hidden
+- **Decided by:** Claude (diagnosis + fix) by Atishay (direction)
+- **Branch:** `full-website-wip`
+- **What:** Home page `<main>` element changed from `overflow-x-hidden` to `overflow-x-clip` (both the roasted and raw variants in `src/app/page.tsx`).
+- **Why:** `overflow-x: hidden` promotes `overflow-y` to `auto`, which makes the element a scroll container. `position: sticky` then pins to that ancestor instead of the viewport. With the old ~10vh runway this was invisible — but the longer D-040 runway exposed the bug: the headline + CTAs of `ConnectionConstellation` scrolled away mid-exit instead of staying centered. `overflow-x: clip` suppresses the horizontal overflow without establishing a new scroll context, so sticky pins to the viewport as intended. Limited to home page since only that page hosts a sticky-pinned section today.
+- **Status:** Done. `src/app/page.tsx:38`, `src/app/page.tsx:47`.
+
 ---
 
 ## How to log a new decision

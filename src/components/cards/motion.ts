@@ -1,6 +1,12 @@
-/** Shared motion tokens for value cards — restrained, Vercel-adjacent. */
-export const CARD_EASE = [0.25, 0.1, 0.25, 1] as const;
+import {
+  MOTION_DURATION,
+  MOTION_EASE,
+  MOTION_STAGGER,
+} from "@/lib/motion-tokens";
 
-export const CARD_ENTER_MS = 0.55;
+export const CARD_EASE = MOTION_EASE.reveal;
+export const CARD_HOVER_EASE = MOTION_EASE.hover;
 
-export const CARD_HOVER_MS = 0.45;
+export const CARD_ENTER_MS = MOTION_DURATION.enter;
+export const CARD_HOVER_MS = MOTION_DURATION.micro;
+export const CARD_STAGGER = MOTION_STAGGER;

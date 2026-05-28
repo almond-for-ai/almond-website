@@ -21,9 +21,10 @@ three ideas:
 2. **Warm minimal.** Mostly white surfaces and pure black text, lit
    by a single warm walnut accent (`#7B4019`). No rainbow, no
    gradients on text, no shadows for depth. Color carries meaning.
-3. **Slow honest motion.** Things fade and rise once on mount, then
-   stay still. Hovers nudge ~8px. No bounce, no parallax, no
-   spinning. Motion respects `prefers-reduced-motion`.
+3. **Snappy, restrained motion (Anam-aligned).** Scroll reveals at
+   ~500ms with 16px rise; hovers at 200ms opacity or border shifts.
+   Infinite loops (marquees, tab art) pause off-screen. No bounce,
+   no parallax. Motion respects `prefers-reduced-motion`.
 
 Voice & copy partner with the visuals:
 - Fragments allowed. Short clauses, no marketing fluff.
@@ -218,30 +219,41 @@ accents on links, mono code chips, walnut-bordered blockquotes.
 
 ## 7. Motion
 
-Centralized in `src/components/Motion.tsx`. Use these helpers; do not
-hand-write framer-motion calls scattered around components.
+Tokens live in `src/lib/motion-tokens.ts`. Primitives in
+`src/components/Motion.tsx`. Card enter timing in
+`src/components/cards/motion.ts`. Use these helpers; avoid one-off
+springs scattered across components.
 
 ### Easing
 
 ```ts
-const EASE = [0.22, 1, 0.36, 1];   // cubic-bezier "ease-out-quart"
+MOTION_EASE.reveal = [0.22, 1, 0.36, 1];  // scroll / mount
+MOTION_EASE.hover  = [0.44, 0, 0.56, 1];  // buttons, links
 ```
-
-This is the only easing curve in the project.
 
 ### Durations
 
-- Reveal / Mount: **0.65–0.7s**
-- Hover transforms: **150ms** (`transition-transform duration-500` on
-  cards for the larger lift)
-- Marquee strip: 80s linear infinite (`marquee-x` keyframes), paused
-  on hover.
+- Reveal / Mount: **0.5s** (`MOTION_DURATION.enter`)
+- Hovers / button press: **200ms** (`MOTION_DURATION.micro`)
+- Card stagger: **60ms** (`MOTION_STAGGER` / `CARD_STAGGER`)
+- Marquee strip: 64–80s linear infinite, paused on hover.
+
+### Viewport
+
+- Default margin: **`-10% 0px`** (`MOTION_VIEWPORT.margin`)
+- Reveal fires once unless `once={false}`.
 
 ### Primitives
 
-- `<Reveal y={20}>` — fade + slide on viewport enter, fires once.
-- `<Mount>` — same effect but on mount, for above-the-fold content.
-- All motion is gated by `@media (prefers-reduced-motion: reduce)`.
+- `<Reveal y={16} duration={0.5}>` — fade + slide on viewport enter.
+- `<Mount>` — same on mount for above-the-fold content.
+- `prefers-reduced-motion`: all helpers no-op transforms/opacity.
+
+### Layout utilities (Anam-inspired)
+
+- `.capsule-50` — 50px-radius demo shells (hero connector, FlowTabs, 3D graph).
+- `.halftone-bg` — walnut dot texture for constellation sections.
+- `.stat-display` — clamp(64px–96px) serif numerals for principle cards.
 
 ---
 
