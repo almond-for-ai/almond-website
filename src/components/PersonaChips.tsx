@@ -40,7 +40,7 @@ export function PersonaChips({ className }: { className?: string }) {
             className={
               active
                 ? "inline-flex items-center rounded-full border border-walnut-500/30 bg-walnut-tint px-[12px] py-[5px] text-[12px] font-medium tracking-[-0.12px] text-walnut-500 transition-all"
-                : "inline-flex items-center rounded-full border border-black/[0.08] bg-white px-[12px] py-[5px] text-[12px] font-medium tracking-[-0.12px] text-black/55 transition-all"
+                : "inline-flex items-center rounded-full border border-black/[0.08] bg-white px-[12px] py-[5px] text-[12px] font-medium tracking-[-0.12px] text-black/55 transition-[border-color,background-color] duration-200 hover:border-black/[0.14] hover:bg-grey-96"
             }
           >
             {p.label}

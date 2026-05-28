@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
   // so .next/standalone/ exists before the OpenNext bundler runs.
   output: "standalone",
   outputFileTracingRoot: path.resolve(__dirname),
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

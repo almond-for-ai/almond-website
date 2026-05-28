@@ -6,13 +6,18 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteNav, getViewFromSearchParams } from "@/components/SiteNav";
 import { Mount, Reveal } from "@/components/Motion";
 import { AlmondGlyph } from "@/components/AlmondMark";
-import { AudienceToggle } from "@/components/AudienceToggle";
+import { HeroAudienceToggle } from "@/components/HeroAudienceToggle";
+import { HeroVisibilityTracker } from "@/components/HeroVisibilityTracker";
 import { AudienceCopy } from "@/components/AudienceCopy";
 import { RotatingWord } from "@/components/RotatingWord";
 import { PersonaChips } from "@/components/PersonaChips";
 import { ConnectorDiagram } from "@/components/ConnectorDiagram";
+import { ConnectionConstellation } from "@/components/ConnectionConstellation";
 import { FlowTabs } from "@/components/FlowTabs";
 import { MetricStrip } from "@/components/MetricStrip";
+import { OutcomeMarquee } from "@/components/OutcomeMarquee";
+import { ToolLogoWall } from "@/components/ToolLogoWall";
+import { ValueCardsGrid } from "@/components/ValueCardsGrid";
 import { Lazy3D } from "@/components/illustrations/Lazy3D";
 import { SectionTracker } from "@/components/SectionTracker";
 import { getAllPosts } from "@/lib/posts";
@@ -30,7 +35,7 @@ export default async function Home({
 
   if (view !== "roasted") {
     return (
-      <main className="relative min-h-dvh w-full overflow-x-hidden bg-white">
+      <main className="relative min-h-dvh w-full overflow-x-clip bg-white">
         <SiteNav />
         <RawView data={data} format={view} scope="home" />
         <SiteFooter />
@@ -39,14 +44,17 @@ export default async function Home({
   }
 
   return (
-    <main className="relative min-h-dvh w-full overflow-x-hidden bg-white">
+    <main className="relative min-h-dvh w-full overflow-x-clip bg-white">
       <SiteNav />
       <SectionTracker page="/" />
+
+      <HeroVisibilityTracker />
 
       {/* ── Hero ────────────────────────────────────────────── */}
       <section
         id="hero-section"
         data-section="Hero"
+        data-hero-tracker
         className="relative w-full pt-[120px] pb-[40px] md:pt-[160px] md:pb-[60px]"
       >
         <div className="container-x">
@@ -63,7 +71,7 @@ export default async function Home({
 
           {/* audience toggle */}
           <Mount delay={0.1} y={8} className="mt-[20px]">
-            <AudienceToggle />
+            <HeroAudienceToggle />
           </Mount>
 
           {/* headline + rotating word */}
@@ -123,9 +131,11 @@ export default async function Home({
         className="w-full py-[40px] md:py-[80px]"
       >
         <div className="container-x">
-          <Reveal y={24} duration={0.9}>
-            <div className="mx-auto max-w-[760px]">
-              <ConnectorDiagram />
+          <Reveal y={20} duration={0.5}>
+            <div className="capsule-50 bg-grey-96 px-[12px] py-[12px] md:px-[20px] md:py-[20px]">
+              <div className="mx-auto max-w-[760px]">
+                <ConnectorDiagram />
+              </div>
             </div>
           </Reveal>
         </div>
@@ -167,13 +177,76 @@ export default async function Home({
         </div>
       </section>
 
+      {/* ── Impact: outcome marquee + value cards + logo wall ─ */}
+      <section
+        data-section="Impact"
+        className="w-full bg-grey-96 py-[100px] md:py-[140px]"
+      >
+        <div className="container-x">
+          <Reveal y={16}>
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-walnut-500">
+              {data.impact.eyebrow}
+            </p>
+          </Reveal>
+          <Reveal y={20} delay={0.05}>
+            <AudienceCopy
+              as="h2"
+              className="mt-[16px] max-w-[760px] font-sans text-[28px] font-medium leading-[1.15] tracking-[-0.56px] text-black md:text-[44px] md:leading-[50px] md:tracking-[-0.88px]"
+              solo={<>{data.audience.solo.value.heading}</>}
+              team={<>{data.audience.team.value.heading}</>}
+            />
+          </Reveal>
+          <Reveal y={16} delay={0.1}>
+            <AudienceCopy
+              as="p"
+              className="mt-[18px] max-w-[640px] text-[16px] leading-[24px] text-black/65 md:text-[18px] md:leading-[28px]"
+              solo={<>{data.audience.solo.value.lead}</>}
+              team={<>{data.audience.team.value.lead}</>}
+            />
+          </Reveal>
+        </div>
+
+        {/* Slim outcome marquee, full-bleed */}
+        <div className="mt-[48px] md:mt-[56px]">
+          <OutcomeMarquee chips={data.outcomes} />
+        </div>
+
+        {/* Value cards grid */}
+        <div className="container-x mt-[40px] md:mt-[56px]">
+          <ValueCardsGrid
+            audienceBlocks={data.audience}
+            terminalLines={data.terminalLines}
+          />
+        </div>
+
+        {/* Companion social-proof: tool logo wall */}
+        <div className="container-x mt-[64px] md:mt-[88px]">
+          <ToolLogoWall
+            label={data.impact.logoWallLabel}
+            tools={data.impact.logoWallTools}
+          />
+        </div>
+      </section>
+
       {/* ── Metric strip ───────────────────────────────────── */}
       <section
         data-section="Numbers"
         className="w-full py-[100px] md:py-[140px]"
       >
         <div className="container-x">
-          <MetricStrip />
+          <Reveal y={16}>
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-walnut-500">
+              The model
+            </p>
+          </Reveal>
+          <Reveal y={20} delay={0.05}>
+            <h2 className="mt-[16px] max-w-[640px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-black md:text-[40px] md:leading-[44px] md:tracking-[-0.8px]">
+              Three numbers. One idea.
+            </h2>
+          </Reveal>
+          <Reveal y={24} delay={0.1} className="mt-[48px] md:mt-[56px]">
+            <MetricStrip />
+          </Reveal>
         </div>
       </section>
 
@@ -194,26 +267,14 @@ export default async function Home({
             </h2>
           </Reveal>
           <Reveal y={24} delay={0.1} className="mt-[40px]">
-            <div className="h-[400px] w-full md:h-[520px]">
-              <Lazy3D
-                name="MemoryGraph"
-                colors={["#a36740", "#ffffff", "#7b4019"]}
-              />
+            <div className="capsule-50 bg-black p-[8px] md:p-[12px]">
+              <div className="h-[400px] w-full md:h-[520px]">
+                <Lazy3D
+                  name="MemoryGraph"
+                  colors={["#a36740", "#ffffff", "#7b4019"]}
+                />
+              </div>
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── Quote ──────────────────────────────────────────── */}
-      <section
-        data-section="Quote"
-        className="w-full py-[100px] md:py-[140px]"
-      >
-        <div className="container-x text-center">
-          <Reveal y={24}>
-            <p className="mx-auto max-w-[820px] font-display text-[44px] font-normal leading-[48px] tracking-[-0.88px] text-black md:text-[80px] md:leading-[80px] md:tracking-[-1.6px]">
-              {data.quote}
-            </p>
           </Reveal>
         </div>
       </section>
@@ -228,84 +289,10 @@ export default async function Home({
         <BlogTeaserSection posts={posts} />
       </div>
 
-      {/* ── Final CTA (audience-aware) ─────────────────────── */}
-      <section
-        data-section="CTA"
-        className="w-full bg-grey-96 py-[80px] md:py-[120px]"
-      >
-        <div className="container-x">
-          <Reveal y={28} duration={0.8}>
-            <div className="relative overflow-hidden rounded-[32px] bg-white px-[28px] py-[64px] text-center md:rounded-[48px] md:px-[80px] md:py-[120px]">
-              {/* line-art orbit ring inside CTA card */}
-              <svg
-                viewBox="0 0 600 600"
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2"
-                aria-hidden
-              >
-                <circle
-                  cx="300"
-                  cy="300"
-                  r="220"
-                  fill="none"
-                  stroke="rgba(123,64,25,0.08)"
-                  strokeWidth="1"
-                  strokeDasharray="2 8"
-                  style={{
-                    transformOrigin: "center",
-                    animation: "spin-slow 40s linear infinite",
-                  }}
-                />
-                <circle
-                  cx="300"
-                  cy="300"
-                  r="280"
-                  fill="none"
-                  stroke="rgba(123,64,25,0.05)"
-                  strokeWidth="1"
-                  strokeDasharray="1 9"
-                  style={{
-                    transformOrigin: "center",
-                    animation: "spin-slow 60s linear infinite reverse",
-                  }}
-                />
-              </svg>
-
-              <div className="relative">
-                <AudienceCopy
-                  solo={
-                    <>
-                      <h2 className="font-display text-[40px] font-normal leading-[44px] tracking-[-0.8px] text-black md:text-[64px] md:leading-[64px] md:tracking-[-1.28px]">
-                        {data.audience.solo.finalCta.heading}
-                      </h2>
-                      <p className="mx-auto mt-[20px] max-w-[480px] text-[16px] leading-[24px] text-black/60">
-                        {data.audience.solo.finalCta.body}
-                      </p>
-                    </>
-                  }
-                  team={
-                    <>
-                      <h2 className="font-display text-[40px] font-normal leading-[44px] tracking-[-0.8px] text-black md:text-[64px] md:leading-[64px] md:tracking-[-1.28px]">
-                        {data.audience.team.finalCta.heading}
-                      </h2>
-                      <p className="mx-auto mt-[20px] max-w-[480px] text-[16px] leading-[24px] text-black/60">
-                        {data.audience.team.finalCta.body}
-                      </p>
-                    </>
-                  }
-                />
-                <div className="mt-[36px] flex flex-wrap items-center justify-center gap-[12px]">
-                  <Link href="/contact" className="btn-primary">
-                    Book demo
-                  </Link>
-                  <Link href="/manifesto" className="btn-secondary">
-                    Read the manifesto
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* ── Network constellation (people + tools) ─────────── */}
+      <div data-section="Network">
+        <ConnectionConstellation copy={data.network} />
+      </div>
 
       <SiteFooter />
     </main>

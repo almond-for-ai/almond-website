@@ -45,6 +45,9 @@ function pickScope(data: SiteData, scope: "home" | "blog" | "post"): unknown {
         nav: data.nav,
         hero: data.hero,
         audience: data.audience,
+        outcomes: data.outcomes,
+        terminalLines: data.terminalLines,
+        impact: data.impact,
         tagline: data.tagline,
         quote: data.quote,
         blog: {

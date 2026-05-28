@@ -1,7 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { AnimatePresence, motion, useInView } from "motion/react";
+import { useRef, useState, type FC } from "react";
 
 type TabId = "capture" | "understand" | "inject";
 
@@ -41,7 +41,9 @@ const VARIANTS = {
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 // ─── Per-tab line-art SVG illustrations ───────────────────────
-function CaptureArt() {
+type ArtProps = { live?: boolean };
+
+function CaptureArt({ live = true }: ArtProps) {
   return (
     <svg viewBox="0 0 320 220" className="block h-auto w-full" aria-hidden>
       {/* source rectangles */}
@@ -68,18 +70,26 @@ function CaptureArt() {
           r={3}
           fill="#7b4019"
           initial={{ cx: 110, cy: 40 + i * 38, opacity: 0 }}
-          animate={{
-            cx: [110, 230],
-            cy: [40 + i * 38, 110],
-            opacity: [0, 1, 0],
-          }}
-          transition={{
-            duration: 2.2,
-            delay: 0.4 + i * 0.18,
-            repeat: Infinity,
-            repeatDelay: 0.8,
-            ease: "easeInOut",
-          }}
+          animate={
+            live
+              ? {
+                  cx: [110, 230],
+                  cy: [40 + i * 38, 110],
+                  opacity: [0, 1, 0],
+                }
+              : { cx: 170, cy: 110, opacity: 0 }
+          }
+          transition={
+            live
+              ? {
+                  duration: 2.2,
+                  delay: 0.4 + i * 0.18,
+                  repeat: Infinity,
+                  repeatDelay: 0.8,
+                  ease: "easeInOut",
+                }
+              : { duration: 0 }
+          }
         />
       ))}
       {/* almond node */}
@@ -107,7 +117,7 @@ function CaptureArt() {
   );
 }
 
-function UnderstandArt() {
+function UnderstandArt({ live = true }: ArtProps) {
   // small node graph being assembled
   const NODES = [
     { x: 80, y: 60 },
@@ -168,20 +178,28 @@ function UnderstandArt() {
           stroke="rgba(123,64,25,0.4)"
           strokeWidth={1}
           initial={{ scale: 1, opacity: 0 }}
-          animate={{ scale: [1, 2.2, 1], opacity: [0, 0.5, 0] }}
-          transition={{
-            duration: 2,
-            delay: 1 + i * 0.15,
-            repeat: Infinity,
-            ease: "easeOut",
-          }}
+          animate={
+            live
+              ? { scale: [1, 2.2, 1], opacity: [0, 0.5, 0] }
+              : { scale: 1, opacity: 0 }
+          }
+          transition={
+            live
+              ? {
+                  duration: 2,
+                  delay: 1 + i * 0.15,
+                  repeat: Infinity,
+                  ease: "easeOut",
+                }
+              : { duration: 0 }
+          }
         />
       ))}
     </svg>
   );
 }
 
-function InjectArt() {
+function InjectArt({ live = true }: ArtProps) {
   // rays from almond to surfaces
   return (
     <svg viewBox="0 0 320 220" className="block h-auto w-full" aria-hidden>
@@ -246,18 +264,26 @@ function InjectArt() {
             r={3}
             fill="#7b4019"
             initial={{ cx: 108, cy: 110, opacity: 0 }}
-            animate={{
-              cx: [108, 200],
-              cy: [110, y],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 1.6,
-              delay: 0.8 + i * 0.2,
-              repeat: Infinity,
-              repeatDelay: 0.8,
-              ease: "easeInOut",
-            }}
+            animate={
+              live
+                ? {
+                    cx: [108, 200],
+                    cy: [110, y],
+                    opacity: [0, 1, 0],
+                  }
+                : { cx: 154, cy: y, opacity: 0 }
+            }
+            transition={
+              live
+                ? {
+                    duration: 1.6,
+                    delay: 0.8 + i * 0.2,
+                    repeat: Infinity,
+                    repeatDelay: 0.8,
+                    ease: "easeInOut",
+                  }
+                : { duration: 0 }
+            }
           />
         </g>
       ))}
@@ -265,7 +291,7 @@ function InjectArt() {
   );
 }
 
-const ARTS: Record<TabId, () => React.ReactElement> = {
+const ARTS: Record<TabId, FC<ArtProps>> = {
   capture: CaptureArt,
   understand: UnderstandArt,
   inject: InjectArt,
@@ -273,6 +299,8 @@ const ARTS: Record<TabId, () => React.ReactElement> = {
 
 export function FlowTabs({ className }: { className?: string }) {
   const [activeId, setActiveId] = useState<TabId>("capture");
+  const panelRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(panelRef, { once: false, margin: "-15% 0px" });
   const active = TABS.find((t) => t.id === activeId) ?? TABS[0];
   const Art = ARTS[activeId];
 
@@ -317,7 +345,10 @@ export function FlowTabs({ className }: { className?: string }) {
       </div>
 
       {/* panel */}
-      <div className="mt-[24px] grid grid-cols-1 gap-[24px] overflow-hidden rounded-[24px] border border-black/[0.08] bg-grey-96 md:grid-cols-[1.1fr_1fr] md:gap-0">
+      <div
+        ref={panelRef}
+        className="capsule-50 mt-[24px] grid grid-cols-1 gap-[24px] overflow-hidden border border-black/[0.08] bg-grey-96 md:grid-cols-[1.1fr_1fr] md:gap-0"
+      >
         <div className="flex flex-col justify-center p-[28px] md:p-[40px]">
           <AnimatePresence mode="wait">
             <motion.div
@@ -351,7 +382,7 @@ export function FlowTabs({ className }: { className?: string }) {
               transition={{ duration: 0.35, ease: EASE }}
               className="w-full"
             >
-              <Art />
+              <Art live={inView} />
             </motion.div>
           </AnimatePresence>
         </div>

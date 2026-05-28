@@ -22,23 +22,21 @@ const RULES = [
 
 export function MindGameSection() {
   return (
-    <section id="game" className="w-full pb-[100px] md:pb-[140px]">
+    <section id="game" className="w-full py-[100px] md:py-[140px]">
       <div className="container-x">
-        <Reveal y={32} duration={0.8}>
+        <Reveal y={24} duration={0.8}>
           <div className="relative w-full overflow-hidden rounded-[24px] bg-walnut-500 md:rounded-[32px]">
             {/* Top accent bar */}
             <div className="h-[10px] w-full bg-black/[0.05]" />
 
             {/* Header */}
-            <div className="flex items-center px-6 py-10 md:min-h-[267px] md:px-[72px] md:py-0">
-              <div className="flex-1">
-                <h2 className="max-w-[420px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-white md:text-[32px] md:leading-[38px] md:tracking-[-0.64px]">
-                  <span>Test your memory </span>
-                  <span className="text-white/70">with</span>
-                  <br />
-                  <span className="text-white/70">a mind game</span>
-                </h2>
-              </div>
+            <div className="px-6 pt-8 pb-6 md:px-[72px] md:pt-10 md:pb-8">
+              <h2 className="max-w-[420px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-white md:text-[32px] md:leading-[38px] md:tracking-[-0.64px]">
+                <span>Test your memory </span>
+                <span className="text-white/70">with</span>
+                <br />
+                <span className="text-white/70">a mind game</span>
+              </h2>
             </div>
 
             {/* Game */}

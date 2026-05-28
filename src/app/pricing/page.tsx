@@ -170,7 +170,7 @@ export default async function PricingPage({
                 >
                   {isFeatured ? (
                     <span className="absolute right-[20px] top-[20px] rounded-full bg-walnut-500 px-[10px] py-[4px] font-mono text-[10px] uppercase tracking-[0.18em] text-white">
-                      Most teams
+                      Popular
                     </span>
                   ) : null}
                   <h3 className="font-sans text-[22px] font-medium leading-[28px] tracking-[-0.44px]">
@@ -227,10 +227,8 @@ export default async function PricingPage({
                     href={tier.cta.href}
                     className={
                       isFeatured
-                        ? "mt-[32px] inline-flex items-center justify-center rounded-full bg-white px-[24px] py-[10px] text-[15px] font-medium leading-[18px] tracking-[-0.3px] text-black transition-opacity hover:opacity-90"
-                        : isFeatured
-                          ? "btn-primary mt-[32px]"
-                          : "btn-secondary mt-[32px]"
+                        ? "mt-[32px] inline-flex items-center justify-center rounded-full bg-white px-[24px] py-[10px] text-[15px] font-medium leading-[18px] tracking-[-0.3px] text-black transition-[opacity,transform] duration-200 hover:opacity-90 active:scale-[0.98]"
+                        : "btn-secondary mt-[32px]"
                     }
                   >
                     {tier.cta.label}
@@ -278,11 +276,12 @@ export default async function PricingPage({
                   {PRICING_DATA.compare.rows.map((row, i) => (
                     <tr
                       key={row.label}
-                      className={
+                      className={[
+                        "pricing-row",
                         i < PRICING_DATA.compare.rows.length - 1
                           ? "border-b border-black/[0.06]"
-                          : ""
-                      }
+                          : "",
+                      ].join(" ")}
                     >
                       <td className="px-[20px] py-[14px] text-[14px] font-medium text-black">
                         {row.label}
@@ -299,6 +298,30 @@ export default async function PricingPage({
                   ))}
                 </tbody>
               </table>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Mid-page demo CTA ─────────────────────────────── */}
+      <section data-section="Demo" className="w-full pb-[80px] md:pb-[100px]">
+        <div className="container-x">
+          <Reveal y={16} duration={0.5}>
+            <div className="flex flex-col items-start justify-between gap-[28px] rounded-[32px] border border-black/[0.08] bg-white px-[28px] py-[40px] md:flex-row md:items-center md:px-[48px] md:py-[48px]">
+              <div className="max-w-[520px]">
+                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-walnut-500">
+                  Live demo
+                </p>
+                <h2 className="mt-[12px] font-sans text-[24px] font-medium leading-[30px] tracking-[-0.48px] text-black md:text-[32px] md:leading-[38px]">
+                  See Almond on your stack.
+                </h2>
+                <p className="mt-[10px] text-[15px] leading-[24px] text-black/60">
+                  14-day trial on Bunch. Bring Claude Code, Figma, and your real repo.
+                </p>
+              </div>
+              <Link href="/contact" className="btn-primary shrink-0">
+                Book demo
+              </Link>
             </div>
           </Reveal>
         </div>

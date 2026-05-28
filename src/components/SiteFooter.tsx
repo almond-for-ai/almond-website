@@ -56,7 +56,7 @@ export function SiteFooter() {
                     href={link.href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="text-[15px] leading-[18px] text-white/80 hover:text-white"
+                    className="footer-link text-[15px] leading-[18px] text-white/80"
                   >
                     {link.label}
                   </a>
@@ -64,7 +64,7 @@ export function SiteFooter() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className="text-[15px] leading-[18px] text-white/80 hover:text-white"
+                    className="footer-link text-[15px] leading-[18px] text-white/80"
                   >
                     {link.label}
                   </Link>
@@ -82,7 +82,7 @@ export function SiteFooter() {
               href={SOCIAL_LINKS.linkedin}
               target="_blank"
               rel="noreferrer noopener"
-              className="text-[15px] leading-[18px] text-white/80 hover:text-white"
+              className="footer-link text-[15px] leading-[18px] text-white/80"
             >
               LinkedIn
             </a>
@@ -90,13 +90,13 @@ export function SiteFooter() {
               href={SOCIAL_LINKS.x}
               target="_blank"
               rel="noreferrer noopener"
-              className="text-[15px] leading-[18px] text-white/80 hover:text-white"
+              className="footer-link text-[15px] leading-[18px] text-white/80"
             >
               X
             </a>
             <EmailCopy
               email={SOCIAL_LINKS.email}
-              className="cursor-pointer text-left text-[15px] leading-[18px] text-white/80 hover:text-white"
+              className="footer-link cursor-pointer text-left text-[15px] leading-[18px] text-white/80"
             />
           </div>
         </div>
@@ -105,16 +105,9 @@ export function SiteFooter() {
         <Reveal
           y={28}
           duration={0.9}
-          className="my-[80px] flex w-full justify-center text-white"
+          className="mt-[100px] mb-[80px] flex w-full justify-center text-white"
         >
           <AlmondGlyph size={180} />
-        </Reveal>
-
-        {/* Tagline above legal */}
-        <Reveal y={12} duration={0.7} className="mb-[24px] text-center">
-          <p className="font-display text-[28px] font-normal leading-[32px] tracking-[-0.56px] text-white/85 md:text-[36px] md:leading-[40px] md:tracking-[-0.72px]">
-            Memory, not models.
-          </p>
         </Reveal>
 
         {/* Copyright row */}
