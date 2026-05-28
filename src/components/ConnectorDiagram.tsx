@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useAnimationFrame, useMotionValue } from "motion/react";
 import { AlmondGlyph } from "@/components/AlmondMark";
 import {
   AntigravityLogo,
@@ -18,80 +19,103 @@ import {
 } from "@/components/tool-logos";
 
 /**
- * Connector solar system.
+ * Static connector diagram with a heartbeat center.
  *
- * Central almond "sun", three orbital rings, real product logos placed on
- * each ring as planet discs. Each orbit rotates at a different cadence;
- * each logo counter-rotates so it stays upright. Beam lines from the sun
- * to each planet pulse with traveling dots to suggest memory in motion.
+ * Almond sits at the center and pulses like a slow heartbeat while idle.
+ * Press and hold the almond to bring the system alive: traveling dots run
+ * along every spoke, walnut color propagates outward ring by ring, and the
+ * three orbits begin a slow revolution (alternating direction per ring).
+ * Releasing freezes the orbits in place and returns to the idle heartbeat.
+ *
+ * Three concentric orbits share one center. Tool nodes sit on the rings and
+ * show real product logos instead of text. Each disc + logo revolves as one
+ * rigid entity with its ring.
  */
 
-type Planet = {
+type LogoComponent = React.ComponentType<{ size?: number; className?: string }>;
+
+type Tool = {
   id: string;
-  label: string;
-  Logo: React.ComponentType<{ size?: number; className?: string }>;
+  Logo: LogoComponent;
   ring: 0 | 1 | 2;
   angle: number; // degrees, clockwise from 12 o'clock
 };
 
-const PLANETS: Planet[] = [
-  // Inner orbit - primary surfaces
-  { id: "claude-code", label: "Claude Code", Logo: ClaudeCodeLogo, ring: 0, angle: 0 },
-  { id: "cursor", label: "Cursor", Logo: CursorLogo, ring: 0, angle: 120 },
-  { id: "figma", label: "Figma", Logo: FigmaLogo, ring: 0, angle: 240 },
-
-  // Mid orbit - agents + knowledge
-  { id: "chatgpt", label: "ChatGPT", Logo: ChatGPTLogo, ring: 1, angle: 45 },
-  { id: "claude", label: "Claude", Logo: ClaudeLogo, ring: 1, angle: 135 },
-  { id: "linear", label: "Linear", Logo: LinearLogo, ring: 1, angle: 225 },
-  { id: "github", label: "GitHub", Logo: GitHubLogo, ring: 1, angle: 315 },
-
-  // Outer orbit - emerging surfaces
-  { id: "windsurf", label: "Windsurf", Logo: WindsurfLogo, ring: 2, angle: 18 },
-  { id: "v0", label: "v0", Logo: V0Logo, ring: 2, angle: 90 },
-  { id: "cline", label: "Cline", Logo: ClineLogo, ring: 2, angle: 162 },
-  { id: "antigravity", label: "Antigravity", Logo: AntigravityLogo, ring: 2, angle: 234 },
-  { id: "notion", label: "Notion", Logo: NotionLogo, ring: 2, angle: 306 },
-];
-
-const SIZE = 800;
+const SIZE = 560;
 const CENTER = SIZE / 2;
 
+/** Radius of the brown circle ring — spokes start from its edge, not the center. */
+const HUB_R = 52;
+
+/** Compute the point on the hub circle edge in the direction of (tx, ty). */
+function hubEdge(tx: number, ty: number) {
+  const dx = tx - CENTER;
+  const dy = ty - CENTER;
+  const len = Math.hypot(dx, dy);
+  return { ex: round(CENTER + (dx / len) * HUB_R), ey: round(CENTER + (dy / len) * HUB_R) };
+}
+
+// Three concentric rings: radius + node disc + logo sizing per ring.
 const RINGS = [
-  { r: 170, duration: 90, dir: 1, discR: 32, logoSize: 22 },
-  { r: 270, duration: 140, dir: -1, discR: 30, logoSize: 20 },
-  { r: 360, duration: 200, dir: 1, discR: 28, logoSize: 18 },
+  { r: 118, discR: 28, logoSize: 22 },
+  { r: 185, discR: 25, logoSize: 20 },
+  { r: 246, discR: 22, logoSize: 17 },
 ];
 
-const EASE_LINEAR = "linear";
+// Revolution speed per ring in degrees/second.
+// Alternating sign = reversed direction per ring (solar-system feel).
+// Idle: completely still. Rotation only while held.
+const RING_SPEED = [5, -3.5, 2.5];
 
-// Round to 2 decimals so server- and client-stringified numbers match.
+// 12 nodes evenly spread at 30° each. Sorted by angle, no two adjacent nodes
+// share a ring → max angular separation between same-ring siblings, and no
+// radial overlap clusters between rings.
+const TOOLS: Tool[] = [
+  // 0°   — ring 0
+  { id: "claude-code", Logo: ClaudeCodeLogo, ring: 0, angle: 0 },
+  // 30°  — ring 1
+  { id: "claude", Logo: ClaudeLogo, ring: 1, angle: 30 },
+  // 60°  — ring 2
+  { id: "windsurf", Logo: WindsurfLogo, ring: 2, angle: 60 },
+  // 90°  — ring 1
+  { id: "linear", Logo: LinearLogo, ring: 1, angle: 90 },
+  // 120° — ring 0
+  { id: "cursor", Logo: CursorLogo, ring: 0, angle: 120 },
+  // 150° — ring 2
+  { id: "v0", Logo: V0Logo, ring: 2, angle: 150 },
+  // 180° — ring 1
+  { id: "chatgpt", Logo: ChatGPTLogo, ring: 1, angle: 180 },
+  // 210° — ring 2
+  { id: "cline", Logo: ClineLogo, ring: 2, angle: 210 },
+  // 240° — ring 0
+  { id: "figma", Logo: FigmaLogo, ring: 0, angle: 240 },
+  // 270° — ring 1
+  { id: "github", Logo: GitHubLogo, ring: 1, angle: 270 },
+  // 300° — ring 2
+  { id: "antigravity", Logo: AntigravityLogo, ring: 2, angle: 300 },
+  // 330° — ring 2
+  { id: "notion", Logo: NotionLogo, ring: 2, angle: 330 },
+];
+
+// Round to 2 decimals so server- and client-stringified numbers match
+// (avoids React hydration mismatches from float precision drift).
 const round = (n: number) => Math.round(n * 100) / 100;
 
-// Pre-compute static cartesian positions for stuff outside orbit groups.
-const PLANET_POSITIONS = PLANETS.map((p) => {
-  const ring = RINGS[p.ring];
-  const a = (p.angle - 90) * (Math.PI / 180);
+const POSITIONS = TOOLS.map((t) => {
+  const ring = RINGS[t.ring];
+  const a = (t.angle - 90) * (Math.PI / 180);
   return {
-    ...p,
+    id: t.id,
+    Logo: t.Logo,
+    ringIndex: t.ring,
     ring,
     x: round(CENTER + ring.r * Math.cos(a)),
     y: round(CENTER + ring.r * Math.sin(a)),
   };
 });
 
-// A handful of background "stars" - small walnut-tinted dots scattered around.
-const STARS = Array.from({ length: 36 }, (_, i) => {
-  const t = i / 36;
-  const ang = t * Math.PI * 2 + (i % 3) * 0.6;
-  const rad = 60 + ((i * 53) % 320);
-  return {
-    x: round(CENTER + rad * Math.cos(ang)),
-    y: round(CENTER + rad * Math.sin(ang)),
-    r: round(0.6 + ((i * 7) % 11) * 0.12),
-    o: round(0.08 + ((i * 13) % 9) * 0.03),
-  };
-});
+// Color/motion propagates outward: inner ring first, then mid, then outer.
+const propDelay = (ringIndex: number) => ringIndex * 0.12;
 
 export function ConnectorDiagram({
   className,
@@ -100,6 +124,32 @@ export function ConnectorDiagram({
   className?: string;
   style?: React.CSSProperties;
 }) {
+  const [isHeld, setIsHeld] = useState(false);
+  const heldRef = useRef(false);
+  const press = () => {
+    heldRef.current = true;
+    setIsHeld(true);
+  };
+  const release = () => {
+    heldRef.current = false;
+    setIsHeld(false);
+  };
+
+  // Per-ring revolution angle. Advances only while held, so it starts on
+  // press and freezes in place on release (no rewind, resumes next press).
+  const rot0 = useMotionValue(0);
+  const rot1 = useMotionValue(0);
+  const rot2 = useMotionValue(0);
+  const ringRot = [rot0, rot1, rot2];
+
+  useAnimationFrame((_, delta) => {
+    if (!heldRef.current) return;
+    const ds = delta / 1000;
+    rot0.set(rot0.get() + ds * RING_SPEED[0]);
+    rot1.set(rot1.get() + ds * RING_SPEED[1]);
+    rot2.set(rot2.get() + ds * RING_SPEED[2]);
+  });
+
   return (
     <div className={`relative w-full ${className ?? ""}`} style={style}>
       <svg
@@ -107,78 +157,7 @@ export function ConnectorDiagram({
         className="block h-auto w-full"
         aria-hidden
       >
-        <defs>
-          {/* Soft warm halo for the central almond */}
-          <radialGradient id="sun-halo" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#a36740" stopOpacity="0.22" />
-            <stop offset="35%" stopColor="#a36740" stopOpacity="0.10" />
-            <stop offset="70%" stopColor="#a36740" stopOpacity="0.03" />
-            <stop offset="100%" stopColor="#a36740" stopOpacity="0" />
-          </radialGradient>
-
-          {/* Subtle background warmth */}
-          <radialGradient id="bg-warmth" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stopColor="#f7eee6" stopOpacity="0.6" />
-            <stop offset="60%" stopColor="#ffffff" stopOpacity="0" />
-          </radialGradient>
-
-          {/* Beam: walnut at the center, fading to transparent at the planet edge */}
-          <radialGradient
-            id="beam"
-            cx="50%"
-            cy="50%"
-            r="50%"
-            gradientUnits="userSpaceOnUse"
-            fx="50%"
-            fy="50%"
-          >
-            <stop offset="0%" stopColor="#7b4019" stopOpacity="0.32" />
-            <stop offset="40%" stopColor="#7b4019" stopOpacity="0.14" />
-            <stop offset="100%" stopColor="#7b4019" stopOpacity="0" />
-          </radialGradient>
-
-          {/* Planet disc: subtle inner shadow + warmth */}
-          <radialGradient id="planet-fill" cx="35%" cy="30%" r="80%">
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="70%" stopColor="#fbf7f3" />
-            <stop offset="100%" stopColor="#f1ebe3" />
-          </radialGradient>
-
-          {/* Drop shadow filter for planet discs */}
-          <filter id="planet-shadow" x="-50%" y="-50%" width="200%" height="200%">
-            <feDropShadow
-              dx="0"
-              dy="3"
-              stdDeviation="4"
-              floodColor="#7b4019"
-              floodOpacity="0.10"
-            />
-          </filter>
-
-          {/* Ring of light for active glow */}
-          <linearGradient id="orbit-stroke" x1="0" y1="0" x2={SIZE} y2={SIZE}>
-            <stop offset="0%" stopColor="#7b4019" stopOpacity="0.08" />
-            <stop offset="50%" stopColor="#7b4019" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="#7b4019" stopOpacity="0.08" />
-          </linearGradient>
-        </defs>
-
-        {/* Background warmth */}
-        <rect x="0" y="0" width={SIZE} height={SIZE} fill="url(#bg-warmth)" />
-
-        {/* Faint background stars */}
-        {STARS.map((s, i) => (
-          <circle
-            key={`star-${i}`}
-            cx={s.x}
-            cy={s.y}
-            r={s.r}
-            fill="#7b4019"
-            opacity={s.o}
-          />
-        ))}
-
-        {/* Orbit rings */}
+        {/* concentric orbit rings: static, brighten on hold */}
         {RINGS.map((ring, i) => (
           <motion.circle
             key={`orbit-${i}`}
@@ -186,237 +165,286 @@ export function ConnectorDiagram({
             cy={CENTER}
             r={ring.r}
             fill="none"
-            stroke="url(#orbit-stroke)"
             strokeWidth={1}
             strokeDasharray="2 6"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 1 }}
-            transition={{
-              duration: 1.6,
-              delay: 0.1 + i * 0.15,
-              ease: [0.22, 1, 0.36, 1],
+            animate={{
+              stroke: isHeld
+                ? `rgba(123,64,25,${0.3 - i * 0.07})`
+                : `rgba(0,0,0,${0.12 - i * 0.03})`,
             }}
+            transition={{ duration: 0.2, delay: isHeld ? propDelay(i) : 0 }}
           />
         ))}
 
-        {/* Sun halo: pulsing radial bloom */}
-        <motion.circle
-          cx={CENTER}
-          cy={CENTER}
-          r={150}
-          fill="url(#sun-halo)"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{
-            scale: [0.95, 1.05, 0.95],
-            opacity: [0.9, 1, 0.9],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          style={{ transformOrigin: `${CENTER}px ${CENTER}px` }}
-        />
-
-        {/* Inner sun ring (warm hairline) */}
-        <motion.circle
-          cx={CENTER}
-          cy={CENTER}
-          r={72}
-          fill="none"
-          stroke="#7b4019"
-          strokeOpacity={0.22}
-          strokeWidth={1}
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.2, delay: 0.2 }}
-        />
-        <motion.circle
-          cx={CENTER}
-          cy={CENTER}
-          r={88}
-          fill="none"
-          stroke="#7b4019"
-          strokeOpacity={0.12}
-          strokeWidth={1}
-          strokeDasharray="1 5"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.4, delay: 0.3 }}
-        />
-
-        {/* Connection beams + traveling memory pulses */}
-        {PLANET_POSITIONS.map((p, i) => {
-          const dx = p.x - CENTER;
-          const dy = p.y - CENTER;
-          const dist = Math.hypot(dx, dy);
-          const ux = dx / dist;
-          const uy = dy / dist;
-          // Stop the beam just shy of the planet edge so it tucks under
-          const tipX = round(p.x - ux * (p.ring.discR + 2));
-          const tipY = round(p.y - uy * (p.ring.discR + 2));
-          // Beam starts just outside the sun core
-          const startX = round(CENTER + ux * 70);
-          const startY = round(CENTER + uy * 70);
-
+        {/* one revolving group per ring: spokes, dots, and nodes */}
+        {RINGS.map((_, ri) => {
+          const nodes = POSITIONS.filter((p) => p.ringIndex === ri);
           return (
-            <g key={`beam-${p.id}`}>
-              <motion.line
-                x1={startX}
-                y1={startY}
-                x2={tipX}
-                y2={tipY}
-                stroke="#7b4019"
-                strokeWidth={0.9}
-                strokeLinecap="round"
-                strokeOpacity={0.18}
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 1 }}
-                transition={{
-                  duration: 1.1,
-                  delay: 0.5 + i * 0.06,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              />
-              {/* Outgoing memory dot */}
-              <motion.circle
-                r={2.4}
-                fill="#7b4019"
-                initial={{ cx: startX, cy: startY, opacity: 0 }}
-                animate={{
-                  cx: [startX, tipX],
-                  cy: [startY, tipY],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: 3.4,
-                  repeat: Infinity,
-                  repeatDelay: 1.2,
-                  delay: 1.6 + (i % 4) * 0.4,
-                  ease: "easeInOut",
-                }}
-              />
-              {/* Incoming reflection dot */}
-              <motion.circle
-                r={1.6}
-                fill="#a36740"
-                initial={{ cx: tipX, cy: tipY, opacity: 0 }}
-                animate={{
-                  cx: [tipX, startX],
-                  cy: [tipY, startY],
-                  opacity: [0, 0.85, 0],
-                }}
-                transition={{
-                  duration: 3.4,
-                  repeat: Infinity,
-                  repeatDelay: 1.2,
-                  delay: 2.8 + (i % 4) * 0.4,
-                  ease: "easeInOut",
-                }}
-              />
-            </g>
-          );
-        })}
+            <motion.g
+              key={`ring-${ri}`}
+              style={{
+                rotate: ringRot[ri],
+                transformBox: "view-box",
+                transformOrigin: `${CENTER}px ${CENTER}px`,
+              }}
+            >
+              {/* spokes + traveling dots */}
+              {nodes.map((p) => {
+                const { ex, ey } = hubEdge(p.x, p.y);
+                return (
+                <g key={p.id}>
+                  {/* spoke line: starts from brown circle edge.
+                      Lighter + dotted to match orbit rings; solid + walnut on hold. */}
+                  <motion.line
+                    x1={ex}
+                    y1={ey}
+                    x2={p.x}
+                    y2={p.y}
+                    strokeWidth={1}
+                    strokeDasharray={isHeld ? "0" : "2 6"}
+                    animate={{
+                      stroke: isHeld
+                        ? "rgba(123,64,25,0.55)"
+                        : `rgba(0,0,0,${0.1 - p.ringIndex * 0.02})`,
+                    }}
+                    transition={{
+                      duration: 0.15,
+                      delay: isHeld ? propDelay(p.ringIndex) : 0,
+                    }}
+                  />
 
-        {/* Orbiting planet groups (each ring rotates as a whole) */}
-        {RINGS.map((ring, ringIdx) => (
-          <motion.g
-            key={`ring-group-${ringIdx}`}
-            initial={{ rotate: 0 }}
-            animate={{ rotate: 360 * ring.dir }}
-            transition={{
-              duration: ring.duration,
-              repeat: Infinity,
-              ease: EASE_LINEAR,
-            }}
-            style={{ transformOrigin: `${CENTER}px ${CENTER}px` }}
-          >
-            {PLANET_POSITIONS.filter((p) => p.ring.r === ring.r).map((p, i) => (
-              <motion.g
-                key={p.id}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{
-                  duration: 0.6,
-                  delay: 0.8 + ringIdx * 0.2 + i * 0.08,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              >
-                {/* Counter-rotate so the logo stays upright */}
-                <motion.g
-                  initial={{ rotate: 0 }}
-                  animate={{ rotate: -360 * ring.dir }}
-                  transition={{
-                    duration: ring.duration,
-                    repeat: Infinity,
-                    ease: EASE_LINEAR,
-                  }}
-                  style={{ transformOrigin: `${p.x}px ${p.y}px` }}
-                >
-                  {/* Outer soft halo */}
+                  {/* outbound dot: hub edge -> tool, only while held */}
+                  <motion.circle
+                    r={3}
+                    fill="#7b4019"
+                    initial={{ cx: ex, cy: ey, opacity: 0 }}
+                    animate={
+                      isHeld
+                        ? {
+                            cx: [ex, p.x],
+                            cy: [ey, p.y],
+                            opacity: [0, 1, 0],
+                          }
+                        : { cx: ex, cy: ey, opacity: 0 }
+                    }
+                    transition={
+                      isHeld
+                        ? {
+                            duration: 1.4,
+                            repeat: Infinity,
+                            repeatDelay: 0.3,
+                            delay: propDelay(p.ringIndex),
+                            ease: "easeInOut",
+                          }
+                        : { duration: 0.15 }
+                    }
+                  />
+
+                  {/* inbound dot: tool -> hub edge, only while held */}
+                  <motion.circle
+                    r={2}
+                    fill="rgba(0,0,0,0.45)"
+                    initial={{ cx: p.x, cy: p.y, opacity: 0 }}
+                    animate={
+                      isHeld
+                        ? {
+                            cx: [p.x, ex],
+                            cy: [p.y, ey],
+                            opacity: [0, 1, 0],
+                          }
+                        : { cx: p.x, cy: p.y, opacity: 0 }
+                    }
+                    transition={
+                      isHeld
+                        ? {
+                            duration: 1.4,
+                            repeat: Infinity,
+                            repeatDelay: 0.3,
+                            delay: 0.5 + propDelay(p.ringIndex),
+                            ease: "easeInOut",
+                          }
+                        : { duration: 0.15 }
+                    }
+                  />
+                </g>
+                );
+              })}
+
+              {/* tool nodes: white disc + real logo (logo counter-rotates) */}
+              {nodes.map((p) => (
+                <g key={`node-${p.id}`}>
+                  {/* soft halo for depth */}
                   <circle
                     cx={p.x}
                     cy={p.y}
-                    r={p.ring.discR + 8}
+                    r={p.ring.discR + 7}
                     fill="#7b4019"
                     opacity={0.05}
                   />
-                  {/* Planet disc */}
-                  <circle
-                    cx={p.x}
-                    cy={p.y}
-                    r={p.ring.discR}
-                    fill="url(#planet-fill)"
-                    filter="url(#planet-shadow)"
-                  />
-                  {/* Disc hairline */}
-                  <circle
+                  {/* white disc background */}
+                  <circle cx={p.x} cy={p.y} r={p.ring.discR} fill="#ffffff" />
+                  {/* hairline border: walnut on hold, propagates outward */}
+                  <motion.circle
                     cx={p.x}
                     cy={p.y}
                     r={p.ring.discR}
                     fill="none"
-                    stroke="#7b4019"
-                    strokeOpacity={0.18}
-                    strokeWidth={0.8}
+                    strokeWidth={1}
+                    animate={{
+                      stroke: isHeld
+                        ? "rgba(123,64,25,0.55)"
+                        : "rgba(0,0,0,0.1)",
+                    }}
+                    transition={{
+                      duration: 0.15,
+                      delay: isHeld ? propDelay(p.ringIndex) : 0,
+                    }}
                   />
-                  {/* Logo, centered via nested svg viewport */}
-                  <svg
-                    x={p.x - p.ring.logoSize / 2}
-                    y={p.y - p.ring.logoSize / 2}
-                    width={p.ring.logoSize}
-                    height={p.ring.logoSize}
-                    overflow="visible"
-                  >
-                    <p.Logo size={p.ring.logoSize} />
-                  </svg>
-                </motion.g>
-              </motion.g>
-            ))}
-          </motion.g>
+                  {/* Logos are rendered OUTSIDE this rotating group
+                      (see `<OrbitingLogo>` layer below) so they translate
+                      with the orbit but never rotate themselves. */}
+                </g>
+              ))}
+            </motion.g>
+          );
+        })}
+
+        {/* logos layer: each logo tracks its rotated orbit position via
+            useTransform but renders OUTSIDE the rotating ring group, so
+            it translates with the orbit and never rotates itself. */}
+        {POSITIONS.map((p) => (
+          <OrbitingLogo
+            key={`logo-${p.id}`}
+            node={p}
+            ringRot={ringRot[p.ringIndex]}
+          />
         ))}
+
+        {/* center halo fill: breathes while idle, strengthens on hold */}
+        <motion.circle
+          cx={CENTER}
+          cy={CENTER}
+          r={42}
+          style={{ transformBox: "fill-box", transformOrigin: "center" }}
+          animate={
+            isHeld
+              ? { fill: "rgba(123,64,25,0.18)", scale: 1, opacity: 1 }
+              : {
+                  fill: "rgba(123,64,25,0.1)",
+                  scale: [1, 1.14, 1.06, 1.12, 1],
+                  opacity: [0.9, 1, 0.95, 1, 0.9],
+                }
+          }
+          transition={
+            isHeld
+              ? { duration: 0.15 }
+              : {
+                  duration: 1.4,
+                  repeat: Infinity,
+                  repeatDelay: 0.35,
+                  ease: "easeOut",
+                  times: [0, 0.14, 0.26, 0.4, 1],
+                }
+          }
+        />
+        {/* center halo ring: breathes in sync while idle */}
+        <motion.circle
+          cx={CENTER}
+          cy={CENTER}
+          r={52}
+          fill="none"
+          strokeWidth={1}
+          style={{ transformBox: "fill-box", transformOrigin: "center" }}
+          animate={
+            isHeld
+              ? { stroke: "rgba(123,64,25,0.7)", scale: 1 }
+              : {
+                  stroke: "rgba(123,64,25,0.4)",
+                  scale: [1, 1.07, 1.03, 1.06, 1],
+                }
+          }
+          transition={
+            isHeld
+              ? { duration: 0.15 }
+              : {
+                  duration: 1.4,
+                  repeat: Infinity,
+                  repeatDelay: 0.35,
+                  ease: "easeOut",
+                  times: [0, 0.14, 0.26, 0.4, 1],
+                }
+          }
+        />
       </svg>
 
-      {/* Central almond glyph, perfectly centered over the SVG */}
+      {/* central almond glyph: pointer-events-none on wrapper, interactive on inner */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <motion.div
-          initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col items-center justify-center text-walnut-500"
-          style={{ width: 130, height: 130 }}
+          className="pointer-events-auto flex cursor-pointer select-none flex-col items-center justify-center text-walnut-500"
+          style={{ width: 110, height: 110 }}
+          onPointerDown={press}
+          onPointerUp={release}
+          onPointerLeave={release}
+          onPointerCancel={release}
         >
-          <motion.div
-            animate={{ scale: [1, 1.04, 1] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center"
-          >
-            <AlmondGlyph size={52} />
-            <span className="mt-[8px] font-mono text-[10px] uppercase tracking-[0.22em] text-walnut-500/80">
-              almond
-            </span>
-          </motion.div>
+          <AlmondGlyph size={42} />
         </motion.div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Logo positioned at the rotated orbit coordinate.
+ *
+ * Reads the ring's revolution angle via `useTransform` and computes the
+ * new (x, y) for the logo's center each frame. The logo itself is never
+ * rotated — only translated — so logos always stay upright while their
+ * orbit ring spins around the center.
+ */
+type OrbitNode = (typeof POSITIONS)[number];
+
+function OrbitingLogo({
+  node,
+  ringRot,
+}: {
+  node: OrbitNode;
+  ringRot: ReturnType<typeof useMotionValue<number>>;
+}) {
+  const dx = node.x - CENTER;
+  const dy = node.y - CENTER;
+  const size = node.ring.logoSize;
+  const gRef = useRef<SVGGElement>(null);
+
+  // Subscribe to ringRot and write the SVG `transform` attribute on
+  // every change. Bypasses motion's CSS-only path — SVG transform
+  // attribute takes `translate(x y)` without units.
+  useEffect(() => {
+    const apply = (deg: number) => {
+      const a = (deg * Math.PI) / 180;
+      const cx = CENTER + dx * Math.cos(a) - dy * Math.sin(a);
+      const cy = CENTER + dx * Math.sin(a) + dy * Math.cos(a);
+      gRef.current?.setAttribute("transform", `translate(${cx} ${cy})`);
+    };
+    apply(ringRot.get());
+    return ringRot.on("change", apply);
+  }, [ringRot, dx, dy]);
+
+  const Logo = node.Logo;
+  // Inner <svg> centered on (0,0) so the transform moves the logo to
+  // its disc center exactly. Logo never rotates → always upright.
+  return (
+    <g ref={gRef}>
+      <svg
+        x={-size / 2}
+        y={-size / 2}
+        width={size}
+        height={size}
+        overflow="visible"
+      >
+        <Logo size={size} />
+      </svg>
+    </g>
   );
 }

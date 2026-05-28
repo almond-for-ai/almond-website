@@ -52,6 +52,18 @@ export type StackedSlot = {
   total: number; // typically 10
 };
 
+export type CascadeRow = {
+  name: string;
+  survived: string;
+  level: 0 | 1 | 2 | 3; // 0 = full context, 3 = nothing left
+};
+
+export type CascadeSlot = {
+  label: string;
+  title: string;
+  rows: CascadeRow[];
+};
+
 export type ValueBlock = {
   heading: string;
   lead: string;
@@ -61,6 +73,7 @@ export type ValueBlock = {
     orbit: OrbitSlot;
     outcome: OutcomeSlot;
     stacked: StackedSlot;
+    cascade: CascadeSlot;
   };
 };
 
@@ -200,6 +213,16 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
               afterFilled: 9,
               total: 10,
             },
+            cascade: {
+              label: "The hand-off",
+              title: "Context fades down the chain",
+              rows: [
+                { name: "ChatGPT", survived: "full intent · scope · decisions", level: 0 },
+                { name: "Figma AI", survived: "intent · partial scope", level: 1 },
+                { name: "Cursor", survived: "vague brief", level: 2 },
+                { name: "Claude Code", survived: "nothing ∅", level: 3 },
+              ],
+            },
           },
         },
       },
@@ -251,6 +274,16 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
               beforeFilled: 2,
               afterFilled: 9,
               total: 10,
+            },
+            cascade: {
+              label: "The hand-off",
+              title: "Context fades down the chain",
+              rows: [
+                { name: "Director", survived: "full intent · scope · decisions", level: 0 },
+                { name: "Staff Director / PM", survived: "intent · partial scope", level: 1 },
+                { name: "Designer", survived: "vague brief", level: 2 },
+                { name: "Developer", survived: "nothing ∅", level: 3 },
+              ],
             },
           },
         },

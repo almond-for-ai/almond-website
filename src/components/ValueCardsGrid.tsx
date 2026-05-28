@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import {
+  CascadeCard,
   CompareCard,
   LogoOrbitCard,
   OutcomeCard,
@@ -25,6 +26,14 @@ export function ValueCardsGrid({
 
   return (
     <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 lg:grid-cols-3">
+      <SwapCell
+        audience={audience}
+        keyName="cascade"
+        className="md:col-span-2 lg:col-span-3"
+      >
+        <CascadeCard slot={slots.cascade} />
+      </SwapCell>
+
       <SwapCell audience={audience} keyName="stat">
         <StatCard slot={slots.stat} />
       </SwapCell>
@@ -55,10 +64,12 @@ export function ValueCardsGrid({
 function SwapCell({
   audience,
   keyName,
+  className,
   children,
 }: {
   audience: string;
   keyName: string;
+  className?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -69,7 +80,7 @@ function SwapCell({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.35, ease: CARD_EASE }}
-        className="h-full"
+        className={`h-full ${className ?? ""}`}
       >
         {children}
       </motion.div>
