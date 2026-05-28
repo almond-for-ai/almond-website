@@ -3,28 +3,90 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { AlmondGlyph } from "@/components/AlmondMark";
+import {
+  AntigravityLogo,
+  ChatGPTLogo,
+  ClaudeCodeLogo,
+  ClaudeLogo,
+  ClineLogo,
+  CursorLogo,
+  FigmaLogo,
+  GitHubLogo,
+  LinearLogo,
+  NotionLogo,
+  V0Logo,
+  WindsurfLogo,
+} from "@/components/tool-logos";
 
-const TOOLS = [
-  { id: "claude", label: "Claude" },
-  { id: "figma", label: "Figma" },
-  { id: "cursor", label: "Cursor" },
-  { id: "linear", label: "Linear" },
-  { id: "notion", label: "Notion" },
-  { id: "github", label: "GitHub" },
-];
+/**
+ * Static connector diagram with a heartbeat center.
+ *
+ * Almond sits at the center and pulses like a slow heartbeat while idle.
+ * Press and hold the almond to bring the system alive: traveling dots run
+ * along every spoke and walnut color propagates outward, ring by ring.
+ *
+ * Three concentric orbits share one center. Tool nodes sit on the rings and
+ * show real product logos instead of text.
+ */
+
+type LogoComponent = React.ComponentType<{ size?: number; className?: string }>;
+
+type Tool = {
+  id: string;
+  Logo: LogoComponent;
+  ring: 0 | 1 | 2;
+  angle: number; // degrees, clockwise from 12 o'clock
+};
 
 const SIZE = 560;
 const CENTER = SIZE / 2;
-const ORBIT_R = 220;
 
-const POSITIONS = TOOLS.map((t, i) => {
-  const a = (i / TOOLS.length) * Math.PI * 2 - Math.PI / 2;
+// Three concentric rings: radius + node disc + logo sizing per ring.
+const RINGS = [
+  { r: 118, discR: 28, logoSize: 22 },
+  { r: 185, discR: 25, logoSize: 20 },
+  { r: 246, discR: 22, logoSize: 17 },
+];
+
+const TOOLS: Tool[] = [
+  // Inner orbit: primary surfaces
+  { id: "claude-code", Logo: ClaudeCodeLogo, ring: 0, angle: 0 },
+  { id: "cursor", Logo: CursorLogo, ring: 0, angle: 120 },
+  { id: "figma", Logo: FigmaLogo, ring: 0, angle: 240 },
+
+  // Mid orbit: agents + knowledge
+  { id: "claude", Logo: ClaudeLogo, ring: 1, angle: 45 },
+  { id: "linear", Logo: LinearLogo, ring: 1, angle: 135 },
+  { id: "github", Logo: GitHubLogo, ring: 1, angle: 225 },
+  { id: "chatgpt", Logo: ChatGPTLogo, ring: 1, angle: 315 },
+
+  // Outer orbit: emerging surfaces
+  { id: "windsurf", Logo: WindsurfLogo, ring: 2, angle: 18 },
+  { id: "v0", Logo: V0Logo, ring: 2, angle: 90 },
+  { id: "cline", Logo: ClineLogo, ring: 2, angle: 162 },
+  { id: "antigravity", Logo: AntigravityLogo, ring: 2, angle: 234 },
+  { id: "notion", Logo: NotionLogo, ring: 2, angle: 306 },
+];
+
+// Round to 2 decimals so server- and client-stringified numbers match
+// (avoids React hydration mismatches from float precision drift).
+const round = (n: number) => Math.round(n * 100) / 100;
+
+const POSITIONS = TOOLS.map((t) => {
+  const ring = RINGS[t.ring];
+  const a = (t.angle - 90) * (Math.PI / 180);
   return {
-    ...t,
-    x: CENTER + ORBIT_R * Math.cos(a),
-    y: CENTER + ORBIT_R * Math.sin(a),
+    id: t.id,
+    Logo: t.Logo,
+    ringIndex: t.ring,
+    ring,
+    x: round(CENTER + ring.r * Math.cos(a)),
+    y: round(CENTER + ring.r * Math.sin(a)),
   };
 });
+
+// Color/motion propagates outward: inner ring first, then mid, then outer.
+const propDelay = (ringIndex: number) => ringIndex * 0.12;
 
 export function ConnectorDiagram({
   className,
@@ -43,32 +105,29 @@ export function ConnectorDiagram({
         className="block h-auto w-full"
         aria-hidden
       >
-        {/* outer dashed orbit: static, no entrance animation */}
-        <motion.circle
-          cx={CENTER}
-          cy={CENTER}
-          r={ORBIT_R}
-          fill="none"
-          strokeWidth={1}
-          strokeDasharray="2 6"
-          animate={{ stroke: isHeld ? "rgba(123,64,25,0.3)" : "rgba(0,0,0,0.12)" }}
-          transition={{ duration: 0.2 }}
-        />
-        <motion.circle
-          cx={CENTER}
-          cy={CENTER}
-          r={ORBIT_R - 60}
-          fill="none"
-          strokeWidth={1}
-          strokeDasharray="1 7"
-          animate={{ stroke: isHeld ? "rgba(123,64,25,0.18)" : "rgba(0,0,0,0.06)" }}
-          transition={{ duration: 0.2 }}
-        />
+        {/* concentric orbit rings: static, brighten on hold */}
+        {RINGS.map((ring, i) => (
+          <motion.circle
+            key={`orbit-${i}`}
+            cx={CENTER}
+            cy={CENTER}
+            r={ring.r}
+            fill="none"
+            strokeWidth={1}
+            strokeDasharray="2 6"
+            animate={{
+              stroke: isHeld
+                ? `rgba(123,64,25,${0.3 - i * 0.07})`
+                : `rgba(0,0,0,${0.12 - i * 0.03})`,
+            }}
+            transition={{ duration: 0.2, delay: isHeld ? propDelay(i) : 0 }}
+          />
+        ))}
 
-        {/* edges + traveling dots */}
-        {POSITIONS.map((p, i) => (
+        {/* spokes + traveling dots */}
+        {POSITIONS.map((p) => (
           <g key={p.id}>
-            {/* spoke line: colors on hold, staggered outward */}
+            {/* spoke line: colors on hold, propagates outward */}
             <motion.line
               x1={CENTER}
               y1={CENTER}
@@ -76,12 +135,15 @@ export function ConnectorDiagram({
               y2={p.y}
               strokeWidth={1}
               animate={{
-                stroke: isHeld ? "rgba(123,64,25,0.7)" : "rgba(0,0,0,0.18)",
+                stroke: isHeld ? "rgba(123,64,25,0.6)" : "rgba(0,0,0,0.16)",
               }}
-              transition={{ duration: 0.15, delay: isHeld ? i * 0.05 : 0 }}
+              transition={{
+                duration: 0.15,
+                delay: isHeld ? propDelay(p.ringIndex) : 0,
+              }}
             />
 
-            {/* outbound dot: center → tool, only while held */}
+            {/* outbound dot: center -> tool, only while held */}
             <motion.circle
               r={3}
               fill="#7b4019"
@@ -97,17 +159,17 @@ export function ConnectorDiagram({
                       duration: 1.4,
                       repeat: Infinity,
                       repeatDelay: 0.3,
-                      delay: i * 0.12,
+                      delay: propDelay(p.ringIndex),
                       ease: "easeInOut",
                     }
                   : { duration: 0.15 }
               }
             />
 
-            {/* inbound dot: tool → center, only while held */}
+            {/* inbound dot: tool -> center, only while held */}
             <motion.circle
               r={2}
-              fill="rgba(0,0,0,0.5)"
+              fill="rgba(0,0,0,0.45)"
               initial={{ cx: p.x, cy: p.y, opacity: 0 }}
               animate={
                 isHeld
@@ -120,7 +182,7 @@ export function ConnectorDiagram({
                       duration: 1.4,
                       repeat: Infinity,
                       repeatDelay: 0.3,
-                      delay: 0.5 + i * 0.12,
+                      delay: 0.5 + propDelay(p.ringIndex),
                       ease: "easeInOut",
                     }
                   : { duration: 0.15 }
@@ -129,37 +191,44 @@ export function ConnectorDiagram({
           </g>
         ))}
 
-        {/* tool nodes */}
-        {POSITIONS.map((p, i) => (
+        {/* tool nodes: white disc + real logo */}
+        {POSITIONS.map((p) => (
           <g key={`node-${p.id}`}>
-            {/* white background */}
-            <circle cx={p.x} cy={p.y} r={28} fill="#ffffff" />
-            {/* colored border on hold */}
+            {/* soft halo for depth */}
+            <circle
+              cx={p.x}
+              cy={p.y}
+              r={p.ring.discR + 7}
+              fill="#7b4019"
+              opacity={0.05}
+            />
+            {/* white disc background */}
+            <circle cx={p.x} cy={p.y} r={p.ring.discR} fill="#ffffff" />
+            {/* hairline border: walnut on hold, propagates outward */}
             <motion.circle
               cx={p.x}
               cy={p.y}
-              r={28}
+              r={p.ring.discR}
               fill="none"
               strokeWidth={1}
               animate={{
-                stroke: isHeld ? "rgba(123,64,25,0.6)" : "rgba(0,0,0,0.1)",
+                stroke: isHeld ? "rgba(123,64,25,0.55)" : "rgba(0,0,0,0.1)",
               }}
-              transition={{ duration: 0.15, delay: isHeld ? 0.05 + i * 0.05 : 0 }}
+              transition={{
+                duration: 0.15,
+                delay: isHeld ? propDelay(p.ringIndex) : 0,
+              }}
             />
-            {/* label: shifts to walnut on hold */}
-            <motion.text
-              x={p.x}
-              y={p.y + 4}
-              textAnchor="middle"
-              fontFamily="var(--font-inter), Inter, sans-serif"
-              fontSize="11"
-              fontWeight={500}
-              style={{ letterSpacing: "-0.005em" }}
-              animate={{ fill: isHeld ? "#7b4019" : "rgba(0,0,0,0.7)" }}
-              transition={{ duration: 0.15, delay: isHeld ? 0.05 + i * 0.05 : 0 }}
+            {/* logo, centered via nested svg viewport */}
+            <svg
+              x={p.x - p.ring.logoSize / 2}
+              y={p.y - p.ring.logoSize / 2}
+              width={p.ring.logoSize}
+              height={p.ring.logoSize}
+              overflow="visible"
             >
-              {p.label}
-            </motion.text>
+              <p.Logo size={p.ring.logoSize} />
+            </svg>
           </g>
         ))}
 
