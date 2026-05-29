@@ -44,7 +44,7 @@ type Tool = {
 const SIZE = 560;
 const CENTER = SIZE / 2;
 
-/** Radius of the brown circle ring — spokes start from its edge, not the center. */
+/** Radius of the brown circle ring - spokes start from its edge, not the center. */
 const HUB_R = 52;
 
 /** Compute the point on the hub circle edge in the direction of (tx, ty). */
@@ -71,29 +71,29 @@ const RING_SPEED = [5, -3.5, 2.5];
 // share a ring → max angular separation between same-ring siblings, and no
 // radial overlap clusters between rings.
 const TOOLS: Tool[] = [
-  // 0°   — ring 0
+  // 0°   - ring 0
   { id: "claude-code", Logo: ClaudeCodeLogo, ring: 0, angle: 0 },
-  // 30°  — ring 1
+  // 30°  - ring 1
   { id: "claude", Logo: ClaudeLogo, ring: 1, angle: 30 },
-  // 60°  — ring 2
+  // 60°  - ring 2
   { id: "windsurf", Logo: WindsurfLogo, ring: 2, angle: 60 },
-  // 90°  — ring 1
+  // 90°  - ring 1
   { id: "linear", Logo: LinearLogo, ring: 1, angle: 90 },
-  // 120° — ring 0
+  // 120° - ring 0
   { id: "cursor", Logo: CursorLogo, ring: 0, angle: 120 },
-  // 150° — ring 2
+  // 150° - ring 2
   { id: "v0", Logo: V0Logo, ring: 2, angle: 150 },
-  // 180° — ring 1
+  // 180° - ring 1
   { id: "chatgpt", Logo: ChatGPTLogo, ring: 1, angle: 180 },
-  // 210° — ring 2
+  // 210° - ring 2
   { id: "cline", Logo: ClineLogo, ring: 2, angle: 210 },
-  // 240° — ring 0
+  // 240° - ring 0
   { id: "figma", Logo: FigmaLogo, ring: 0, angle: 240 },
-  // 270° — ring 1
+  // 270° - ring 1
   { id: "github", Logo: GitHubLogo, ring: 1, angle: 270 },
-  // 300° — ring 2
+  // 300° - ring 2
   { id: "antigravity", Logo: AntigravityLogo, ring: 2, angle: 300 },
-  // 330° — ring 2
+  // 330° - ring 2
   { id: "notion", Logo: NotionLogo, ring: 2, angle: 330 },
 ];
 
@@ -400,7 +400,7 @@ export function ConnectorDiagram({
  *
  * Reads the ring's revolution angle via `useTransform` and computes the
  * new (x, y) for the logo's center each frame. The logo itself is never
- * rotated — only translated — so logos always stay upright while their
+ * rotated - only translated - so logos always stay upright while their
  * orbit ring spins around the center.
  */
 type OrbitNode = (typeof POSITIONS)[number];
@@ -418,7 +418,7 @@ function OrbitingLogo({
   const gRef = useRef<SVGGElement>(null);
 
   // Subscribe to ringRot and write the SVG `transform` attribute on
-  // every change. Bypasses motion's CSS-only path — SVG transform
+  // every change. Bypasses motion's CSS-only path - SVG transform
   // attribute takes `translate(x y)` without units.
   useEffect(() => {
     const apply = (deg: number) => {

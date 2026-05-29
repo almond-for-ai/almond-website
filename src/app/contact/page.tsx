@@ -3,6 +3,8 @@ import { SiteNav, getViewFromSearchParams } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { PageRawView } from "@/components/PageRawView";
 import { Mount, Reveal, Stagger, StaggerItem } from "@/components/Motion";
+import { AudienceToggle } from "@/components/AudienceToggle";
+import { AudienceCopy } from "@/components/AudienceCopy";
 import { EmailCopy } from "@/components/EmailCopy";
 import { SOCIAL_LINKS } from "@/components/SiteFooter";
 import { SectionTracker } from "@/components/SectionTracker";
@@ -17,8 +19,14 @@ const CONTACT_DATA = {
   hero: {
     chip: "Talk to us",
     title: "Book a demo.",
-    subtitle:
-      "30 minutes. Bring your real codebase. We'll show you decisions you forgot you made.",
+    solo: {
+      subtitle:
+        "30 minutes. Bring your own stack. We'll show you context you keep re-explaining, surfaced automatically.",
+    },
+    team: {
+      subtitle:
+        "30 minutes. Bring your real codebase. We'll show you decisions your team forgot it made.",
+    },
   },
   expect: [
     {
@@ -94,16 +102,20 @@ export default async function ContactPage({
           <Mount delay={0.05} y={10}>
             <span className="chip-accent">{CONTACT_DATA.hero.chip}</span>
           </Mount>
-          <Mount delay={0.15} y={14} className="mt-[28px]">
+          <Mount delay={0.12} y={12} className="mt-[24px]">
+            <AudienceToggle variant="light" size="md" />
+          </Mount>
+          <Mount delay={0.18} y={14} className="mt-[28px]">
             <h1 className="font-sans text-[44px] font-medium leading-[48px] tracking-[-0.88px] text-black md:text-[64px] md:leading-[68px] md:tracking-[-1.28px]">
               {CONTACT_DATA.hero.title}
             </h1>
           </Mount>
-          <Mount delay={0.25} y={14} className="mt-[20px] max-w-[640px]">
-            <p className="text-[18px] leading-[28px] text-black/60 md:text-[20px] md:leading-[30px]">
-              {CONTACT_DATA.hero.subtitle}
-            </p>
-          </Mount>
+          <AudienceCopy
+            as="p"
+            className="mt-[20px] max-w-[640px] text-[18px] leading-[28px] text-black/60 md:text-[20px] md:leading-[30px]"
+            solo={CONTACT_DATA.hero.solo.subtitle}
+            team={CONTACT_DATA.hero.team.subtitle}
+          />
         </div>
       </section>
 

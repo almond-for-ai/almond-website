@@ -288,6 +288,52 @@ Owner shorthand: **Atishay** = Atishay Jain (atishay1743@gmail.com), founder.
 
 ---
 
+## 2026-05-29
+
+### D-042 · Product page: strip shared visuals, go deep (de-dup from home)
+- **Decided by:** Claude (implementation) by Atishay (direction)
+- **Branch:** `feature_expansion_pages`
+- **What:** Rewrote `/product` so it stops mirroring home. Removed `ConnectorDiagram` (home's signature piece). New section order: audience-aware hero (with `AudienceToggle`) · `InToolSurfaces` (new signature section) · `FlowTabs` · captured · integrations strip (`ToolLogoWall` → `/integrations`) · audience-aware FAQ · security teaser → `/security` · audience-aware CTA. New component `src/components/InToolSurfaces.tsx`: per-tool in-context memory cards (Claude Code / Cursor / Figma / ChatGPT for solo; Claude Code / Figma / Linear / Notion for team), styled as in-tool annotations, never a chat window (D-008).
+- **Why:** Home and `/product` shared their first three sections (hero, ConnectorDiagram, FlowTabs with identical copy), so the page re-explained "what + how" before saying anything product-specific. Home is now the pitch; product is the substance.
+- **Status:** Done. `src/app/product/page.tsx`, `src/components/InToolSurfaces.tsx`.
+
+### D-043 · FlowTabs is now product-exclusive (removed from home)
+- **Decided by:** Claude (implementation) by Atishay (direction)
+- **Branch:** `feature_expansion_pages`
+- **What:** Removed the `FlowTabs` "Three motions. One layer." section from the home page. FlowTabs now lives only on `/product` under the eyebrow "The mechanism" / heading "How the memory moves."
+- **Why:** On home it was redundant with `ConnectorDiagram` + the tagline, and it was the exact section duplicated on `/product`. Making it product-only removes the last duplicated surface between the two pages.
+- **Status:** Done. `src/app/page.tsx`.
+
+### D-044 · Expansion pages built: /integrations, /use-cases, /security, /self-host, /about
+- **Decided by:** Atishay (scope) · Claude (implementation)
+- **Branch:** `feature_expansion_pages`
+- **What:** Built four of the five pages deferred in D-003 (skipped `/builders`), plus a new `/use-cases`:
+  - **/integrations** — category grid (`IntegrationGrid`) from `LOGO_BY_KEY` with live / next / via-MCP status badges, MCP-connect `TerminalCard`, request-integration CTA.
+  - **/use-cases** — scenario-driven, heaviest solo/team split (`ScenarioCards` + audience-aware metric rows).
+  - **/security** — data handling, `DeploymentMatrix` (Managed / BYO cloud / Self-host mapped to Single Almond / Bunch / Orchard), audience-aware access controls (solo privacy vs team SSO/SCIM/audit), honest compliance status (SOC 2 in progress).
+  - **/self-host** — why / what you get / requirements / deploy `TerminalCard`, maps to Orchard.
+  - **/about** — mission ("Memory, not models"), short thesis linking `/manifesto` (no duplication), what-we-believe, who's-building, connect links. Generic, no toggle.
+  - All follow the page shell pattern: raw-view branch (`PageRawView`), `SectionTracker`, `data-section` tags, `overflow-x-clip`.
+  - New components: `IntegrationGrid`, `ScenarioCards`, `DeploymentMatrix`.
+- **Why:** Footer linked to `/security` and `/self-host` as placeholders (both pointed at `/contact`); the funnel had no depth pages. `/use-cases` added because the Solo/Team target deserves a scenario page.
+- **Status:** Done. `src/app/{integrations,use-cases,security,self-host,about}/page.tsx`, `src/components/{IntegrationGrid,ScenarioCards,DeploymentMatrix}.tsx`.
+
+### D-045 · Solo/Team content sweep beyond home
+- **Decided by:** Atishay (direction) · Claude (implementation)
+- **Branch:** `feature_expansion_pages`
+- **What:** Extended the audience toggle (D-009) past the home page. Added `AudienceToggle` + `AudienceCopy` to `/product`, `/pricing`, `/contact`, `/integrations`, `/use-cases`, `/security`, `/self-host` heroes and key copy. Solo emphasizes "your stack / your machine / private to you"; team emphasizes "your team's stack / shared memory / SSO + audit". `/about` and `/manifesto` stay universal.
+- **Why:** The toggle existed to serve a target, but only home honored it. Every conversion surface now speaks to whoever is reading.
+- **Status:** Done.
+
+### D-046 · Fix real footer links (SiteFooter, not site-data) + sober-voice cleanup
+- **Decided by:** Claude (diagnosis + fix) by Atishay (direction)
+- **Branch:** `feature_expansion_pages`
+- **What:** The footer renders from a hardcoded `COLUMNS` in `src/components/SiteFooter.tsx`, not from `site-data.ts`. Updated `SiteFooter` so `Security` → `/security`, `Self-host` → `/self-host`, `SOC 2 (in progress)` → `/security`, added `Integrations` + `Use cases` (Product) and `About` (Company). Mirrored the same change in `site-data.ts` footer for raw-view consistency. Also removed two "memory becomes load-bearing" phrasings on `/pricing` (D-015 voice rule).
+- **Why:** `Security` and `Self-host` were dead placeholders pointing at `/contact`. The site-data footer is not what renders, so the real component had to change.
+- **Status:** Done. `src/components/SiteFooter.tsx`, `src/lib/site-data.ts`, `src/app/pricing/page.tsx`.
+
+---
+
 ## How to log a new decision
 
 Append a new `### D-NNN · Title` block under the current date heading (or add a new date heading if it's a new day). Required fields: **Decided by**, **Branch** (when applicable), **What**, **Why**, **Status**. Keep the bullets terse. If a decision is later reversed, mark the original `Status: Superseded by D-NNN` and write the new decision underneath.

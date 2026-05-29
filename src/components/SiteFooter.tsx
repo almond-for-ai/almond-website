@@ -17,6 +17,8 @@ const COLUMNS: FooterColumn[] = [
     label: "Product",
     links: [
       { label: "How it works", href: "/product" },
+      { label: "Integrations", href: "/integrations" },
+      { label: "Use cases", href: "/use-cases" },
       { label: "Pricing", href: "/pricing" },
       { label: "Manifesto", href: "/manifesto" },
     ],
@@ -24,6 +26,7 @@ const COLUMNS: FooterColumn[] = [
   {
     label: "Company",
     links: [
+      { label: "About", href: "/about" },
       { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact" },
     ],
@@ -31,9 +34,9 @@ const COLUMNS: FooterColumn[] = [
   {
     label: "Trust",
     links: [
-      { label: "Security", href: "/contact" },
-      { label: "Self-host", href: "/contact" },
-      { label: "SOC 2 (in progress)", href: "/contact" },
+      { label: "Security", href: "/security" },
+      { label: "Self-host", href: "/self-host" },
+      { label: "SOC 2 (in progress)", href: "/security" },
     ],
   },
 ];

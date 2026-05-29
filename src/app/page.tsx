@@ -13,7 +13,6 @@ import { RotatingWord } from "@/components/RotatingWord";
 import { PersonaChips } from "@/components/PersonaChips";
 import { ConnectorDiagram } from "@/components/ConnectorDiagram";
 import { ConnectionConstellation } from "@/components/ConnectionConstellation";
-import { FlowTabs } from "@/components/FlowTabs";
 import { MetricStrip } from "@/components/MetricStrip";
 import { OutcomeMarquee } from "@/components/OutcomeMarquee";
 import { ToolLogoWall } from "@/components/ToolLogoWall";
@@ -128,14 +127,17 @@ export default async function Home({
       {/* ── Connector diagram ──────────────────────────────── */}
       <section
         data-section="Connector"
-        className="w-full py-[40px] md:py-[80px]"
+        className="w-full pt-[88px] pb-[40px] md:pt-[140px] md:pb-[80px]"
       >
         <div className="container-x">
           <Reveal y={20} duration={0.5}>
-            <div className="capsule-50 bg-grey-96 px-[12px] py-[12px] md:px-[20px] md:py-[20px]">
+            <div className="capsule-50 bg-grey-96 px-[12px] pb-[20px] pt-[16px] md:px-[20px] md:pb-[28px] md:pt-[24px]">
               <div className="mx-auto max-w-[760px]">
                 <ConnectorDiagram />
               </div>
+              <p className="pointer-events-none mt-[4px] text-center font-mono text-[11px] uppercase tracking-[0.18em] text-walnut-500/70 md:text-[12px]">
+                Press and hold Almond to see the magic
+              </p>
             </div>
           </Reveal>
         </div>
@@ -151,28 +153,6 @@ export default async function Home({
             <p className="mx-auto max-w-[920px] text-center font-display text-[32px] font-normal leading-[40px] tracking-[-0.64px] text-black md:text-[52px] md:leading-[60px] md:tracking-[-1.04px]">
               {data.tagline}
             </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── FlowTabs ───────────────────────────────────────── */}
-      <section
-        data-section="Flow"
-        className="w-full bg-grey-96 py-[80px] md:py-[120px]"
-      >
-        <div className="container-x">
-          <Reveal y={16}>
-            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-walnut-500">
-              How it works
-            </p>
-          </Reveal>
-          <Reveal y={20} delay={0.05}>
-            <h2 className="mt-[16px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-black md:text-[40px] md:leading-[44px] md:tracking-[-0.8px]">
-              Three motions. One layer.
-            </h2>
-          </Reveal>
-          <Reveal y={20} delay={0.1} className="mt-[48px]">
-            <FlowTabs />
           </Reveal>
         </div>
       </section>

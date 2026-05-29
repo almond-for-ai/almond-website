@@ -4,6 +4,8 @@ import { SiteNav, getViewFromSearchParams } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { PageRawView } from "@/components/PageRawView";
 import { Mount, Reveal, Stagger, StaggerItem } from "@/components/Motion";
+import { AudienceToggle } from "@/components/AudienceToggle";
+import { AudienceCopy } from "@/components/AudienceCopy";
 import { SectionTracker } from "@/components/SectionTracker";
 
 export const metadata: Metadata = {
@@ -16,8 +18,24 @@ const PRICING_DATA = {
   hero: {
     chip: "Pricing",
     title: "One almond, a bunch, or an orchard.",
-    subtitle:
-      "Start free. Scale when memory becomes load-bearing. Talk to us when you need it on-prem.",
+    solo: {
+      subtitle:
+        "Start free, forever. Bring your own stack and keep your memory yours. Upgrade only when you add people.",
+    },
+    team: {
+      subtitle:
+        "Start free. Scale to the whole team when you're ready. Talk to us when you need it on-prem.",
+    },
+  },
+  demo: {
+    solo: {
+      heading: "See Almond on your machine.",
+      body: "Free to start. Wire up Claude Code and your real repo in minutes.",
+    },
+    team: {
+      heading: "See Almond on your team's stack.",
+      body: "14-day trial on Bunch. Bring Claude Code, Figma, and your real repo.",
+    },
   },
   tiers: [
     {
@@ -136,16 +154,20 @@ export default async function PricingPage({
           <Mount delay={0.05} y={10}>
             <span className="chip-accent">{PRICING_DATA.hero.chip}</span>
           </Mount>
-          <Mount delay={0.15} y={14} className="mt-[28px]">
+          <Mount delay={0.12} y={12} className="mt-[24px]">
+            <AudienceToggle variant="light" size="md" />
+          </Mount>
+          <Mount delay={0.18} y={14} className="mt-[28px]">
             <h1 className="max-w-[860px] font-sans text-[44px] font-medium leading-[48px] tracking-[-0.88px] text-black md:text-[64px] md:leading-[68px] md:tracking-[-1.28px]">
               {PRICING_DATA.hero.title}
             </h1>
           </Mount>
-          <Mount delay={0.25} y={14} className="mt-[20px] max-w-[640px]">
-            <p className="text-[18px] leading-[28px] text-black/60 md:text-[20px] md:leading-[30px]">
-              {PRICING_DATA.hero.subtitle}
-            </p>
-          </Mount>
+          <AudienceCopy
+            as="p"
+            className="mt-[20px] max-w-[640px] text-[18px] leading-[28px] text-black/60 md:text-[20px] md:leading-[30px]"
+            solo={PRICING_DATA.hero.solo.subtitle}
+            team={PRICING_DATA.hero.team.subtitle}
+          />
         </div>
       </section>
 
@@ -312,12 +334,18 @@ export default async function PricingPage({
                 <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-walnut-500">
                   Live demo
                 </p>
-                <h2 className="mt-[12px] font-sans text-[24px] font-medium leading-[30px] tracking-[-0.48px] text-black md:text-[32px] md:leading-[38px]">
-                  See Almond on your stack.
-                </h2>
-                <p className="mt-[10px] text-[15px] leading-[24px] text-black/60">
-                  14-day trial on Bunch. Bring Claude Code, Figma, and your real repo.
-                </p>
+                <AudienceCopy
+                  as="h2"
+                  className="mt-[12px] font-sans text-[24px] font-medium leading-[30px] tracking-[-0.48px] text-black md:text-[32px] md:leading-[38px]"
+                  solo={PRICING_DATA.demo.solo.heading}
+                  team={PRICING_DATA.demo.team.heading}
+                />
+                <AudienceCopy
+                  as="p"
+                  className="mt-[10px] text-[15px] leading-[24px] text-black/60"
+                  solo={PRICING_DATA.demo.solo.body}
+                  team={PRICING_DATA.demo.team.body}
+                />
               </div>
               <Link href="/contact" className="btn-primary shrink-0">
                 Book demo
@@ -365,7 +393,7 @@ export default async function PricingPage({
                 Pick the tier that fits today.
               </h2>
               <p className="mx-auto mt-[20px] max-w-[480px] text-[16px] leading-[24px] text-white/75">
-                Upgrade when memory becomes load-bearing. Not before.
+                Upgrade when the team needs it. Not before.
               </p>
               <div className="mt-[32px] flex flex-wrap items-center justify-center gap-[12px]">
                 <Link

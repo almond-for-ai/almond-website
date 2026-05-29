@@ -63,7 +63,7 @@ type ToolNode = {
 
 type Node = PersonNode | GifNode | ToolNode;
 
-/** Portrait tiles — narrower and taller than the original landscape cards. */
+/** Portrait tiles - narrower and taller than the original landscape cards. */
 const PEOPLE: PersonNode[] = [
   {
     kind: "person",
@@ -211,7 +211,7 @@ const TEAM_TOOLS: ToolNode[] = [
 
 const HUB = { x: 50, y: 50 };
 
-/** Pin scroll distance after viewport (vh) — scales with layer count.
+/** Pin scroll distance after viewport (vh) - scales with layer count.
  *  Tuned: enough runway for spring + cubic easing to feel cinematic,
  *  short enough that headline-only tail before footer stays minimal. */
 const SCROLL_RUNWAY_VH = { solo: 75, team: 95 } as const;
@@ -242,7 +242,7 @@ function layerTiming(layer: number, totalLayers: number) {
   return { start, end };
 }
 
-/** Symmetric ease — smoother than smoothstep at both endpoints, identical forward and back. */
+/** Symmetric ease - smoother than smoothstep at both endpoints, identical forward and back. */
 function easeInOutCubic(t: number) {
   const c = Math.max(0, Math.min(1, t));
   return c < 0.5 ? 4 * c * c * c : 1 - Math.pow(-2 * c + 2, 3) / 2;
@@ -295,7 +295,7 @@ function hashSeed(id: string) {
   return h;
 }
 
-/** Slow elliptical drift — amplitude scales down smoothly as scroll begins. */
+/** Slow elliptical drift - amplitude scales down smoothly as scroll begins. */
 function IdleOrbit({
   id,
   reduceMotion,
@@ -417,7 +417,7 @@ export function ConnectionConstellation({ copy }: { copy: NetworkCopy }) {
             </AnimatePresence>
           </motion.svg>
 
-          {/* Drifting tiles — ring around center copy */}
+          {/* Drifting tiles - ring around center copy */}
           <div className="pointer-events-none absolute inset-0 z-[1] hidden sm:block">
             <AnimatePresence mode="popLayout">
               {nodes.map((node, i) => (
@@ -436,7 +436,7 @@ export function ConnectionConstellation({ copy }: { copy: NetworkCopy }) {
             </AnimatePresence>
           </div>
 
-          {/* Center copy — vertically centered, above tiles */}
+          {/* Center copy - vertically centered, above tiles */}
           <div className="relative z-20 flex h-full flex-col items-center justify-center px-[24px] text-center">
             <div
               aria-hidden

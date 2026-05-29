@@ -19,7 +19,7 @@ export function AudienceCopy({
   solo: ReactNode;
   team: ReactNode;
   className?: string;
-  /** Semantic wrapper — avoids invalid nesting (e.g. div inside p). */
+  /** Semantic wrapper - avoids invalid nesting (e.g. div inside p). */
   as?: AudienceCopyAs;
 }) {
   const audience: Audience = useAudience((s) => s.audience);
