@@ -1,24 +1,11 @@
 "use client";
 
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-
 export type Audience = "solo" | "team";
 
-type AudienceState = {
-  audience: Audience;
-  setAudience: (a: Audience) => void;
+// Audience toggle removed — Almond is presented as a universal memory layer.
+// Always returns "solo" so all AudienceCopy sites render their solo variant.
+export const useAudience = (_selector?: (s: { audience: Audience; setAudience: (a: Audience) => void }) => unknown) => {
+  const state = { audience: "solo" as Audience, setAudience: () => {} };
+  if (typeof _selector === "function") return _selector(state);
+  return state;
 };
-
-export const useAudience = create<AudienceState>()(
-  persist(
-    (set) => ({
-      audience: "solo",
-      setAudience: (a) => set({ audience: a }),
-    }),
-    {
-      name: "almond-audience-v1",
-      storage: createJSONStorage(() => localStorage),
-    },
-  ),
-);

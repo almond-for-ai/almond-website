@@ -3,7 +3,6 @@
 import { CardFrame, type CardTone } from "@/components/cards/CardFrame";
 import { Reveal, Stagger, StaggerItem } from "@/components/Motion";
 import { LOGO_BY_KEY, LOGO_NAME } from "@/components/tool-logos";
-import { useAudience } from "@/lib/audience";
 import type { ToolKey } from "@/lib/site-data";
 
 /**
@@ -153,16 +152,13 @@ function SurfaceCard({ surface }: { surface: Surface }) {
 }
 
 export function InToolSurfaces() {
-  const audience = useAudience((s) => s.audience);
-  const surfaces = audience === "solo" ? SOLO_SURFACES : TEAM_SURFACES;
-
   return (
     <Stagger
       as="ul"
       className="grid grid-cols-1 gap-[16px] sm:grid-cols-2 lg:grid-cols-4"
     >
-      {surfaces.map((s) => (
-        <StaggerItem key={`${audience}-${s.tool}`} as="li">
+      {SOLO_SURFACES.map((s) => (
+        <StaggerItem key={s.tool} as="li">
           <SurfaceCard surface={s} />
         </StaggerItem>
       ))}

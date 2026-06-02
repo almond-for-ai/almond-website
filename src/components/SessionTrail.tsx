@@ -5,8 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSessionTrail, type Visit } from "@/lib/session-trail";
-import { useHeroVisibility } from "@/lib/hero-visibility";
-import { AudienceToggle } from "@/components/AudienceToggle";
 
 function pageLabel(page: string): string {
   if (!page || page === "/") return "Home";
@@ -40,11 +38,7 @@ export function SessionTrail() {
   const currentPage = useSessionTrail((s) => s.currentPage);
   const currentSection = useSessionTrail((s) => s.currentSection);
 
-  const heroVisible = useHeroVisibility((s) => s.heroVisible);
   const isHome = pathname === "/";
-
-  // Audience toggle migrates into pill when hero is out of view (home) or always on non-home.
-  const showAudienceInPill = !isHome || !heroVisible;
 
   const [mounted, setMounted] = useState(false);
   const [shown, setShown] = useState(false);
@@ -268,39 +262,6 @@ export function SessionTrail() {
             </div>
           ) : null}
 
-          {/* Audience toggle - slides in when hero leaves viewport (home) or always (non-home) */}
-          <AnimatePresence initial={false}>
-            {showAudienceInPill ? (
-              <motion.div
-                key="pill-audience"
-                initial={{ opacity: 0, scale: 0.85, width: 0 }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  width: "auto",
-                  transition: {
-                    width: { duration: 0.45, ease: EASE },
-                    opacity: { duration: 0.35, delay: 0.15, ease: EASE },
-                    scale: { duration: 0.45, ease: EASE, delay: 0.1 },
-                  },
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.85,
-                  width: 0,
-                  transition: {
-                    width: { duration: 0.35, ease: EASE, delay: 0.1 },
-                    opacity: { duration: 0.2, ease: EASE },
-                    scale: { duration: 0.3, ease: EASE },
-                  },
-                }}
-                className="flex items-center overflow-hidden"
-              >
-                <span className="mx-1 h-4 w-px shrink-0 bg-white/15" />
-                <AudienceToggle variant="dark" />
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
         </motion.div>
       </div>
     </div>

@@ -17,7 +17,6 @@ import { useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "reac
 import { AudienceCopy } from "@/components/AudienceCopy";
 import { CARD_EASE, CARD_ENTER_MS, CARD_STAGGER } from "@/components/cards/motion";
 import { LOGO_BY_KEY, LOGO_NAME } from "@/components/tool-logos";
-import { useAudience } from "@/lib/audience";
 import type { ToolKey } from "@/lib/site-data";
 
 type NetworkCopy = {
@@ -342,16 +341,15 @@ function nodesForAudience(audience: "solo" | "team"): Node[] {
  */
 export function ConnectionConstellation({ copy }: { copy: NetworkCopy }) {
   const sectionRef = useRef<HTMLElement>(null);
-  const audience = useAudience((s) => s.audience);
   const reduceMotion = useReducedMotion();
   const inView = useInView(sectionRef, { once: true, margin: "-10% 0px" });
-  const nodes = useMemo(() => nodesForAudience(audience), [audience]);
+  const nodes = useMemo(() => SOLO_TOOLS, []);
   const exitLayers = useMemo(() => assignExitLayers(nodes), [nodes]);
   const totalLayers = useMemo(
     () => Math.max(1, ...Array.from(exitLayers.values())) + 1,
     [exitLayers],
   );
-  const runwayVh = SCROLL_RUNWAY_VH[audience] + totalLayers * 0.6;
+  const runwayVh = SCROLL_RUNWAY_VH["solo"] + totalLayers * 0.6;
   const [viewportH, setViewportH] = useState(900);
 
   useLayoutEffect(() => {
@@ -410,7 +408,7 @@ export function ConnectionConstellation({ copy }: { copy: NetworkCopy }) {
             <AnimatePresence mode="sync">
               {nodes.map((node) => (
                 <ConnectorLine
-                  key={`line-${audience}-${node.id}`}
+                  key={`line-${node.id}`}
                   node={node}
                 />
               ))}
@@ -422,7 +420,7 @@ export function ConnectionConstellation({ copy }: { copy: NetworkCopy }) {
             <AnimatePresence mode="popLayout">
               {nodes.map((node, i) => (
                 <ConstellationTile
-                  key={`${audience}-${node.id}`}
+                  key={node.id}
                   node={node}
                   inView={inView}
                   delay={i * CARD_STAGGER}

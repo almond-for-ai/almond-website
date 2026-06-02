@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
 import {
   CascadeCard,
   CompareCard,
@@ -10,8 +9,6 @@ import {
   StatCard,
   TerminalCard,
 } from "@/components/cards";
-import { CARD_EASE } from "@/components/cards/motion";
-import { useAudience } from "@/lib/audience";
 import type { SiteData } from "@/lib/site-data";
 
 export function ValueCardsGrid({
@@ -21,7 +18,7 @@ export function ValueCardsGrid({
   audienceBlocks: SiteData["audience"];
   terminalLines: string[];
 }) {
-  const audience = useAudience((s) => s.audience);
+  const audience = "solo" as const;
   const slots = audienceBlocks[audience].value.slots;
 
   return (
@@ -62,28 +59,13 @@ export function ValueCardsGrid({
 }
 
 function SwapCell({
-  audience,
-  keyName,
   className,
   children,
 }: {
-  audience: string;
-  keyName: string;
+  audience?: string;
+  keyName?: string;
   className?: string;
   children: React.ReactNode;
 }) {
-  return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={`${keyName}-${audience}`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.35, ease: CARD_EASE }}
-        className={`h-full ${className ?? ""}`}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
-  );
+  return <div className={`h-full ${className ?? ""}`}>{children}</div>;
 }

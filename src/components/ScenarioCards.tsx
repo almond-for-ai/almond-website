@@ -2,7 +2,6 @@
 
 import { CardFrame } from "@/components/cards/CardFrame";
 import { Stagger, StaggerItem } from "@/components/Motion";
-import { useAudience } from "@/lib/audience";
 
 /**
  * Scenario cards for /use-cases. Each card runs problem -> how Almond sits in
@@ -85,16 +84,13 @@ function ScenarioCard({ s, index }: { s: Scenario; index: number }) {
 }
 
 export function ScenarioCards() {
-  const audience = useAudience((s) => s.audience);
-  const scenarios = audience === "solo" ? SOLO_SCENARIOS : TEAM_SCENARIOS;
-
   return (
     <Stagger
       as="ul"
       className="grid grid-cols-1 gap-[16px] md:grid-cols-3"
     >
-      {scenarios.map((s, i) => (
-        <StaggerItem key={`${audience}-${s.step}`} as="li">
+      {SOLO_SCENARIOS.map((s, i) => (
+        <StaggerItem key={s.step} as="li">
           <ScenarioCard s={s} index={i} />
         </StaggerItem>
       ))}
