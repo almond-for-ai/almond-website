@@ -15,7 +15,18 @@ export type ToolKey =
   | "v0"
   | "cline"
   | "antigravity"
-  | "lovable";
+  | "lovable"
+  | "gemini"
+  | "grok"
+  | "codex"
+  | "confluence"
+  | "google-drive"
+  | "granola"
+  | "slack"
+  | "discord"
+  | "gmail"
+  | "calendar"
+  | "jira";
 
 export type StatSlot = {
   label: string;

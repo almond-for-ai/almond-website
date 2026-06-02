@@ -42,6 +42,7 @@ export const INTEGRATION_CATEGORIES: Category[] = [
       { tool: "cursor", does: "Past decisions surface inline as you type.", status: "next" },
       { tool: "windsurf", does: "Shared context across every flow.", status: "mcp" },
       { tool: "cline", does: "Recalled constraints in the agent loop.", status: "mcp" },
+      { tool: "antigravity", does: "IDE workspace where memory shapes generations.", status: "mcp" },
     ],
   },
   {
@@ -58,6 +59,9 @@ export const INTEGRATION_CATEGORIES: Category[] = [
       { tool: "notion", does: "Docs cite the decision as it stands today.", status: "next" },
       { tool: "linear", does: "Issues trace to the decision that spawned them.", status: "next" },
       { tool: "github", does: "PRs carry the reasoning, not just the diff.", status: "mcp" },
+      { tool: "confluence", does: "Team wikis enriched with live decisions.", status: "mcp" },
+      { tool: "google-drive", does: "Docs, sheets, and slides informed by memory.", status: "mcp" },
+      { tool: "granola", does: "Meeting notes tied to the decisions they produced.", status: "mcp" },
     ],
   },
   {
@@ -65,6 +69,24 @@ export const INTEGRATION_CATEGORIES: Category[] = [
     items: [
       { tool: "chatgpt", does: "Context loaded before you ask.", status: "mcp" },
       { tool: "claude", does: "Your stack and constraints, preloaded.", status: "mcp" },
+      { tool: "gemini", does: "Context surfaced in multimodal threads.", status: "mcp" },
+      { tool: "grok", does: "Decisions recalled in xAI conversations.", status: "mcp" },
+      { tool: "codex", does: "Memory grounding OpenAI coding tasks.", status: "mcp" },
+    ],
+  },
+  {
+    label: "Communication",
+    items: [
+      { tool: "slack", does: "Channel threads grounded in team decisions.", status: "mcp" },
+      { tool: "discord", does: "Server context prefilled from memory.", status: "mcp" },
+      { tool: "gmail", does: "Email threads surfacing relevant past context.", status: "mcp" },
+      { tool: "calendar", does: "Meetings pre-loaded with decision history.", status: "mcp" },
+    ],
+  },
+  {
+    label: "Task management",
+    items: [
+      { tool: "jira", does: "Tickets trace back to the decisions that spawned them.", status: "mcp" },
     ],
   },
 ];

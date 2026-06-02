@@ -279,6 +279,236 @@ export function GitHubLogo({ size = 22, className }: LogoProps) {
   );
 }
 
+export function GeminiLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id="gemini-grad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#4285F4" />
+          <stop offset="50%" stopColor="#9B72CB" />
+          <stop offset="100%" stopColor="#D96570" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M12 2C12 2 6.5 8.5 6.5 12C6.5 15.5 12 22 12 22C12 22 17.5 15.5 17.5 12C17.5 8.5 12 2 12 2Z"
+        fill="url(#gemini-grad)"
+      />
+      <path
+        d="M2 12C2 12 8.5 6.5 12 6.5C15.5 6.5 22 12 22 12C22 12 15.5 17.5 12 17.5C8.5 17.5 2 12 2 12Z"
+        fill="url(#gemini-grad)"
+        opacity="0.7"
+      />
+    </svg>
+  );
+}
+
+export function GrokLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="#0f0f0f"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011l-1.37 3.4-.563-4.41A13.05 13.05 0 0 0 4.14 3.027l1.37 3.4-2.97-3.287A12.878 12.878 0 0 0 .515 6.013l2.652 2.974-4.167-1.1A12.897 12.897 0 0 0 0 12c0 7.18 5.82 13 13 13 7.18 0 13-5.82 13-13 0-1.617-.296-3.165-.836-4.593l-4.17 1.1 2.653-2.974a12.878 12.878 0 0 0-2.025-2.873l-2.97 3.287 1.37-3.4a13.05 13.05 0 0 0-4.215-1.64l-.563 4.41-1.37-3.4zM12 16.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
+    </svg>
+  );
+}
+
+export function CodexLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="#0f0f0f"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.896zm16.597 3.855l-5.843-3.369 2.02-1.168a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.402-.681zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z" />
+    </svg>
+  );
+}
+
+export function ConfluenceLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id="conf-grad" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#0052CC" />
+          <stop offset="100%" stopColor="#2684FF" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M.87 15.341c-.297.486-.64 1.067-.894 1.46a.876.876 0 0 0 .29 1.207l3.25 1.983a.875.875 0 0 0 1.214-.285c.228-.376.547-.923.893-1.502C7.1 16.083 7.834 16 8.5 16h7c.666 0 1.4.083 2.877 2.204.346.579.665 1.126.893 1.502a.875.875 0 0 0 1.214.285l3.25-1.983a.876.876 0 0 0 .29-1.207c-.254-.393-.597-.974-.895-1.46C21.397 12.16 19.265 10 14 10H10C4.735 10 2.603 12.16.87 15.341ZM23.13 8.659c.297-.486.64-1.067.894-1.46a.876.876 0 0 0-.29-1.207L20.484 4.01a.875.875 0 0 0-1.214.285c-.228.376-.547.923-.893 1.502C16.9 7.917 16.166 8 15.5 8h-7c-.666 0-1.4-.083-2.877-2.204-.346-.579-.665-1.126-.893-1.502A.875.875 0 0 0 3.516 4.01L.266 5.992a.876.876 0 0 0-.29 1.207c.254.393.597.974.895 1.46C2.603 11.84 4.735 14 10 14h4c5.265 0 7.397-2.16 9.13-5.341Z"
+        fill="url(#conf-grad)"
+      />
+    </svg>
+  );
+}
+
+export function GoogleDriveLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path d="M7.71 3.5L1.15 15l3.43 5.5H19.4l3.43-5.5z" fill="#0066DA" opacity="0" />
+      <path d="M1.15 15L7.71 3.5h8.58L9.73 15z" fill="#00AC47" />
+      <path d="M16.29 3.5L9.73 15h12.55L15.71 3.5z" fill="#EA4335" />
+      <path d="M1.15 15l3.43 5.5h14.84l3.43-5.5z" fill="#00832D" opacity="0.8" />
+      <path d="M9.73 15H1.15l3.43 5.5H9.73z" fill="#2684FC" />
+      <path d="M22.28 15H9.73l3.43 5.5h12.55z" fill="#FFBA00" />
+    </svg>
+  );
+}
+
+export function GranolaLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <rect width="24" height="24" rx="6" fill="#0f0f0f" />
+      <path
+        d="M7 8h10M7 12h7M7 16h5"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function SlackLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.122 2.521a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.268 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zm-2.523 10.122a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.268a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z" fill="#E01E5A" />
+    </svg>
+  );
+}
+
+export function DiscordLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="#5865F2"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z" />
+    </svg>
+  );
+}
+
+export function GmailLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" fill="#EA4335" />
+    </svg>
+  );
+}
+
+export function CalendarLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path d="M19.5 3h-1.5V1.5A1.5 1.5 0 0 0 16.5 0h-1A1.5 1.5 0 0 0 14 1.5V3H10V1.5A1.5 1.5 0 0 0 8.5 0h-1A1.5 1.5 0 0 0 6 1.5V3H4.5A4.5 4.5 0 0 0 0 7.5v12A4.5 4.5 0 0 0 4.5 24h15a4.5 4.5 0 0 0 4.5-4.5v-12A4.5 4.5 0 0 0 19.5 3z" fill="#4285F4" />
+      <path d="M0 9h24v10.5A4.5 4.5 0 0 1 19.5 24h-15A4.5 4.5 0 0 1 0 19.5V9z" fill="#fff" />
+      <path d="M9.3 18.9H7.8v-5.25l-1.65.51v-1.23l2.97-1.08H9.3v7.05zm5.6-2.91c0 1.98-.74 2.97-2.22 2.97-.73 0-1.3-.26-1.7-.78-.4-.52-.6-1.27-.6-2.25 0-1.98.74-2.97 2.22-2.97.73 0 1.3.26 1.7.79.4.52.6 1.27.6 2.24zm-1.5.06c0-.63-.07-1.1-.2-1.4-.13-.3-.34-.45-.62-.45-.27 0-.47.15-.6.44-.13.29-.2.75-.2 1.38v.57c0 .63.07 1.1.2 1.4.14.31.34.46.62.46.27 0 .47-.15.6-.44.13-.29.2-.75.2-1.38v-.58z" fill="#4285F4" />
+    </svg>
+  );
+}
+
+export function JiraLogo({ size = 22, className }: LogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id="jira-grad" x1="24" y1="0" x2="12" y2="12" gradientUnits="userSpaceOnUse">
+          <stop offset="18%" stopColor="#0052CC" />
+          <stop offset="100%" stopColor="#2684FF" />
+        </linearGradient>
+        <linearGradient id="jira-grad2" x1="0" y1="24" x2="12" y2="12" gradientUnits="userSpaceOnUse">
+          <stop offset="18%" stopColor="#0052CC" />
+          <stop offset="100%" stopColor="#2684FF" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M11.975 0C9.838 4.688 10.425 8.737 12.9 11.325L18.6 17.1 11.975 24 .6 12.45C-1.05 10.762 4.1 4.425 11.975 0z"
+        fill="url(#jira-grad)"
+      />
+      <path
+        d="M11.975 0C14.113 4.688 13.525 8.737 11.05 11.325L5.35 17.1 11.975 24 23.35 12.45C25.013 10.762 19.863 4.425 11.975 0z"
+        fill="url(#jira-grad2)"
+      />
+    </svg>
+  );
+}
+
 export type LogoComponent = (props: LogoProps) => React.ReactElement;
 
 export const LOGO_BY_KEY: Record<ToolKey, LogoComponent> = {
@@ -295,6 +525,17 @@ export const LOGO_BY_KEY: Record<ToolKey, LogoComponent> = {
   cline: ClineLogo,
   antigravity: AntigravityLogo,
   lovable: LovableLogo,
+  gemini: GeminiLogo,
+  grok: GrokLogo,
+  codex: CodexLogo,
+  confluence: ConfluenceLogo,
+  "google-drive": GoogleDriveLogo,
+  granola: GranolaLogo,
+  slack: SlackLogo,
+  discord: DiscordLogo,
+  gmail: GmailLogo,
+  calendar: CalendarLogo,
+  jira: JiraLogo,
 };
 
 export const LOGO_NAME: Record<ToolKey, string> = {
@@ -311,6 +552,17 @@ export const LOGO_NAME: Record<ToolKey, string> = {
   cline: "Cline",
   antigravity: "Antigravity",
   lovable: "Lovable",
+  gemini: "Gemini",
+  grok: "Grok",
+  codex: "Codex",
+  confluence: "Confluence",
+  "google-drive": "Google Drive",
+  granola: "Granola",
+  slack: "Slack",
+  discord: "Discord",
+  gmail: "Gmail",
+  calendar: "Calendar",
+  jira: "Jira",
 };
 
 /** Per-brand wordmark typography (sans/display mix, not mono). */
@@ -328,4 +580,15 @@ export const TOOL_WORDMARK: Record<ToolKey, string> = {
   cline: "font-sans text-[14px] font-medium tracking-[-0.02em]",
   antigravity: "font-sans text-[14px] font-medium tracking-[-0.02em]",
   lovable: "font-sans text-[14px] font-semibold tracking-[-0.01em]",
+  gemini: "font-sans text-[14px] font-medium tracking-[-0.01em]",
+  grok: "font-sans text-[14px] font-semibold tracking-[-0.02em]",
+  codex: "font-sans text-[14px] font-medium tracking-[-0.01em]",
+  confluence: "font-sans text-[14px] font-semibold tracking-[-0.02em]",
+  "google-drive": "font-sans text-[14px] font-medium tracking-[-0.01em]",
+  granola: "font-sans text-[14px] font-medium tracking-[-0.02em]",
+  slack: "font-sans text-[14px] font-semibold tracking-[-0.01em]",
+  discord: "font-sans text-[14px] font-medium tracking-[-0.01em]",
+  gmail: "font-sans text-[14px] font-medium tracking-[-0.01em]",
+  calendar: "font-sans text-[14px] font-medium tracking-[-0.01em]",
+  jira: "font-sans text-[14px] font-semibold tracking-[-0.02em]",
 };
