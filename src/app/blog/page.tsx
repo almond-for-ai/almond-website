@@ -65,7 +65,7 @@ export default async function BlogIndexPage({
                   >
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.03]"
-                      style={{ backgroundImage: `url(${getPostCover(post.slug)})` }}
+                      style={{ backgroundImage: `url(${getPostCover(post.slug, post.cover)})` }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[50%] to-black to-[88%]" />
                     <div className="absolute inset-x-0 bottom-0 p-[20px]">

@@ -36,7 +36,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) notFound();
-  const cover = getPostCover(post.slug);
+  const cover = getPostCover(post.slug, post.cover);
 
   return (
     <main className="relative flex min-h-dvh w-full flex-col bg-white">

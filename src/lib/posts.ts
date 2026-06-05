@@ -97,6 +97,8 @@ export type PostMeta = {
   description: string;
   date: string;
   author?: string;
+  /** Optional explicit cover image path (e.g. /blog/my-cover.svg). */
+  cover?: string;
 };
 
 export type Post = PostMeta & {
@@ -148,6 +150,7 @@ export async function getAllPosts(): Promise<PostMeta[]> {
         description: (data.description as string) ?? "",
         date: (data.date as string) ?? new Date().toISOString(),
         author: data.author as string | undefined,
+        cover: data.cover as string | undefined,
       } satisfies PostMeta;
     }),
   );
@@ -170,6 +173,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       description: (data.description as string) ?? "",
       date: (data.date as string) ?? new Date().toISOString(),
       author: data.author as string | undefined,
+      cover: data.cover as string | undefined,
       html: await markdownToHtml(content),
     };
   }

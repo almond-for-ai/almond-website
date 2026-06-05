@@ -18,8 +18,12 @@ export const POST_COVERS = [
   "/almond/avatar-1.png",
 ] as const;
 
-// Simple deterministic hash so any slug maps to a stable cover index.
-export function getPostCover(slug: string): string {
+// Returns the cover image for a post. If the post declares an explicit
+// `cover` in its frontmatter, that wins; otherwise a deterministic hash
+// maps the slug to a stable image so the same slug always resolves to the
+// same image across the home teaser, the blog index, and the post detail.
+export function getPostCover(slug: string, cover?: string): string {
+  if (cover && cover.trim().length > 0) return cover;
   let hash = 0;
   for (let i = 0; i < slug.length; i++) {
     hash = (hash * 31 + slug.charCodeAt(i)) | 0;

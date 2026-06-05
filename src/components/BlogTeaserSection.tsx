@@ -31,7 +31,7 @@ export function BlogTeaserSection({ posts }: { posts: PostMeta[] }) {
           >
             {top.map((post) => (
               <StaggerItem as="li" key={post.slug}>
-                <PostCard post={post} cover={getPostCover(post.slug)} />
+                <PostCard post={post} cover={getPostCover(post.slug, post.cover)} />
               </StaggerItem>
             ))}
           </Stagger>

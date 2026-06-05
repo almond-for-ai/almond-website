@@ -1,0 +1,149 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The same context being re-explained to four different AI tools">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7B2D12"/>
+      <stop offset="0.5" stop-color="#B4471F"/>
+      <stop offset="1" stop-color="#D97742"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="800" cy="430" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFC773" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#FFC773" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- canvas -->
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+
+  <!-- bold concentric memory rings behind center -->
+  <g stroke="#FFE3BC" fill="none">
+    <circle cx="800" cy="430" r="250" stroke-opacity="0.18"/>
+    <circle cx="800" cy="430" r="360" stroke-opacity="0.13"/>
+    <circle cx="800" cy="430" r="470" stroke-opacity="0.09"/>
+  </g>
+
+  <!-- dotted grid texture -->
+  <g fill="#FFFFFF" fill-opacity="0.10">
+    <g>
+      <circle cx="120" cy="120" r="2.5"/><circle cx="260" cy="120" r="2.5"/><circle cx="400" cy="120" r="2.5"/>
+      <circle cx="1200" cy="120" r="2.5"/><circle cx="1340" cy="120" r="2.5"/><circle cx="1480" cy="120" r="2.5"/>
+      <circle cx="190" cy="220" r="2.5"/><circle cx="1410" cy="220" r="2.5"/>
+    </g>
+  </g>
+
+  <!-- ============ four identical "context" docs being handed to each tool ============ -->
+  <!-- card centers at x = 245, 615, 985, 1355 -->
+
+  <!-- doc 1 (solid) -->
+  <g opacity="1">
+    <!-- context doc -->
+    <g transform="translate(170,150)">
+      <rect x="0" y="0" width="150" height="116" rx="14" fill="#FFFFFF"/>
+      <rect x="18" y="20" width="86" height="10" rx="5" fill="#D9542A"/>
+      <rect x="18" y="44" width="114" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.20"/>
+      <rect x="18" y="62" width="100" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.16"/>
+      <rect x="18" y="80" width="78" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.12"/>
+    </g>
+    <!-- dashed arrow down -->
+    <g stroke="#FFD79A" stroke-opacity="0.95" stroke-width="2.5">
+      <line x1="245" y1="278" x2="245" y2="452" stroke-dasharray="6 7"/>
+    </g>
+    <path d="M245 470 l-8 -16 h16 z" fill="#FFD79A"/>
+    <!-- tool card -->
+    <g transform="translate(95,470)">
+      <rect x="0" y="0" width="300" height="200" rx="22" fill="#FFFFFF"/>
+      <circle cx="26" cy="28" r="5" fill="#E0563B"/>
+      <circle cx="46" cy="28" r="5" fill="#E8B23C"/>
+      <circle cx="66" cy="28" r="5" fill="#54B47A"/>
+      <line x1="0" y1="52" x2="300" y2="52" stroke="#1A1614" stroke-opacity="0.08"/>
+      <rect x="26" y="78" width="180" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.16"/>
+      <rect x="26" y="104" width="248" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.12"/>
+      <rect x="26" y="130" width="210" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.09"/>
+      <rect x="26" y="156" width="120" height="9" rx="4.5" fill="#D9542A" fill-opacity="0.55"/>
+    </g>
+  </g>
+
+  <!-- doc 2 -->
+  <g opacity="0.82">
+    <g transform="translate(540,150)">
+      <rect x="0" y="0" width="150" height="116" rx="14" fill="#FFFFFF"/>
+      <rect x="18" y="20" width="86" height="10" rx="5" fill="#D9542A"/>
+      <rect x="18" y="44" width="114" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.20"/>
+      <rect x="18" y="62" width="100" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.16"/>
+      <rect x="18" y="80" width="78" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.12"/>
+    </g>
+    <g stroke="#FFD79A" stroke-opacity="0.85" stroke-width="2.5">
+      <line x1="615" y1="278" x2="615" y2="452" stroke-dasharray="6 7"/>
+    </g>
+    <path d="M615 470 l-8 -16 h16 z" fill="#FFD79A"/>
+    <g transform="translate(465,470)">
+      <rect x="0" y="0" width="300" height="200" rx="22" fill="#FFFFFF"/>
+      <circle cx="26" cy="28" r="5" fill="#E0563B"/>
+      <circle cx="46" cy="28" r="5" fill="#E8B23C"/>
+      <circle cx="66" cy="28" r="5" fill="#54B47A"/>
+      <line x1="0" y1="52" x2="300" y2="52" stroke="#1A1614" stroke-opacity="0.08"/>
+      <rect x="26" y="78" width="180" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.16"/>
+      <rect x="26" y="104" width="248" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.12"/>
+      <rect x="26" y="130" width="210" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.09"/>
+      <rect x="26" y="156" width="120" height="9" rx="4.5" fill="#D9542A" fill-opacity="0.5"/>
+    </g>
+  </g>
+
+  <!-- doc 3 -->
+  <g opacity="0.62">
+    <g transform="translate(910,150)">
+      <rect x="0" y="0" width="150" height="116" rx="14" fill="#FFFFFF"/>
+      <rect x="18" y="20" width="86" height="10" rx="5" fill="#D9542A"/>
+      <rect x="18" y="44" width="114" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.20"/>
+      <rect x="18" y="62" width="100" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.16"/>
+      <rect x="18" y="80" width="78" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.12"/>
+    </g>
+    <g stroke="#FFD79A" stroke-opacity="0.7" stroke-width="2.5">
+      <line x1="985" y1="278" x2="985" y2="452" stroke-dasharray="6 7"/>
+    </g>
+    <path d="M985 470 l-8 -16 h16 z" fill="#FFD79A"/>
+    <g transform="translate(835,470)">
+      <rect x="0" y="0" width="300" height="200" rx="22" fill="#FFFFFF"/>
+      <circle cx="26" cy="28" r="5" fill="#E0563B"/>
+      <circle cx="46" cy="28" r="5" fill="#E8B23C"/>
+      <circle cx="66" cy="28" r="5" fill="#54B47A"/>
+      <line x1="0" y1="52" x2="300" y2="52" stroke="#1A1614" stroke-opacity="0.08"/>
+      <rect x="26" y="78" width="180" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.16"/>
+      <rect x="26" y="104" width="248" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.12"/>
+      <rect x="26" y="130" width="210" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.09"/>
+      <rect x="26" y="156" width="120" height="9" rx="4.5" fill="#D9542A" fill-opacity="0.5"/>
+    </g>
+  </g>
+
+  <!-- doc 4 (most ghosted) -->
+  <g opacity="0.44">
+    <g transform="translate(1280,150)">
+      <rect x="0" y="0" width="150" height="116" rx="14" fill="#FFFFFF"/>
+      <rect x="18" y="20" width="86" height="10" rx="5" fill="#D9542A"/>
+      <rect x="18" y="44" width="114" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.20"/>
+      <rect x="18" y="62" width="100" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.16"/>
+      <rect x="18" y="80" width="78" height="7" rx="3.5" fill="#1A1614" fill-opacity="0.12"/>
+    </g>
+    <g stroke="#FFD79A" stroke-opacity="0.55" stroke-width="2.5">
+      <line x1="1355" y1="278" x2="1355" y2="452" stroke-dasharray="6 7"/>
+    </g>
+    <path d="M1355 470 l-8 -16 h16 z" fill="#FFD79A"/>
+    <g transform="translate(1205,470)">
+      <rect x="0" y="0" width="300" height="200" rx="22" fill="#FFFFFF"/>
+      <circle cx="26" cy="28" r="5" fill="#E0563B"/>
+      <circle cx="46" cy="28" r="5" fill="#E8B23C"/>
+      <circle cx="66" cy="28" r="5" fill="#54B47A"/>
+      <line x1="0" y1="52" x2="300" y2="52" stroke="#1A1614" stroke-opacity="0.08"/>
+      <rect x="26" y="78" width="180" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.16"/>
+      <rect x="26" y="104" width="248" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.12"/>
+      <rect x="26" y="130" width="210" height="9" rx="4.5" fill="#1A1614" fill-opacity="0.09"/>
+      <rect x="26" y="156" width="120" height="9" rx="4.5" fill="#D9542A" fill-opacity="0.5"/>
+    </g>
+  </g>
+
+  <!-- repetition "loop" glyph, top-left -->
+  <g transform="translate(120,760)" stroke="#FFE3BC" stroke-opacity="0.9" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M0 14 a14 14 0 1 1 4 10"/>
+    <path d="M2 30 l2 -8 l8 2" fill="none"/>
+  </g>
+</svg>
