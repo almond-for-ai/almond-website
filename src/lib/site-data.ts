@@ -146,9 +146,8 @@ export type SiteData = {
 
 export const SITE_NAV: NavItem[] = [
   { label: "Product", href: "/product" },
+  { label: "Integration", href: "/integrations" },
   { label: "Pricing", href: "/pricing" },
-  { label: "Manifesto", href: "/manifesto" },
-  { label: "Blog", href: "/blog" },
 ];
 
 export const SITE_CTA = { label: "Book demo", href: "/contact" };
