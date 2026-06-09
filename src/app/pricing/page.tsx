@@ -20,7 +20,7 @@ const PRICING_DATA = {
     title: "One almond, a bunch, or an orchard.",
     solo: {
       subtitle:
-        "Start free, forever. Bring your own stack and keep your memory yours. Upgrade only when you add people.",
+        "Start free, forever. Pay only when you add people. Go on-prem when security asks. Same memory at every size.",
     },
     team: {
       subtitle:
@@ -29,8 +29,8 @@ const PRICING_DATA = {
   },
   demo: {
     solo: {
-      heading: "See Almond on your machine.",
-      body: "Free to start. Wire up Claude Code and your real repo in minutes.",
+      heading: "See Almond on your stack.",
+      body: "Free to start. Wire up Claude Code and a real repo in minutes. 14-day trial on Bunch.",
     },
     team: {
       heading: "See Almond on your team's stack.",
@@ -59,9 +59,9 @@ const PRICING_DATA = {
       slug: "bunch",
       name: "Bunch",
       tagline: "For teams shipping AI-native products.",
-      price: "Contact",
-      priceCaption: "Per-seat pricing. Contact for details.",
-      cta: { label: "Talk to sales", href: "/contact" },
+      price: "$20",
+      priceCaption: "Per seat, per month.",
+      cta: { label: "Start a trial", href: "/contact" },
       kind: "primary" as const,
       featured: true,
       features: [
@@ -115,8 +115,8 @@ const PRICING_DATA = {
       a: "Yes. Every Bunch demo starts with a 14-day no-strings trial. Bring your real stack.",
     },
     {
-      q: "Why no public pricing on Bunch?",
-      a: "Because team size, retention window, and integration count drive cost wildly. Five-minute call gets you a number.",
+      q: "Do I need a sales call to start?",
+      a: "No. Single Almond is self-serve, and Bunch starts with a 14-day trial at $20/seat. Talk to us only when you need Orchard.",
     },
     {
       q: "How is this billed?",

@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://almondai.tech"),
   title: "Almond AI · The company compiler",
   description:
-    "The memory layer for AI-native companies. Almond captures the decisions your team makes inside Claude Code, Figma, and Figma Make. Then injects that memory back into every prompt, every doc, every build.",
+    "One memory for every AI you use. Almond captures decisions inside Claude Code, Cursor, and Figma, then injects them back into every prompt, every doc, every build.",
   openGraph: {
     title: "Almond AI · The company compiler",
     description:

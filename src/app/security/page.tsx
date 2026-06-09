@@ -21,7 +21,7 @@ const SECURITY_DATA = {
     title: "Your memory, under your control.",
     solo: {
       subtitle:
-        "Your decisions are yours alone. Encrypted, private by default, and portable to your own cloud whenever you want.",
+        "Encrypted, private by default, and yours to place — managed, your own cloud, or air-gapped behind your firewall.",
     },
     team: {
       subtitle:
@@ -54,11 +54,11 @@ const SECURITY_DATA = {
   access: {
     eyebrow: "Access",
     solo: {
-      heading: "Private to you.",
-      body: "On a solo plan, nothing is shared. Your memory stays yours until you add people.",
+      heading: "Private by default. Scoped when you share.",
+      body: "Memory starts private to you. Add people and access follows your org structure, with every read attributable.",
       points: [
-        "Single-account isolation",
-        "Local-only mode on self-host",
+        "Single-account isolation by default",
+        "Role-scoped access · SSO + SCIM on Orchard",
         "Export or delete anytime",
       ],
     },

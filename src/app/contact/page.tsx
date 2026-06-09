@@ -21,7 +21,7 @@ const CONTACT_DATA = {
     title: "Book a demo.",
     solo: {
       subtitle:
-        "30 minutes. Bring your own stack. We'll show you context you keep re-explaining, surfaced automatically.",
+        "30 minutes on your real stack. We'll surface context you keep re-explaining and decisions you forgot you made.",
     },
     team: {
       subtitle:

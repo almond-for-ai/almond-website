@@ -177,14 +177,14 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
     },
     audience: {
       solo: {
-        body: "Your Claude Code, your Figma, your Cursor. Finally sharing memory. Stop re-explaining the same context every session.",
+        body: "Claude Code, Cursor, Figma, ChatGPT — every AI you use, finally sharing one memory. Decide something once and never re-explain it again.",
         finalCta: {
           heading: "Memory across every tool you open.",
           body: "Set it up in ten minutes. Bring your own stack.",
         },
         value: {
-          heading: "Your time back. Your focus back.",
-          lead: "You stop re-explaining. You stop re-prompting. You stop losing the thread between Cursor, Figma, and Claude Code.",
+          heading: "Decide once. Every AI remembers.",
+          lead: "Stop re-explaining. Stop re-prompting. What you settle in one tool follows you into the next — and to everyone who works with you.",
           slots: {
             stat: {
               label: "Time",
@@ -214,7 +214,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
               label: "Continuity",
               title: "Your context survives the prompt.",
               highlight: "survives the prompt",
-              body: "Switch editors. Switch laptops. Your memory follows you.",
+              body: "Switch tools. Switch laptops. Add people. The memory follows.",
             },
             stacked: {
               label: "Hours",
@@ -346,8 +346,8 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
     network: {
       eyebrow: "The network",
       solo: {
-        heading: "Your tools. Your work. One thread.",
-        body: "Almond sits between you and the stack you already run. Context follows both.",
+        heading: "Every tool. Every person. One memory.",
+        body: "Almond sits underneath the stack you already run. Context flows to whoever needs it next.",
       },
       team: {
         heading: "Every person. Every tool. One company memory.",

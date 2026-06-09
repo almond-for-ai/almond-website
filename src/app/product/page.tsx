@@ -40,7 +40,7 @@ const PRODUCT_DATA = {
     solo: {
       title: "Memory that lives inside your tools.",
       subtitle:
-        "No chat window to babysit. Almond surfaces what you already decided right inside Claude Code, Cursor, and Figma. You stop re-explaining yourself.",
+        "No chat window to babysit. No new app to adopt. Almond surfaces what's already been decided right inside Claude Code, Cursor, and Figma — so nothing gets re-explained twice.",
     },
     team: {
       title: "Your team's memory, in every tool you ship in.",
@@ -70,7 +70,7 @@ const PRODUCT_DATA = {
   captured: {
     eyebrow: "What gets captured",
     solo: {
-      heading: "Your artifacts. Not your chatter.",
+      heading: "The decisions. Not the noise.",
     },
     team: {
       heading: "The team's decisions. Not the noise.",
@@ -108,11 +108,11 @@ const PRODUCT_DATA = {
     solo: [
       {
         q: "Where does my data live?",
-        a: "Managed by default, on Almond infra. You can move to your own cloud the moment you want to.",
+        a: "Managed by default. BYO cloud (AWS, GCP, Azure) on Bunch. Self-hosted or air-gapped on Orchard.",
       },
       {
-        q: "Is my memory private to me?",
-        a: "Yes. On a solo plan your memory is yours alone. Nothing is shared until you add people.",
+        q: "Who can see my memory?",
+        a: "You decide. Memory starts private to you. Add people and access follows your org — SSO, SCIM, and an audit trail on Orchard.",
       },
     ],
     team: [
@@ -128,8 +128,8 @@ const PRODUCT_DATA = {
   },
   cta: {
     solo: {
-      heading: "Run it on your machine.",
-      body: "A 30-minute demo on your real tools. Bring Claude Code and a repo you know.",
+      heading: "Run it on your stack.",
+      body: "A 30-minute demo on your real tools. We'll surface decisions you forgot you made.",
     },
     team: {
       heading: "Run it on your team's stack.",

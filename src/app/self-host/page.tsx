@@ -21,7 +21,7 @@ const SELF_HOST_DATA = {
     title: "Run Almond on your own infrastructure.",
     solo: {
       subtitle:
-        "Privacy-first by default. Keep every decision on hardware you control, with nothing leaving your machine.",
+        "For when memory can't leave the building. Air-gap it, bring your keys, pick your region. Same product, your perimeter.",
     },
     team: {
       subtitle:

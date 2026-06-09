@@ -18,8 +18,8 @@ type Scenario = {
 const SOLO_SCENARIOS: Scenario[] = [
   {
     step: "Every session",
-    problem: "You re-explain your stack to the model. Again.",
-    loop: "Almond recalls your decisions into Claude Code and Cursor before you type a word.",
+    problem: "The model gets the same explanation. Again.",
+    loop: "Almond recalls settled decisions into Claude Code and Cursor before you type a word.",
     outcome: "No re-explaining",
   },
   {
@@ -29,9 +29,9 @@ const SOLO_SCENARIOS: Scenario[] = [
     outcome: "One thread",
   },
   {
-    step: "New project",
-    problem: "Cold start. Your own past patterns are gone.",
-    loop: "Almond surfaces the conventions and tradeoffs you already settled on.",
+    step: "Cold start",
+    problem: "New project, new person — the settled patterns are gone.",
+    loop: "Almond surfaces the conventions and tradeoffs already settled, to whoever opens the tool.",
     outcome: "3 days to 1 hour",
   },
 ];

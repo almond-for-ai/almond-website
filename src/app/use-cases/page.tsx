@@ -12,16 +12,16 @@ import { SectionTracker } from "@/components/SectionTracker";
 export const metadata: Metadata = {
   title: "Use cases · Almond AI",
   description:
-    "How Almond works for a solo founder shipping across Claude Code, Figma, and Cursor, and for a team keeping decisions alive across every tool.",
+    "How Almond keeps context alive across Claude Code, Cursor, and Figma — from the first commit to the whole company.",
 };
 
 const USE_CASES_DATA = {
   hero: {
     chip: "Use cases",
     solo: {
-      title: "One founder. A whole stack. One memory.",
+      title: "Many tools. One memory.",
       subtitle:
-        "You move fast across Claude Code, Cursor, and Figma. Almond keeps the thread so you never re-explain yourself.",
+        "Work moves fast across Claude Code, Cursor, and Figma. Almond keeps the thread so nothing gets re-explained — by you or anyone who joins.",
     },
     team: {
       title: "One team. Many tools. One memory.",
@@ -35,7 +35,7 @@ const USE_CASES_DATA = {
     solo: [
       { value: "10", unit: "hrs", caption: "back every week" },
       { value: "0", unit: "", caption: "context resets" },
-      { value: "1", unit: "hr", caption: "to spin up a project" },
+      { value: "1", unit: "day", caption: "to onboard anyone new" },
     ],
     team: [
       { value: "1", unit: "day", caption: "to fully onboarded" },
@@ -45,8 +45,8 @@ const USE_CASES_DATA = {
   },
   cta: {
     solo: {
-      heading: "See it on your machine.",
-      body: "30 minutes, your real tools. Bring Claude Code and a repo you know.",
+      heading: "See it on your stack.",
+      body: "30 minutes, your real tools. We'll surface decisions you forgot you made.",
     },
     team: {
       heading: "See it on your team's stack.",
