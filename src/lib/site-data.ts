@@ -64,8 +64,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
       title: "Almond AI",
       subtitle: "Something worth remembering.",
       ctas: [
-        { label: "Test your mind", href: "/#game", kind: "secondary" },
-        { label: "Read the notes", href: "/manifesto", kind: "secondary" },
+        { label: "Save my seat", href: "/#waitlist", kind: "primary" },
       ],
     },
     waitlist: {

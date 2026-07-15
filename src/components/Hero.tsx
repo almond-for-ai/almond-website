@@ -110,18 +110,6 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
         <Mount delay={0.4} y={12} className="mt-[28px]">
           <WaitlistForm source="hero" />
         </Mount>
-
-        {/* CTAs */}
-        <Mount delay={0.5} y={12} className="mt-[16px]">
-          <div className="flex items-center gap-[12px]">
-            <Link href="/#game" className="btn-secondary">
-              Test your mind
-            </Link>
-            <Link href="/manifesto" className="btn-secondary">
-              Read the notes
-            </Link>
-          </div>
-        </Mount>
       </div>
 
       {/* Fact card strip / auto-scrolling marquee */}
