@@ -16,6 +16,16 @@ export type SiteData = {
     big?: string;
     chips?: string[];
   }[];
+  waitlist: {
+    heading: string;
+    microcopy: string;
+    button: string;
+  };
+  manifesto: {
+    title: string;
+    href: string;
+    stanzas: string[];
+  };
   game: {
     title: string;
     rules: { title: string; desc: string }[];
@@ -44,6 +54,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
     brand: { name: "Almond AI", status: "Coming Soon" },
     nav: [
       { label: "Game", href: "/#game" },
+      { label: "Manifesto", href: "/manifesto" },
       { label: "Blog", href: "/blog" },
     ],
     hero: {
@@ -51,10 +62,26 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
         ? `New post · ${posts[0].title}`
         : "New writing in the journal",
       title: "Almond AI",
-      subtitle: "Coming Soon",
+      subtitle: "Something worth remembering.",
       ctas: [
-        { label: "Test your mind", href: "/#game", kind: "primary" },
-        { label: "Blogs", href: "/blog", kind: "secondary" },
+        { label: "Test your mind", href: "/#game", kind: "secondary" },
+        { label: "Read the notes", href: "/manifesto", kind: "secondary" },
+      ],
+    },
+    waitlist: {
+      heading: "Save my seat",
+      microcopy: "Be there when the shell cracks. No spam, ever.",
+      button: "Save my seat",
+    },
+    manifesto: {
+      title: "Under the husk.",
+      href: "/manifesto",
+      stanzas: [
+        "Most of an almond's life is invisible.",
+        "We named the company after a part of your brain.",
+        "Attention is expensive. Forgetting is more expensive.",
+        "Good things are grown, not launched.",
+        "We remember who showed up first.",
       ],
     },
     facts: [
@@ -118,6 +145,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
         {
           label: "About",
           items: [
+            { label: "Manifesto", href: "/manifesto" },
             { label: "Blog", href: "/blog" },
             { label: "Test your Mind", href: "/#game" },
           ],

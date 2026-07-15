@@ -35,10 +35,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://almondai.tech"),
   title: "Almond AI · Coming Soon",
   description:
-    "Almond AI builds tools for the mind. Test your memory with a mind game.",
+    "Almond AI builds tools for the mind. Something is growing under the husk. Join the waitlist.",
   openGraph: {
     title: "Almond AI · Coming Soon",
-    description: "Almond AI. Tools for the mind. Coming soon.",
+    description:
+      "Tools for the mind. Something is growing under the husk. Join the waitlist.",
     siteName: "Almond AI",
     type: "website",
     url: "/",
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Almond AI",
-    description: "Tools for the mind. Coming soon.",
+    description: "Tools for the mind. Something is growing under the husk.",
     images: ["/og-image.png"],
   },
 };

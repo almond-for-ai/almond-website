@@ -98,7 +98,7 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
         </Mount>
         <Mount delay={0.25} y={14}>
           <p className="text-[40px] font-medium leading-[48px] tracking-[-0.8px] text-black/50">
-            Coming Soon
+            Something worth remembering.
           </p>
         </Mount>
 
