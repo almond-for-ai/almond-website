@@ -1,19 +1,30 @@
 "use client";
 
-import { motion, type Transition, type Variants } from "motion/react";
+import {
+  motion,
+  useReducedMotion,
+  type Transition,
+  type Variants,
+} from "motion/react";
 import type { ReactNode } from "react";
+import {
+  MOTION_DURATION,
+  MOTION_EASE,
+  MOTION_STAGGER,
+  MOTION_VIEWPORT,
+} from "@/lib/motion-tokens";
 
-const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
+const EASE = MOTION_EASE.reveal;
 
 /* ============================================================
-   Reveal — single element fade + slide up when in viewport
+   Reveal: single element fade + slide up when in viewport
    ============================================================ */
 
 export function Reveal({
   children,
   delay = 0,
-  y = 20,
-  duration = 0.7,
+  y = 16,
+  duration = MOTION_DURATION.enter,
   className,
   as = "div",
   once = true,
@@ -26,13 +37,14 @@ export function Reveal({
   as?: "div" | "section" | "header" | "li" | "span";
   once?: boolean;
 }) {
+  const reduce = useReducedMotion();
   const Tag = motion[as] as typeof motion.div;
   return (
     <Tag
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: "-80px" }}
-      transition={{ duration, ease: EASE, delay }}
+      initial={reduce ? false : { opacity: 0, y }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once, margin: MOTION_VIEWPORT.margin }}
+      transition={{ duration: reduce ? 0 : duration, ease: EASE, delay }}
       className={className}
     >
       {children}
@@ -41,14 +53,14 @@ export function Reveal({
 }
 
 /* ============================================================
-   Mount — fade + slide up on mount (no scroll trigger)
+   Mount: fade + slide up on mount (no scroll trigger)
    ============================================================ */
 
 export function Mount({
   children,
   delay = 0,
-  y = 16,
-  duration = 0.7,
+  y = 12,
+  duration = MOTION_DURATION.mount,
   className,
   as = "div",
 }: {
@@ -59,12 +71,13 @@ export function Mount({
   className?: string;
   as?: "div" | "section" | "header" | "li" | "span" | "h1" | "h2" | "p" | "a";
 }) {
+  const reduce = useReducedMotion();
   const Tag = motion[as] as typeof motion.div;
   return (
     <Tag
-      initial={{ opacity: 0, y }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration, ease: EASE, delay }}
+      initial={reduce ? false : { opacity: 0, y }}
+      animate={reduce ? undefined : { opacity: 1, y: 0 }}
+      transition={{ duration: reduce ? 0 : duration, ease: EASE, delay }}
       className={className}
     >
       {children}
@@ -73,26 +86,25 @@ export function Mount({
 }
 
 /* ============================================================
-   Stagger — parent that staggers its motion children
-   Pair with StaggerItem inside.
+   Stagger: parent that staggers its motion children
    ============================================================ */
 
 const containerVariants: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
+      staggerChildren: MOTION_STAGGER,
+      delayChildren: 0.04,
     },
   },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 14 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: EASE } as Transition,
+    transition: { duration: MOTION_DURATION.enter, ease: EASE } as Transition,
   },
 };
 
@@ -100,7 +112,7 @@ export function Stagger({
   children,
   className,
   as = "div",
-  amount = 0.2,
+  amount = 0.15,
   once = true,
   delay = 0,
 }: {
@@ -120,7 +132,7 @@ export function Stagger({
               ...containerVariants,
               show: {
                 transition: {
-                  staggerChildren: 0.08,
+                  staggerChildren: MOTION_STAGGER,
                   delayChildren: delay,
                 },
               },
@@ -129,7 +141,7 @@ export function Stagger({
       }
       initial="hidden"
       whileInView="show"
-      viewport={{ once, amount, margin: "-60px" }}
+      viewport={{ once, amount, margin: MOTION_VIEWPORT.margin }}
       className={className}
     >
       {children}
