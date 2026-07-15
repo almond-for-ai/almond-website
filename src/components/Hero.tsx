@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FactCard } from "@/components/FactCard";
 import { Mount } from "@/components/Motion";
 import { AlmondGlyph } from "@/components/AlmondMark";
+import { WaitlistForm } from "@/components/WaitlistForm";
 import type { PostMeta } from "@/lib/posts";
 
 const FACTS = [
@@ -101,14 +102,19 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
           </p>
         </Mount>
 
-        {/* CTAs */}
+        {/* Waitlist */}
         <Mount delay={0.4} y={12} className="mt-[28px]">
+          <WaitlistForm source="hero" />
+        </Mount>
+
+        {/* CTAs */}
+        <Mount delay={0.5} y={12} className="mt-[16px]">
           <div className="flex items-center gap-[12px]">
-            <Link href="/#game" className="btn-primary">
+            <Link href="/#game" className="btn-secondary">
               Test your mind
             </Link>
-            <Link href="/blog" className="btn-secondary">
-              Blogs
+            <Link href="/manifesto" className="btn-secondary">
+              Read the notes
             </Link>
           </div>
         </Mount>

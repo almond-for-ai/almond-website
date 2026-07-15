@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && opennextjs-cloudflare build --skipNextBuild",
+    "build": "npm run cf-typegen && next build && opennextjs-cloudflare build --skipNextBuild",
     "build:next": "next build",
     "start": "next start",
     "lint": "next lint",
