@@ -88,7 +88,7 @@ export function FactCard({
 
   return (
     <article
-      className="relative flex h-[403px] w-[340px] shrink-0 flex-col overflow-hidden rounded-[32px] p-7 transition-transform duration-500 ease-out will-change-transform hover:-translate-y-2 hover:scale-[1.03]"
+      className="relative flex h-[403px] w-[340px] shrink-0 flex-col overflow-hidden rounded-[32px] p-7 transition-[transform,box-shadow] duration-500 ease-out will-change-transform hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_28px_64px_rgba(0,0,0,0.14)]"
       style={{
         background: t.bg,
         color: t.fg,

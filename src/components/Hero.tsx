@@ -83,8 +83,12 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
         <Mount delay={0.05} y={10}>
           <Link
             href={chipHref}
-            className="chip-accent inline-flex items-center gap-[6px]"
+            className="chip-accent inline-flex items-center gap-[8px]"
           >
+            <span className="relative flex h-[7px] w-[7px]" aria-hidden>
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#7b4019] opacity-60" />
+              <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-[#7b4019]" />
+            </span>
             <span>{chipLabel}</span>
             <AlmondGlyph size={12} />
           </Link>
@@ -97,7 +101,7 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
           </h1>
         </Mount>
         <Mount delay={0.25} y={14}>
-          <p className="text-[40px] font-medium leading-[48px] tracking-[-0.8px] text-black/50">
+          <p className="font-display text-[40px] font-normal leading-[48px] tracking-[-0.5px] text-black/55 md:text-[46px] md:leading-[54px]">
             Something worth remembering.
           </p>
         </Mount>

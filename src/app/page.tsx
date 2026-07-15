@@ -1,5 +1,6 @@
 import { BlogTeaserSection } from "@/components/BlogTeaserSection";
 import { Hero } from "@/components/Hero";
+import { HuskOrbitSection } from "@/components/HuskOrbitSection";
 import { MindGameSection } from "@/components/MindGameSection";
 import { RawView } from "@/components/RawView";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -23,6 +24,7 @@ export default async function Home({
       {view === "roasted" ? (
         <>
           <Hero latestPost={posts[0]} />
+          <HuskOrbitSection />
           <MindGameSection />
           <BlogTeaserSection posts={posts} />
         </>
