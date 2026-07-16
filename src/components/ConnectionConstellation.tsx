@@ -161,6 +161,21 @@ const SOLO_TOOLS: ToolNode[] = [
   { kind: "tool", id: "t8", tool: "v0", x: 88, y: 60, size: 64, rotate: -2 },
 ];
 
+/** Mobile arrangement: smaller tiles framing the top and bottom of the
+ *  viewport, clear of the vertical band the headline + CTAs occupy on narrow
+ *  screens. Same ids as SOLO_TOOLS so tiles morph in place across the
+ *  breakpoint instead of remounting. */
+const SOLO_TOOLS_MOBILE: ToolNode[] = [
+  { kind: "tool", id: "t1", tool: "cursor", x: 12, y: 14, size: 52, rotate: -2 },
+  { kind: "tool", id: "t7", tool: "chatgpt", x: 35, y: 23, size: 46, rotate: 1 },
+  { kind: "tool", id: "t4", tool: "linear", x: 65, y: 21, size: 46, rotate: -1 },
+  { kind: "tool", id: "t5", tool: "github", x: 88, y: 13, size: 52, rotate: 2 },
+  { kind: "tool", id: "t3", tool: "claude-code", x: 14, y: 84, size: 50, rotate: 1 },
+  { kind: "tool", id: "t2", tool: "figma", x: 35, y: 91, size: 44, rotate: -2 },
+  { kind: "tool", id: "t8", tool: "v0", x: 65, y: 90, size: 44, rotate: 2 },
+  { kind: "tool", id: "t6", tool: "notion", x: 86, y: 85, size: 50, rotate: -1 },
+];
+
 const TEAM_TOOLS: ToolNode[] = [
   { kind: "tool", id: "t1", tool: "cursor", x: 12, y: 40, size: 58, rotate: 0 },
   { kind: "tool", id: "t2", tool: "figma", x: 22, y: 84, size: 54, rotate: -2 },
@@ -343,7 +358,11 @@ export function ConnectionConstellation({ copy }: { copy: NetworkCopy }) {
   const sectionRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
   const inView = useInView(sectionRef, { once: true, margin: "-10% 0px" });
-  const nodes = useMemo(() => SOLO_TOOLS, []);
+  const [isMobile, setIsMobile] = useState(false);
+  const nodes = useMemo(
+    () => (isMobile ? SOLO_TOOLS_MOBILE : SOLO_TOOLS),
+    [isMobile],
+  );
   const exitLayers = useMemo(() => assignExitLayers(nodes), [nodes]);
   const totalLayers = useMemo(
     () => Math.max(1, ...Array.from(exitLayers.values())) + 1,
@@ -357,6 +376,14 @@ export function ConnectionConstellation({ copy }: { copy: NetworkCopy }) {
     sync();
     window.addEventListener("resize", sync);
     return () => window.removeEventListener("resize", sync);
+  }, []);
+
+  useLayoutEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const sync = () => setIsMobile(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -416,7 +443,7 @@ export function ConnectionConstellation({ copy }: { copy: NetworkCopy }) {
           </motion.svg>
 
           {/* Drifting tiles - ring around center copy */}
-          <div className="pointer-events-none absolute inset-0 z-[1] hidden sm:block">
+          <div className="pointer-events-none absolute inset-0 z-[1] block">
             <AnimatePresence mode="popLayout">
               {nodes.map((node, i) => (
                 <ConstellationTile
