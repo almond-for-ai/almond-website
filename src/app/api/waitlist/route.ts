@@ -1,5 +1,6 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextRequest, NextResponse } from "next/server";
+import { sendWaitlistConfirmation } from "@/lib/email";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const RATE_LIMIT_MAX = 5;
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
   const source =
     typeof body.source === "string" ? body.source.slice(0, 32) : null;
 
-  const { env } = getCloudflareContext();
+  const { env, ctx } = getCloudflareContext();
   const db = env.WAITLIST_DB;
 
   const ip = request.headers.get("cf-connecting-ip") ?? "unknown";
@@ -62,12 +63,22 @@ export async function POST(request: NextRequest) {
     }
 
     // Duplicate email is treated as success so membership isn't leakable.
-    await db
+    const result = await db
       .prepare(
         "INSERT INTO waitlist (email, source, ip_hash, user_agent) VALUES (?1, ?2, ?3, ?4) ON CONFLICT(email) DO NOTHING",
       )
       .bind(email, source, ipHash, request.headers.get("user-agent") ?? null)
       .run();
+
+    // Only email on a genuinely new row (meta.changes === 0 means the
+    // conflict branch fired, i.e. this email already existed).
+    if (result.meta.changes > 0 && env.RESEND_API_KEY) {
+      ctx.waitUntil(
+        sendWaitlistConfirmation(env.RESEND_API_KEY, email).catch((err) => {
+          console.error("waitlist confirmation email failed", err);
+        }),
+      );
+    }
 
     return NextResponse.json({ ok: true });
   } catch {
