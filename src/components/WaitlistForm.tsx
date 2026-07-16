@@ -5,18 +5,23 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { AlmondGlyph } from "@/components/AlmondMark";
 
 type Status = "idle" | "submitting" | "success" | "error";
+type Variant = "light" | "dark";
 
 export function WaitlistForm({
   source,
+  variant = "light",
   className = "",
 }: {
   source: "hero" | "footer" | "manifesto";
+  variant?: Variant;
   className?: string;
 }) {
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState(""); // honeypot
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+
+  const dark = variant === "dark";
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -52,7 +57,9 @@ export function WaitlistForm({
   if (status === "success") {
     return (
       <div
-        className={`flex items-center gap-[10px] rounded-full bg-black px-[20px] py-[13px] text-[15px] font-medium text-white ${className}`}
+        className={`inline-flex h-[48px] items-center gap-[10px] rounded-full px-[24px] text-[15px] font-medium ${
+          dark ? "bg-white text-black" : "bg-black text-white"
+        } ${className}`}
       >
         <AlmondGlyph size={14} />
         <span>You&rsquo;re in. We&rsquo;ll write when it&rsquo;s time.</span>
@@ -61,8 +68,8 @@ export function WaitlistForm({
   }
 
   return (
-    <form onSubmit={submit} className={`w-full max-w-[440px] ${className}`}>
-      <div className="flex items-center gap-[8px] rounded-full border border-black/10 bg-white p-[6px] pl-[20px] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow focus-within:shadow-[0_2px_12px_rgba(123,64,25,0.10)]">
+    <form onSubmit={submit} className={`w-full max-w-[460px] ${className}`}>
+      <div className="flex flex-wrap gap-[8px]">
         <input
           type="email"
           required
@@ -70,8 +77,12 @@ export function WaitlistForm({
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@somewhere.com"
           aria-label="Email address"
-          className="min-w-0 flex-1 bg-transparent text-[15px] text-black outline-none placeholder:text-black/35"
           disabled={status === "submitting"}
+          className={`h-[48px] min-w-[210px] flex-1 rounded-full border px-[22px] text-[15px] outline-none transition-shadow ${
+            dark
+              ? "border-white/15 bg-white/[0.08] text-white placeholder:text-white/40 focus:border-white/30 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.08)]"
+              : "border-black/10 bg-white text-black shadow-[0_1px_2px_rgba(0,0,0,0.04)] placeholder:text-black/35 focus:border-black/20 focus:shadow-[0_2px_12px_rgba(123,64,25,0.10)]"
+          }`}
         />
         <input
           type="text"
@@ -85,19 +96,29 @@ export function WaitlistForm({
         />
         <button
           type="submit"
-          className="btn-primary shrink-0 disabled:opacity-60"
           disabled={status === "submitting"}
+          className={`h-[48px] shrink-0 grow rounded-full px-[24px] text-[15px] font-medium tracking-[-0.3px] transition-[opacity,transform] duration-200 active:scale-[0.98] disabled:opacity-60 sm:grow-0 ${
+            dark
+              ? "bg-white text-black hover:opacity-90"
+              : "bg-black text-white hover:opacity-88"
+          }`}
         >
           {status === "submitting" ? "Saving…" : "Save my seat"}
         </button>
       </div>
-      {error ? (
-        <p className="mt-[8px] pl-[20px] text-[13px] text-[#a33]">{error}</p>
-      ) : (
-        <p className="mt-[8px] pl-[20px] text-[13px] text-black/40">
-          Be there when the shell cracks. No spam, ever.
-        </p>
-      )}
+      <p
+        className={`mt-[10px] pl-[22px] text-[13px] leading-[18px] ${
+          error
+            ? dark
+              ? "text-[#f2b8b5]"
+              : "text-[#a33]"
+            : dark
+              ? "text-white/45"
+              : "text-black/40"
+        }`}
+      >
+        {error ?? "Be there when the shell cracks. No spam, ever."}
+      </p>
     </form>
   );
 }

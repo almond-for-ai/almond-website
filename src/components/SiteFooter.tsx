@@ -73,7 +73,7 @@ export function SiteFooter() {
             <p className="text-[14px] leading-[20px] text-white/60">
               First taste goes to the list.
             </p>
-            <WaitlistForm source="footer" />
+            <WaitlistForm source="footer" variant="dark" />
           </div>
         </div>
 
