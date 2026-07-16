@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - staging
-      - full-website-wip
+      - full-website
 
 concurrency:
   group: deploy-${{ github.ref }}
@@ -49,5 +49,5 @@ jobs:
         run: npx wrangler deploy --env staging
 
       - name: Deploy to full-website-wip
-        if: github.ref == 'refs/heads/full-website-wip'
+        if: github.ref == 'refs/heads/full-website'
         run: npx wrangler deploy --env full-wip
