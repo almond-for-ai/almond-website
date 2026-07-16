@@ -14,8 +14,13 @@ export function CardArt({
   const Inner = ART[kind];
   return (
     <div
-      className={`pointer-events-none absolute ${className}`}
-      style={{ opacity }}
+      className={`pointer-events-none absolute opacity-[var(--art-o)] transition-[transform,opacity] duration-700 ease-out group-hover:rotate-[5deg] group-hover:scale-[1.06] group-hover:opacity-[var(--art-o-hover)] ${className}`}
+      style={
+        {
+          "--art-o": opacity,
+          "--art-o-hover": Math.min(opacity * 1.7, 1),
+        } as React.CSSProperties
+      }
       aria-hidden
     >
       <Inner />

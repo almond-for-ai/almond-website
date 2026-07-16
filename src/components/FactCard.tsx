@@ -88,7 +88,7 @@ export function FactCard({
 
   return (
     <article
-      className="relative flex h-[403px] w-[340px] shrink-0 flex-col overflow-hidden rounded-[32px] p-7 transition-[transform,box-shadow] duration-500 ease-out will-change-transform hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_28px_64px_rgba(0,0,0,0.14)]"
+      className="group relative flex h-[403px] w-[340px] shrink-0 flex-col overflow-hidden rounded-[32px] p-7 transition-[transform,box-shadow] duration-500 ease-out will-change-transform hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_28px_64px_rgba(0,0,0,0.14)]"
       style={{
         background: t.bg,
         color: t.fg,
@@ -102,7 +102,7 @@ export function FactCard({
       <div className="relative z-10 flex h-full flex-col">
       {/* Label */}
       <div
-        className="font-mono inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.2em]"
+        className="font-mono inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] transition-transform duration-500 ease-out group-hover:-translate-y-[2px]"
         style={{ background: t.labelBg, color: t.labelFg }}
       >
         {label}
@@ -179,6 +179,13 @@ export function FactCard({
             >
               {l.prompt ? "~ $ " : ""}
               {l.text}
+              {i === terminalLines.length - 1 ? (
+                <span
+                  className="terminal-caret ml-[3px] inline-block h-[11px] w-[6px] translate-y-[1.5px]"
+                  style={{ background: t.accent }}
+                  aria-hidden
+                />
+              ) : null}
             </div>
           ))}
         </div>
