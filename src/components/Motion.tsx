@@ -108,6 +108,13 @@ const itemVariants: Variants = {
   },
 };
 
+// Reduced-motion variants: no vertical travel, instant. Keeps the same
+// hidden/show names so StaggerItem can swap variant sets transparently.
+const reducedItemVariants: Variants = {
+  hidden: { opacity: 1, y: 0 },
+  show: { opacity: 1, y: 0 },
+};
+
 export function Stagger({
   children,
   className,
@@ -123,22 +130,23 @@ export function Stagger({
   once?: boolean;
   delay?: number;
 }) {
+  const reduce = useReducedMotion();
   const Tag = motion[as] as typeof motion.div;
+  const variants =
+    reduce || delay > 0
+      ? {
+          ...containerVariants,
+          show: {
+            transition: {
+              staggerChildren: reduce ? 0 : MOTION_STAGGER,
+              delayChildren: reduce ? 0 : delay,
+            },
+          },
+        }
+      : containerVariants;
   return (
     <Tag
-      variants={
-        delay > 0
-          ? {
-              ...containerVariants,
-              show: {
-                transition: {
-                  staggerChildren: MOTION_STAGGER,
-                  delayChildren: delay,
-                },
-              },
-            }
-          : containerVariants
-      }
+      variants={variants}
       initial="hidden"
       whileInView="show"
       viewport={{ once, amount, margin: MOTION_VIEWPORT.margin }}
@@ -158,9 +166,13 @@ export function StaggerItem({
   className?: string;
   as?: "div" | "li" | "h1" | "h2" | "h3" | "p" | "span" | "a";
 }) {
+  const reduce = useReducedMotion();
   const Tag = motion[as] as typeof motion.div;
   return (
-    <Tag variants={itemVariants} className={className}>
+    <Tag
+      variants={reduce ? reducedItemVariants : itemVariants}
+      className={className}
+    >
       {children}
     </Tag>
   );

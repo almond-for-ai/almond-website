@@ -19,7 +19,7 @@ export default async function Home({
   const data = buildSiteData(posts);
 
   return (
-    <main className="relative min-h-dvh w-full overflow-x-hidden bg-white">
+    <main className="relative min-h-dvh w-full overflow-x-clip bg-white">
       <SiteNav />
       {view === "roasted" ? (
         <>
