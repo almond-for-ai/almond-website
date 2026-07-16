@@ -15,13 +15,13 @@ already measured, because the pencil mark stayed in yesterday's pocket. The
 cook tastes the sauce again, not because it changed, but because he forgot
 what he decided about it on Tuesday.
 
-Nobody bills for that minute. Nobody puts it in a report. It just happens —
+Nobody bills for that minute. Nobody puts it in a report. It just happens,
 quietly, everywhere, a thousand times a week.
 
 ## Starting from zero
 
 Watch anyone begin their morning. The first hour is rarely new work. It's
-reconstruction — rebuilding a state of mind that existed, complete and warm,
+reconstruction: rebuilding a state of mind that existed, complete and warm,
 at five o'clock yesterday.
 
 The work wasn't lost. The **why** of it was.
@@ -31,7 +31,7 @@ least measured. Attention is expensive. Forgetting is more expensive.
 
 ## What we can say
 
-We're building something for that gap — the one between deciding a thing and
+We're building something for that gap: the one between deciding a thing and
 still knowing why, a season later.
 
 A few things it is not:
@@ -51,7 +51,7 @@ part, we keep telling ourselves. The quiet part is the one doing the work.
 When it's ready. The orchard doesn't rush, and the fruit is better for it.
 
 If you want to be there when the shell cracks, the
-[waitlist](/#hero-section) is open. We remember who showed up first —
+[waitlist](/#hero-section) is open. We remember who showed up first,
 of course we do.
 
 ---

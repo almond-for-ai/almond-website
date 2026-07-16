@@ -85,7 +85,7 @@ export function SiteFooter() {
         {/* Copyright row */}
         <div className="flex flex-col items-start justify-between gap-2 text-[13px] tracking-[-0.484px] text-white/40 md:flex-row md:items-center">
           <span>© 2026 Almond AI</span>
-          <span>amygdala (n.) — Greek &ldquo;almond.&rdquo;</span>
+          <span>amygdala (n.) · Greek &ldquo;almond.&rdquo;</span>
         </div>
       </div>
     </footer>

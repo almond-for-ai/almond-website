@@ -39,7 +39,7 @@ const MANIFESTO_DATA = {
       n: "03",
       title: "Attention is expensive. Forgetting is more expensive.",
       body: [
-        "Everyone measures what it costs to focus. Nobody measures what it costs to lose the thread — to walk back into a room and start from zero.",
+        "Everyone measures what it costs to focus. Nobody measures what it costs to lose the thread: to walk back into a room and start from zero.",
         "Someone should do something about that.",
       ],
     },

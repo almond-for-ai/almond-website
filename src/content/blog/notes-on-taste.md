@@ -27,7 +27,7 @@ been thinking about that a lot.
 ## On time
 
 Most of an almond's life is invisible. The hull, the husk, the season, the
-soil — all of that has already happened by the time it shows up in someone's
+soil: all of that has already happened by the time it shows up in someone's
 palm.
 
 It seems right to be patient with the things still under the husk.
