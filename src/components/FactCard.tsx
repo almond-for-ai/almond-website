@@ -36,8 +36,8 @@ const TONES: Record<
   "accent-light": {
     bg: "#a36740",
     fg: "#ffffff",
-    labelBg: "rgba(0,0,0,0.14)",
-    labelFg: "#1c0e05",
+    labelBg: "rgba(255,255,255,0.18)",
+    labelFg: "#ffffff",
     accent: "#ffffff",
   },
   "black-solid": {
