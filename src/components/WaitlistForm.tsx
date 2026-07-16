@@ -57,7 +57,7 @@ export function WaitlistForm({
   if (status === "success") {
     return (
       <div
-        className={`inline-flex h-[48px] items-center gap-[10px] rounded-full px-[24px] text-[15px] font-medium ${
+        className={`inline-flex h-[52px] items-center gap-[10px] rounded-full px-[24px] text-[15px] font-medium ${
           dark ? "bg-white text-black" : "bg-black text-white"
         } ${className}`}
       >
@@ -68,8 +68,14 @@ export function WaitlistForm({
   }
 
   return (
-    <form onSubmit={submit} className={`w-full max-w-[460px] ${className}`}>
-      <div className="flex flex-wrap gap-[8px]">
+    <form onSubmit={submit} className={`w-full max-w-[420px] ${className}`}>
+      <div
+        className={`flex h-[52px] items-center rounded-full border pl-[22px] pr-[6px] transition-shadow ${
+          dark
+            ? "border-white/15 bg-white/[0.08] focus-within:border-white/30 focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.08)]"
+            : "border-black/10 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)] focus-within:border-black/20 focus-within:shadow-[0_2px_12px_rgba(123,64,25,0.10)]"
+        }`}
+      >
         <input
           type="email"
           required
@@ -78,10 +84,8 @@ export function WaitlistForm({
           placeholder="you@somewhere.com"
           aria-label="Email address"
           disabled={status === "submitting"}
-          className={`h-[48px] min-w-[210px] flex-1 rounded-full border px-[22px] text-[15px] outline-none transition-shadow ${
-            dark
-              ? "border-white/15 bg-white/[0.08] text-white placeholder:text-white/40 focus:border-white/30 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.08)]"
-              : "border-black/10 bg-white text-black shadow-[0_1px_2px_rgba(0,0,0,0.04)] placeholder:text-black/35 focus:border-black/20 focus:shadow-[0_2px_12px_rgba(123,64,25,0.10)]"
+          className={`min-w-0 flex-1 bg-transparent text-[15px] outline-none ${
+            dark ? "text-white placeholder:text-white/40" : "text-black placeholder:text-black/35"
           }`}
         />
         <input
@@ -96,18 +100,21 @@ export function WaitlistForm({
         />
         <button
           type="submit"
+          aria-label="Join the waitlist"
           disabled={status === "submitting"}
-          className={`h-[48px] shrink-0 grow rounded-full px-[24px] text-[15px] font-medium tracking-[-0.3px] transition-[opacity,transform] duration-200 active:scale-[0.98] disabled:opacity-60 sm:grow-0 ${
-            dark
-              ? "bg-white text-black hover:opacity-90"
-              : "bg-black text-white hover:opacity-88"
+          className={`flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full transition-[opacity,transform] duration-200 active:scale-[0.92] disabled:opacity-60 ${
+            dark ? "bg-white text-black hover:opacity-90" : "bg-black text-white hover:opacity-88"
           }`}
         >
-          {status === "submitting" ? "Saving…" : "Save my seat"}
+          {status === "submitting" ? (
+            <span className="h-[14px] w-[14px] animate-spin rounded-full border-[2px] border-current border-t-transparent" />
+          ) : (
+            <SendArrow />
+          )}
         </button>
       </div>
       <p
-        className={`mt-[10px] pl-[22px] text-[13px] leading-[18px] ${
+        className={`mt-[10px] text-[13px] leading-[18px] ${
           error
             ? dark
               ? "text-[#f2b8b5]"
@@ -120,5 +127,19 @@ export function WaitlistForm({
         {error ?? "Be there when the shell cracks. No spam, ever."}
       </p>
     </form>
+  );
+}
+
+function SendArrow() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
+      <path
+        d="M3 11.5L11.5 3M11.5 3H5M11.5 3V9"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
