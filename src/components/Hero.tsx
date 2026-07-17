@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FactCard } from "@/components/FactCard";
+import { HeroParallax } from "@/components/HeroParallax";
 import { Mount } from "@/components/Motion";
 import { AlmondGlyph } from "@/components/AlmondMark";
 import { WaitlistForm } from "@/components/WaitlistForm";
@@ -78,7 +79,7 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
 
   return (
     <section id="hero-section" className="relative w-full overflow-clip pb-[80px] pt-[140px] md:pt-[160px]">
-      <div className="container-x">
+      <HeroParallax strength={80} className="container-x">
         {/* Chip */}
         <Mount delay={0.05} y={10}>
           <Link
@@ -110,33 +111,35 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
         <Mount delay={0.4} y={12} className="mt-[28px]">
           <WaitlistForm source="hero" />
         </Mount>
-      </div>
+      </HeroParallax>
 
       {/* Fact card strip / auto-scrolling marquee */}
-      <Mount
-        delay={0.55}
-        y={20}
-        duration={0.9}
-        className="marquee-mask mt-[48px] w-full py-6"
-      >
-        <div style={{ overflowX: "clip", overflowY: "visible" }}>
-          <div className="marquee-track flex w-max">
-            {[0, 1].map((set) => (
-              <ul
-                key={set}
-                aria-hidden={set === 1}
-                className="flex shrink-0 gap-[24px] pr-[24px]"
-              >
-                {FACTS.map((f, i) => (
-                  <li key={i} className="shrink-0">
-                    <FactCard {...f} />
-                  </li>
-                ))}
-              </ul>
-            ))}
+      <HeroParallax strength={32} fade={false}>
+        <Mount
+          delay={0.55}
+          y={20}
+          duration={0.9}
+          className="marquee-mask mt-[48px] w-full py-6"
+        >
+          <div style={{ overflowX: "clip", overflowY: "visible" }}>
+            <div className="marquee-track flex w-max">
+              {[0, 1].map((set) => (
+                <ul
+                  key={set}
+                  aria-hidden={set === 1}
+                  className="flex shrink-0 gap-[24px] pr-[24px]"
+                >
+                  {FACTS.map((f, i) => (
+                    <li key={i} className="shrink-0">
+                      <FactCard {...f} />
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
           </div>
-        </div>
-      </Mount>
+        </Mount>
+      </HeroParallax>
     </section>
   );
 }

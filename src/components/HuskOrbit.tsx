@@ -1,8 +1,15 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useAnimationFrame, useMotionValue } from "motion/react";
+import {
+  motion,
+  useAnimationFrame,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from "motion/react";
 import { AlmondGlyph } from "@/components/AlmondMark";
+import { useScrollScrub } from "@/lib/use-scroll-scrub";
 
 /**
  * Abstract orbit diagram with a heartbeat center.
@@ -48,6 +55,11 @@ const RINGS = [
 
 // Revolution speed per ring in degrees/second; alternating direction.
 const RING_SPEED = [5, -3.5, 2.5];
+
+// Extra degrees of revolution contributed by scrolling the section through
+// the viewport — alternating direction per ring, subtle enough to read as
+// drift rather than spin. Press-and-hold rotation is added on top.
+const SCROLL_DEG = [26, -18, 12];
 
 // 12 anonymous nodes at 30° spacing; no two adjacent nodes share a ring.
 const NODES: Node[] = [
@@ -105,7 +117,6 @@ export function HuskOrbit({
   const rot0 = useMotionValue(0);
   const rot1 = useMotionValue(0);
   const rot2 = useMotionValue(0);
-  const ringRot = [rot0, rot1, rot2];
 
   useAnimationFrame((_, delta) => {
     if (!heldRef.current) return;
@@ -115,8 +126,31 @@ export function HuskOrbit({
     rot2.set(rot2.get() + ds * RING_SPEED[2]);
   });
 
+  // Scroll drift layered on top of the hold rotation.
+  const containerRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { smooth } = useScrollScrub(containerRef, ["start end", "end start"]);
+  const drift = reduce ? 0 : 1;
+  const spin0 = useTransform(
+    [rot0, smooth],
+    ([r, s]: number[]) => r! + s! * SCROLL_DEG[0] * drift,
+  );
+  const spin1 = useTransform(
+    [rot1, smooth],
+    ([r, s]: number[]) => r! + s! * SCROLL_DEG[1] * drift,
+  );
+  const spin2 = useTransform(
+    [rot2, smooth],
+    ([r, s]: number[]) => r! + s! * SCROLL_DEG[2] * drift,
+  );
+  const ringRot = [spin0, spin1, spin2];
+
   return (
-    <div className={`relative w-full ${className ?? ""}`} style={style}>
+    <div
+      ref={containerRef}
+      className={`relative w-full ${className ?? ""}`}
+      style={style}
+    >
       <svg
         viewBox={`0 0 ${SIZE} ${SIZE}`}
         className="block h-auto w-full"
