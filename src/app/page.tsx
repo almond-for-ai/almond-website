@@ -3,8 +3,10 @@ import { Hero } from "@/components/Hero";
 import { HuskOrbitSection } from "@/components/HuskOrbitSection";
 import { MindGameSection } from "@/components/MindGameSection";
 import { RawView } from "@/components/RawView";
+import { ScrollBackdrop } from "@/components/ScrollBackdrop";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteNav, getViewFromSearchParams } from "@/components/SiteNav";
+import { StackSection } from "@/components/StackSection";
 import { getAllPosts } from "@/lib/posts";
 import { buildSiteData } from "@/lib/site-data";
 
@@ -23,10 +25,19 @@ export default async function Home({
       <SiteNav />
       {view === "roasted" ? (
         <>
-          <Hero latestPost={posts[0]} />
-          <HuskOrbitSection />
-          <MindGameSection />
-          <BlogTeaserSection posts={posts} />
+          <ScrollBackdrop />
+          <StackSection bgClassName="bg-white" first>
+            <Hero latestPost={posts[0]} />
+          </StackSection>
+          <StackSection bgClassName="bg-[#f5f2ee]" overlap={56} radius={44}>
+            <HuskOrbitSection />
+          </StackSection>
+          <StackSection bgClassName="bg-white" overlap={56} radius={44}>
+            <MindGameSection />
+          </StackSection>
+          <StackSection bgClassName="bg-black" overlap={56} radius={44}>
+            <BlogTeaserSection posts={posts} />
+          </StackSection>
         </>
       ) : (
         <RawView data={data} format={view} scope="home" />
