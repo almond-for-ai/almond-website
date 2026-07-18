@@ -7,6 +7,7 @@ import {
   useMotionValue,
   useReducedMotion,
   useTransform,
+  type MotionValue,
 } from "motion/react";
 import { AlmondGlyph } from "@/components/AlmondMark";
 import { useScrollScrub } from "@/lib/use-scroll-scrub";
@@ -95,12 +96,26 @@ const POSITIONS = NODES.map((n) => {
 // Color/motion propagates outward: inner ring first, then mid, then outer.
 const propDelay = (ringIndex: number) => ringIndex * 0.12;
 
+// Assembly windows over the 0..1 scrub: hub first, then rings outward.
+const HUB_WINDOW: [number, number] = [0.02, 0.14];
+const ringWindow = (i: number): [number, number] => [
+  0.1 + i * 0.18,
+  0.34 + i * 0.18,
+];
+
 export function HuskOrbit({
   className,
   style,
+  assemble,
 }: {
   className?: string;
   style?: React.CSSProperties;
+  /**
+   * Optional 0..1 scrub (e.g. pinned-scene scroll progress). Drives the
+   * hub-then-rings assembly and replaces the self-measured scroll drift.
+   * Without it the diagram renders fully assembled, as before.
+   */
+  assemble?: MotionValue<number>;
 }) {
   const [isHeld, setIsHeld] = useState(false);
   const heldRef = useRef(false);
@@ -126,24 +141,47 @@ export function HuskOrbit({
     rot2.set(rot2.get() + ds * RING_SPEED[2]);
   });
 
-  // Scroll drift layered on top of the hold rotation.
+  // Scroll drift layered on top of the hold rotation. When an external
+  // assemble scrub is provided it drives the drift (the self-measured scroll
+  // stalls inside a pinned sticky scene); otherwise measure our own travel.
   const containerRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const { smooth } = useScrollScrub(containerRef, ["start end", "end start"]);
+  const { smooth: ownSmooth } = useScrollScrub(containerRef, [
+    "start end",
+    "end start",
+  ]);
+  const driftSrc = assemble ?? ownSmooth;
   const drift = reduce ? 0 : 1;
   const spin0 = useTransform(
-    [rot0, smooth],
+    [rot0, driftSrc],
     ([r, s]: number[]) => r! + s! * SCROLL_DEG[0] * drift,
   );
   const spin1 = useTransform(
-    [rot1, smooth],
+    [rot1, driftSrc],
     ([r, s]: number[]) => r! + s! * SCROLL_DEG[1] * drift,
   );
   const spin2 = useTransform(
-    [rot2, smooth],
+    [rot2, driftSrc],
     ([r, s]: number[]) => r! + s! * SCROLL_DEG[2] * drift,
   );
   const ringRot = [spin0, spin1, spin2];
+
+  // Assembly opacities/scales. With no scrub (or reduced motion) `one` keeps
+  // everything fully assembled; useTransform clamps 1 into each window's end.
+  const one = useMotionValue(1);
+  const asrc = !assemble || reduce ? one : assemble;
+  const hubOpacity = useTransform(asrc, HUB_WINDOW, [0, 1]);
+  const hubScale = useTransform(asrc, HUB_WINDOW, [0.72, 1]);
+  const ringOpacity = [
+    useTransform(asrc, ringWindow(0), [0, 1]),
+    useTransform(asrc, ringWindow(1), [0, 1]),
+    useTransform(asrc, ringWindow(2), [0, 1]),
+  ];
+  const ringScale = [
+    useTransform(asrc, ringWindow(0), [0.9, 1]),
+    useTransform(asrc, ringWindow(1), [0.9, 1]),
+    useTransform(asrc, ringWindow(2), [0.9, 1]),
+  ];
 
   return (
     <div
@@ -158,21 +196,30 @@ export function HuskOrbit({
       >
         {/* concentric orbit rings: static, brighten on hold */}
         {RINGS.map((ring, i) => (
-          <motion.circle
+          <motion.g
             key={`orbit-${i}`}
-            cx={CENTER}
-            cy={CENTER}
-            r={ring.r}
-            fill="none"
-            strokeWidth={1}
-            strokeDasharray="2 6"
-            animate={{
-              stroke: isHeld
-                ? `rgba(123,64,25,${0.3 - i * 0.07})`
-                : `rgba(0,0,0,${0.12 - i * 0.03})`,
+            style={{
+              opacity: ringOpacity[i],
+              scale: ringScale[i],
+              transformBox: "view-box",
+              transformOrigin: `${CENTER}px ${CENTER}px`,
             }}
-            transition={{ duration: 0.2, delay: isHeld ? propDelay(i) : 0 }}
-          />
+          >
+            <motion.circle
+              cx={CENTER}
+              cy={CENTER}
+              r={ring.r}
+              fill="none"
+              strokeWidth={1}
+              strokeDasharray="2 6"
+              animate={{
+                stroke: isHeld
+                  ? `rgba(123,64,25,${0.3 - i * 0.07})`
+                  : `rgba(0,0,0,${0.12 - i * 0.03})`,
+              }}
+              transition={{ duration: 0.2, delay: isHeld ? propDelay(i) : 0 }}
+            />
+          </motion.g>
         ))}
 
         {/* one revolving group per ring: spokes, traveling dots, nodes */}
@@ -181,6 +228,14 @@ export function HuskOrbit({
           return (
             <motion.g
               key={`ring-${ri}`}
+              style={{
+                opacity: ringOpacity[ri],
+                scale: ringScale[ri],
+                transformBox: "view-box",
+                transformOrigin: `${CENTER}px ${CENTER}px`,
+              }}
+            >
+            <motion.g
               style={{
                 rotate: ringRot[ri],
                 transformBox: "view-box",
@@ -326,10 +381,19 @@ export function HuskOrbit({
                 </g>
               ))}
             </motion.g>
+            </motion.g>
           );
         })}
 
         {/* center halo fill: breathes while idle, strengthens on hold */}
+        <motion.g
+          style={{
+            opacity: hubOpacity,
+            scale: hubScale,
+            transformBox: "view-box",
+            transformOrigin: `${CENTER}px ${CENTER}px`,
+          }}
+        >
         <motion.circle
           cx={CENTER}
           cy={CENTER}
@@ -384,14 +448,14 @@ export function HuskOrbit({
                 }
           }
         />
+        </motion.g>
       </svg>
 
       {/* central almond glyph: press-and-hold target */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <motion.div
-          animate={{ opacity: 1, scale: 1 }}
           className="pointer-events-auto flex cursor-pointer select-none flex-col items-center justify-center text-[#7b4019]"
-          style={{ width: 110, height: 110 }}
+          style={{ width: 110, height: 110, opacity: hubOpacity, scale: hubScale }}
           onPointerDown={press}
           onPointerUp={release}
           onPointerLeave={release}

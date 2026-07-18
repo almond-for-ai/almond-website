@@ -1,7 +1,7 @@
 import { BlogTeaserSection } from "@/components/BlogTeaserSection";
 import { Hero } from "@/components/Hero";
-import { HuskOrbitSection } from "@/components/HuskOrbitSection";
 import { MindGameSection } from "@/components/MindGameSection";
+import { OrbitScene } from "@/components/OrbitScene";
 import { RawView } from "@/components/RawView";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteNav, getViewFromSearchParams } from "@/components/SiteNav";
@@ -24,7 +24,7 @@ export default async function Home({
       {view === "roasted" ? (
         <>
           <Hero latestPost={posts[0]} />
-          <HuskOrbitSection />
+          <OrbitScene />
           <MindGameSection />
           <BlogTeaserSection posts={posts} />
         </>
