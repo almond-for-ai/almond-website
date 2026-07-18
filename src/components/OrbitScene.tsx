@@ -42,8 +42,8 @@ export function OrbitScene() {
   );
   const halftoneOpacity = useTransform(smooth, [0, 0.18, 0.82, 1], [0, 1, 1, 0]);
   const orbitScale = useTransform(smooth, [0, 1], [0.95, 1.02]);
-  const captionOpacity = useTransform(smooth, [0.62, 0.78], [0, 1]);
-  const captionY = useTransform(smooth, [0.62, 0.78], [14, 0]);
+  const captionOpacity = useTransform(smooth, [0.68, 0.82], [0, 1]);
+  const captionY = useTransform(smooth, [0.68, 0.82], [14, 0]);
 
   if (reduce) {
     return (

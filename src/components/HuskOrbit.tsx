@@ -97,10 +97,16 @@ const POSITIONS = NODES.map((n) => {
 const propDelay = (ringIndex: number) => ringIndex * 0.12;
 
 // Assembly windows over the 0..1 scrub: hub first, then rings outward.
+// Each ring's dotted circle draws before its spokes/nodes pop, so nodes are
+// never floating detached from a not-yet-visible orbit.
 const HUB_WINDOW: [number, number] = [0.02, 0.14];
 const ringWindow = (i: number): [number, number] => [
-  0.1 + i * 0.18,
-  0.34 + i * 0.18,
+  0.1 + i * 0.16,
+  0.28 + i * 0.16,
+];
+const nodesWindow = (i: number): [number, number] => [
+  0.2 + i * 0.16,
+  0.4 + i * 0.16,
 ];
 
 export function HuskOrbit({
@@ -178,9 +184,19 @@ export function HuskOrbit({
     useTransform(asrc, ringWindow(2), [0, 1]),
   ];
   const ringScale = [
-    useTransform(asrc, ringWindow(0), [0.9, 1]),
-    useTransform(asrc, ringWindow(1), [0.9, 1]),
-    useTransform(asrc, ringWindow(2), [0.9, 1]),
+    useTransform(asrc, ringWindow(0), [0.94, 1]),
+    useTransform(asrc, ringWindow(1), [0.94, 1]),
+    useTransform(asrc, ringWindow(2), [0.94, 1]),
+  ];
+  const nodeOpacity = [
+    useTransform(asrc, nodesWindow(0), [0, 1]),
+    useTransform(asrc, nodesWindow(1), [0, 1]),
+    useTransform(asrc, nodesWindow(2), [0, 1]),
+  ];
+  const nodeScale = [
+    useTransform(asrc, nodesWindow(0), [0.88, 1]),
+    useTransform(asrc, nodesWindow(1), [0.88, 1]),
+    useTransform(asrc, nodesWindow(2), [0.88, 1]),
   ];
 
   return (
@@ -229,8 +245,8 @@ export function HuskOrbit({
             <motion.g
               key={`ring-${ri}`}
               style={{
-                opacity: ringOpacity[ri],
-                scale: ringScale[ri],
+                opacity: nodeOpacity[ri],
+                scale: nodeScale[ri],
                 transformBox: "view-box",
                 transformOrigin: `${CENTER}px ${CENTER}px`,
               }}

@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useState, useEffect, useRef } from "react";
-import { AlmondMark } from "@/components/AlmondMark";
+import { AlmondGlyph, AlmondMark } from "@/components/AlmondMark";
 import type { View } from "@/lib/view";
 
 type Active = "game" | "manifesto" | "blog";
@@ -26,6 +26,8 @@ export function SiteNavClient({ active }: { active?: Active }) {
 
   const current: View = (sp.get("view") as View) || "roasted";
   const isRaw = current !== "roasted";
+  const [switching, setSwitching] = useState(false);
+  const prevView = useRef(current);
 
   // Build href for each view mode
   function viewHref(view: View) {
@@ -36,10 +38,28 @@ export function SiteNavClient({ active }: { active?: Active }) {
     return `${pathname}${qs ? "?" + qs : ""}`;
   }
 
-  // Single click toggles between roasted and raw (json)
+  // Single click toggles between roasted and raw (json). The overlay covers
+  // the server round-trip + full layout swap so the switch reads as one
+  // deliberate transition instead of a content jump.
   function toggleView() {
+    setSwitching(true);
     router.push(isRaw ? viewHref("roasted") : viewHref("json"), { scroll: false });
   }
+
+  // Lift the overlay shortly after the new view has actually rendered;
+  // safety timeout in case the navigation stalls.
+  useEffect(() => {
+    if (prevView.current !== current) {
+      prevView.current = current;
+      const t = setTimeout(() => setSwitching(false), 450);
+      return () => clearTimeout(t);
+    }
+  }, [current]);
+  useEffect(() => {
+    if (!switching) return;
+    const t = setTimeout(() => setSwitching(false), 2500);
+    return () => clearTimeout(t);
+  }, [switching]);
 
   // Close menu on route / search-param change
   useEffect(() => {
@@ -107,6 +127,27 @@ export function SiteNavClient({ active }: { active?: Active }) {
 
   return (
     <div className="pointer-events-none fixed inset-x-0 top-4 z-50 md:top-6">
+      {/* View-switch loader: covers the roasted <-> raw swap */}
+      <AnimatePresence>
+        {switching && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="pointer-events-auto fixed inset-0 z-[70] flex items-center justify-center bg-white/92 backdrop-blur-md"
+            aria-hidden
+          >
+            <motion.div
+              animate={{ scale: [1, 1.12, 1], opacity: [0.85, 1, 0.85] }}
+              transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
+              className="text-[#7b4019]"
+            >
+              <AlmondGlyph size={40} />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="container-x">
         <motion.header
           ref={wrapperRef}
