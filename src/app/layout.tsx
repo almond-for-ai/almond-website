@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Crimson_Pro, Geist_Mono, Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { GrainOverlay } from "@/components/GrainOverlay";
 import "./globals.css";
 
 const GA_ID = "G-G1LDQSFETL";
@@ -70,7 +71,10 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${crimsonPro.variable} ${geistMono.variable}`}
     >
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <GrainOverlay />
+      </body>
       <GoogleAnalytics gaId={GA_ID} />
     </html>
   );
