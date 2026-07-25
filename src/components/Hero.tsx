@@ -54,6 +54,15 @@ const FACTS = [
     artOpacity: 0.2,
   },
   {
+    variant: "accent-light" as const,
+    label: "Field note · 02",
+    title: "Alone, then together",
+    body: "Almost nothing you know arrived while you were sitting by yourself. It arrived out loud, from someone a desk away.",
+    art: "branch" as const,
+    artPlacement: "-right-12 -bottom-10",
+    artOpacity: 0.2,
+  },
+  {
     variant: "terminal" as const,
     label: "monday.log",
     title: "A decision's week",

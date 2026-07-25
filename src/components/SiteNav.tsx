@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { SiteNavClient } from "@/components/SiteNavClient";
 
-type Active = "game" | "manifesto" | "blog";
+type Active = "game" | "grove" | "manifesto" | "blog";
 
 export function SiteNav({ active }: { active?: Active }) {
   return (

@@ -27,6 +27,12 @@ export function SiteFooter() {
               Manifesto
             </Link>
             <Link
+              href="/grove"
+              className="footer-link text-[15px] leading-[18px] text-white/80"
+            >
+              The grove
+            </Link>
+            <Link
               href="/blog"
               className="footer-link text-[15px] leading-[18px] text-white/80"
             >

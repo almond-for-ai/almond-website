@@ -7,11 +7,12 @@ import { useState, useEffect, useRef } from "react";
 import { AlmondGlyph, AlmondMark } from "@/components/AlmondMark";
 import type { View } from "@/lib/view";
 
-type Active = "game" | "manifesto" | "blog";
-type SectionLabel = "Home" | "Game" | "Manifesto" | "Blog";
+type Active = "game" | "grove" | "manifesto" | "blog";
+type SectionLabel = "Home" | "Game" | "Grove" | "Manifesto" | "Blog";
 
 const NAV_ITEMS: { key: Active; label: string; href: string }[] = [
   { key: "game", label: "Game", href: "/#game" },
+  { key: "grove", label: "Grove", href: "/grove" },
   { key: "manifesto", label: "Manifesto", href: "/manifesto" },
   { key: "blog", label: "Blog", href: "/blog" },
 ];
@@ -84,6 +85,7 @@ export function SiteNavClient({ active }: { active?: Active }) {
       // On sub-pages the label is fixed; on raw it doesn't change
       if (active === "blog") setSectionLabel("Blog");
       else if (active === "manifesto") setSectionLabel("Manifesto");
+      else if (active === "grove") setSectionLabel("Grove");
       return;
     }
 
@@ -122,7 +124,13 @@ export function SiteNavClient({ active }: { active?: Active }) {
 
   // Label shown in the breadcrumb pill
   const breadcrumbSection: SectionLabel =
-    active === "blog" ? "Blog" : active === "manifesto" ? "Manifesto" : sectionLabel;
+    active === "blog"
+      ? "Blog"
+      : active === "manifesto"
+        ? "Manifesto"
+        : active === "grove"
+          ? "Grove"
+          : sectionLabel;
   const viewLabel = isRaw ? "Raw" : "Roasted";
 
   return (

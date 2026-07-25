@@ -12,7 +12,7 @@ export function WaitlistForm({
   variant = "light",
   className = "",
 }: {
-  source: "hero" | "footer" | "manifesto";
+  source: "hero" | "footer" | "manifesto" | "grove";
   variant?: Variant;
   className?: string;
 }) {

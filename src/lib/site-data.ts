@@ -26,8 +26,15 @@ export type SiteData = {
     href: string;
     stanzas: string[];
   };
-  game: {
+  grove: {
     title: string;
+    href: string;
+    lines: string[];
+  };
+  game: {
+    eyebrow: string;
+    title: string;
+    note: string;
     rules: { title: string; desc: string }[];
   };
   blog: {
@@ -54,6 +61,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
     brand: { name: "Almond AI", status: "Coming Soon" },
     nav: [
       { label: "Game", href: "/#game" },
+      { label: "Grove", href: "/grove" },
       { label: "Manifesto", href: "/manifesto" },
       { label: "Blog", href: "/blog" },
     ],
@@ -81,6 +89,16 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
         "Attention is expensive. Forgetting is more expensive.",
         "Good things are grown, not launched.",
         "We remember who showed up first.",
+      ],
+    },
+    grove: {
+      title: "One is a seed. Several make a grove.",
+      href: "/grove",
+      lines: [
+        "A seed is a private thing.",
+        "Thinking is not a solo sport.",
+        "Remembering is still the point.",
+        "Something is growing next to it.",
       ],
     },
     facts: [
@@ -111,12 +129,19 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
         chips: ["The reason", "The tradeoff", "The edge case", "Who said no", "Why not plan B"],
       },
       {
+        label: "Field note · 02",
+        title: "Alone, then together",
+        body: "Almost nothing you know arrived while you were sitting by yourself. It arrived out loud, from someone a desk away.",
+      },
+      {
         label: "monday.log",
         title: "A decision's week",
         body: "Mon decided · Tue questioned · Wed relitigated · Thu reversed · Fri “wait, why?”",
       },
     ],
     game: {
+      eyebrow: "The name was not an accident",
+      note: "We have been thinking about minds for a while now. More than one at a time, lately.",
       title: "Test your memory with a mind game",
       rules: [
         { title: "Tap matching pairs", desc: "Find the twin almonds." },
@@ -145,6 +170,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
           label: "About",
           items: [
             { label: "Manifesto", href: "/manifesto" },
+            { label: "The grove", href: "/grove" },
             { label: "Blog", href: "/blog" },
             { label: "Test your Mind", href: "/#game" },
           ],

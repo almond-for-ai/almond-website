@@ -32,12 +32,19 @@ export function MindGameSection() {
             {/* Header */}
             <div className="flex items-center px-6 py-10 md:min-h-[267px] md:px-[72px] md:py-0">
               <div className="flex-1">
-                <h2 className="max-w-[420px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-white md:text-[32px] md:leading-[38px] md:tracking-[-0.64px]">
+                <span className="font-mono inline-flex w-fit items-center rounded-full bg-white/[0.14] px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-white/80">
+                  The name was not an accident
+                </span>
+                <h2 className="mt-[18px] max-w-[420px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-white md:text-[32px] md:leading-[38px] md:tracking-[-0.64px]">
                   <span>Test your memory </span>
                   <span className="text-white/70">with</span>
                   <br />
                   <span className="text-white/70">a mind game</span>
                 </h2>
+                <p className="mt-[14px] max-w-[380px] text-[14px] leading-[20px] text-white/60">
+                  We have been thinking about minds for a while now. More than
+                  one at a time, lately.
+                </p>
               </div>
             </div>
 
