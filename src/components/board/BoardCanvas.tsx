@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  AnimatePresence,
   motion,
   motionValue,
   useMotionTemplate,
@@ -21,14 +20,17 @@ import {
   type RefObject,
 } from "react";
 import {
+  ASK,
   BELIEF,
   CAPTIONS,
   CORE_CARDS,
   CURSORS,
   DISCOVERIES,
   EXTRA_CARDS,
+  MAX_SPAWNS,
   PEOPLE,
   SCRAPS,
+  SPAWN_SLOTS,
   type BodyToken,
   type BoardCardData,
   type Discovery,
@@ -103,8 +105,9 @@ export function BoardCanvas({
   useMotionValueEvent(src, "change", (v) => setLive(v > 0.6));
 
   const [active, setActive] = useState<string | null>(null);
+  const [spawns, setSpawns] = useState<{ id: string; text: string }[]>([]);
   const [found, setFound] = useState<Discovery[]>([]);
-  const [caption, setCaption] = useState<string>(CAPTIONS.idle);
+  const [last, setLast] = useState<Discovery | null>(null);
   const [touched, setTouched] = useState(false);
 
   // Until someone takes over, the board shows itself working: each memory takes
@@ -122,18 +125,18 @@ export function BoardCanvas({
 
   const discover = useCallback((d: Discovery) => {
     setTouched(true);
-    setFound((prev) => {
-      if (prev.includes(d)) {
-        setCaption(CAPTIONS[d]);
-        return prev;
-      }
-      const next = [...prev, d];
-      setCaption(
-        next.length === DISCOVERIES.length ? CAPTIONS.done : CAPTIONS[d],
-      );
-      return next;
-    });
+    setLast(d);
+    setFound((prev) => (prev.includes(d) ? prev : [...prev, d]));
   }, []);
+
+  // Derived, not stored — the caption is only ever a function of what has been
+  // found so far and what was found last.
+  const caption =
+    found.length === DISCOVERIES.length
+      ? CAPTIONS.done
+      : last
+        ? CAPTIONS[last]
+        : CAPTIONS.idle;
 
   // Resting centres, measured from layout so threads never guess. Cards are
   // absolutely positioned children of the board, so offsetLeft/Top are already
@@ -157,7 +160,24 @@ export function BoardCanvas({
     const ro = new ResizeObserver(measure);
     ro.observe(board);
     return () => ro.disconnect();
-  }, [cards.length, density, narrow]);
+  }, [cards.length, density, narrow, spawns.length]);
+
+  // Asking puts a card of your own on the board, threaded like everyone
+  // else's. Capped, because past three it stops being a demo and starts being
+  // a mess.
+  const ask = useCallback(
+    (text: string) => {
+      if (spawns.length >= MAX_SPAWNS) return;
+      const id = `ask-${spawns.length}`;
+      drag.current[id] ??= { x: motionValue(0), y: motionValue(0) };
+      setSpawns((prev) =>
+        prev.length >= MAX_SPAWNS ? prev : [...prev, { id, text }],
+      );
+      setActive(id);
+      discover("ask");
+    },
+    [spawns.length, discover],
+  );
 
   const beliefPos = narrow
     ? density === "full"
@@ -204,6 +224,20 @@ export function BoardCanvas({
                 toDrag={drag.current.belief}
                 color={PEOPLE[c.person].color}
                 active={active === c.id}
+              />
+            ) : null,
+          )}
+          {spawns.map((s) =>
+            anchors[s.id] && anchors.belief ? (
+              <Thread
+                key={s.id}
+                src={src}
+                from={anchors[s.id]}
+                to={anchors.belief}
+                fromDrag={drag.current[s.id]}
+                toDrag={drag.current.belief}
+                color={PEOPLE.you.color}
+                active={active === s.id}
               />
             ) : null,
           )}
@@ -288,6 +322,42 @@ export function BoardCanvas({
           </Draggable>
         </EntryWrap>
 
+        {/* cards you asked for */}
+        {spawns.map((s, i) => {
+          const slot = SPAWN_SLOTS[i % SPAWN_SLOTS.length];
+          const pos = narrow ? slot.narrow : slot.wide;
+          return (
+            <motion.div
+              key={s.id}
+              ref={(el) => {
+                els.current[s.id] = el;
+              }}
+              className="absolute z-10"
+              style={{
+                left: `${pos.left}%`,
+                top: `${pos.top}%`,
+                width: `${pos.width}%`,
+              }}
+              initial={reduce ? false : { opacity: 0, scale: 0.9, y: 18 }}
+              animate={reduce ? undefined : { opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.42, ease: [...MOTION_EASE.reveal] }}
+            >
+              <Draggable
+                live={live}
+                boardRef={boardRef}
+                mv={drag.current[s.id]}
+                onDragStart={() => {
+                  setActive(s.id);
+                  discover("drag");
+                }}
+                onPick={() => setActive((cur) => (cur === s.id ? null : s.id))}
+              >
+                <AskedCard text={s.text} active={active === s.id} />
+              </Draggable>
+            </motion.div>
+          );
+        })}
+
         {!reduce &&
           CURSORS.map((c) => (
             <Cursor
@@ -298,6 +368,8 @@ export function BoardCanvas({
               onMeet={() => discover("presence")}
             />
           ))}
+
+        <AskBar live={live} full={spawns.length >= MAX_SPAWNS} onAsk={ask} />
       </div>
 
       <Captions live={live} caption={caption} found={found} reduce={!!reduce} />
@@ -458,6 +530,7 @@ function Thread({
       strokeWidth={active ? 2 : 1.1}
       strokeDasharray="3 6"
       strokeLinecap="round"
+      strokeDashoffset={0}
       style={{ opacity }}
       animate={active ? { strokeDashoffset: [0, -18] } : { strokeDashoffset: 0 }}
       transition={
@@ -532,6 +605,96 @@ function BeliefCard({ active }: { active: string | null }) {
         {BELIEF.meta}
       </p>
     </div>
+  );
+}
+
+/** What the ask bar puts on the board: your question, in your name. */
+function AskedCard({ text, active }: { text: string; active: boolean }) {
+  const p = PEOPLE.you;
+  return (
+    <div
+      className="select-none rounded-[14px] border bg-white p-[11px] transition-shadow duration-300 md:p-[12px]"
+      style={{
+        borderColor: active ? p.color : "rgba(0,0,0,0.08)",
+        boxShadow: active
+          ? "0 8px 24px rgba(50,26,9,0.18)"
+          : "0 1px 3px rgba(0,0,0,0.06)",
+      }}
+    >
+      <div className="flex items-center gap-[5px]">
+        <span
+          className="h-[7px] w-[7px] shrink-0 rounded-full"
+          style={{ background: p.color }}
+        />
+        <span className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-black/45 md:text-[10px]">
+          you · asked
+        </span>
+        <span className="ml-auto whitespace-nowrap font-mono text-[9.5px] text-black/30 md:text-[10px]">
+          just now
+        </span>
+      </div>
+      <p className="mt-[7px] break-words text-[12px] leading-[17px] text-black/70 md:text-[12.5px]">
+        {text}
+      </p>
+    </div>
+  );
+}
+
+function AskBar({
+  live,
+  full,
+  onAsk,
+}: {
+  live: boolean;
+  full: boolean;
+  onAsk: (text: string) => void;
+}) {
+  const [value, setValue] = useState("");
+
+  const submit = () => {
+    if (!live || full) return;
+    onAsk(value.trim() || ASK.fallback);
+    setValue("");
+  };
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        submit();
+      }}
+      className="absolute bottom-[3%] left-1/2 z-20 flex w-[84%] -translate-x-1/2 items-center gap-[8px] rounded-full border border-black/[0.07] bg-white/85 py-[7px] pl-[12px] pr-[7px] shadow-[0_2px_10px_rgba(0,0,0,0.05)] backdrop-blur md:w-[58%] md:py-[8px] md:pl-[14px]"
+    >
+      <span aria-hidden className="text-[14px] leading-none text-walnut-500">
+        +
+      </span>
+      <input
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        disabled={!live || full}
+        placeholder={full ? "the board is full — drag what's there" : ASK.placeholder}
+        aria-label="Ask the room"
+        className="min-w-0 flex-1 bg-transparent text-[12px] text-black/70 outline-none placeholder:text-black/35 md:text-[12.5px]"
+      />
+      <span className="hidden whitespace-nowrap font-mono text-[10px] text-black/25 md:inline">
+        {full ? "" : `— ${ASK.hint}`}
+      </span>
+      <button
+        type="submit"
+        disabled={!live || full}
+        aria-label="Ask"
+        className="grid h-[24px] w-[24px] shrink-0 place-items-center rounded-full bg-walnut-tint-strong transition-colors hover:bg-walnut-500 disabled:opacity-40 disabled:hover:bg-walnut-tint-strong [&:hover>svg]:stroke-white"
+      >
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden>
+          <path
+            d="M1.5 12.5L12.5 7 1.5 1.5l2 5.5-2 5.5z"
+            stroke="#7b4019"
+            strokeWidth="1.2"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+    </form>
   );
 }
 
@@ -649,18 +812,17 @@ function Captions({
           />
         ))}
       </span>
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={live ? caption : "idle"}
-          initial={reduce ? false : { opacity: 0, y: 6 }}
-          animate={reduce ? undefined : { opacity: 1, y: 0 }}
-          exit={reduce ? undefined : { opacity: 0, y: -6 }}
-          transition={{ duration: 0.28, ease: [...MOTION_EASE.reveal] }}
-          className="font-mono text-[11px] tracking-[0.02em] text-black/40 md:text-[12px]"
-        >
-          {live ? caption : " "}
-        </motion.span>
-      </AnimatePresence>
+      {/* Keyed remount rather than AnimatePresence: a wait-mode swap can
+          deadlock on its own first child and leave the line at opacity 0. */}
+      <motion.span
+        key={caption}
+        initial={reduce ? false : { opacity: 0, y: 6 }}
+        animate={reduce ? undefined : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.28, ease: [...MOTION_EASE.reveal] }}
+        className="font-mono text-[11px] tracking-[0.02em] text-black/40 md:text-[12px]"
+      >
+        {live ? caption : ' '}
+      </motion.span>
     </div>
   );
 }

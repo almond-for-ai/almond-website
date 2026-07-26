@@ -6,7 +6,7 @@
  * percentages of the canvas box so the same data drives every breakpoint.
  */
 
-export type PersonId = "maya" | "dev" | "rhea" | "ana" | "kit";
+export type PersonId = "maya" | "dev" | "rhea" | "ana" | "kit" | "you";
 
 export const PEOPLE: Record<PersonId, { name: string; color: string }> = {
   maya: { name: "maya", color: "#7b4019" },
@@ -14,6 +14,7 @@ export const PEOPLE: Record<PersonId, { name: string; color: string }> = {
   rhea: { name: "rhea", color: "#4a260e" },
   ana: { name: "ana", color: "#623213" },
   kit: { name: "kit", color: "#8f5730" },
+  you: { name: "you", color: "#321a09" },
 };
 
 /** A body is a run of readable clauses and redaction bars (width in px). */
@@ -71,7 +72,7 @@ export const CORE_CARDS: BoardCardData[] = [
     rotate: -1.1,
     wide: { left: 57, top: 66, width: 30 },
     narrow: { left: 22, top: 71, width: 68 },
-    narrowFull: { left: 24, top: 48, width: 68 },
+    narrowFull: { left: 24, top: 46, width: 68 },
   },
 ];
 
@@ -87,7 +88,7 @@ export const EXTRA_CARDS: BoardCardData[] = [
     rotate: 2.1,
     wide: { left: 3, top: 56, width: 25 },
     narrow: { left: 3, top: 84, width: 60 },
-    narrowFull: { left: 3, top: 64, width: 62 },
+    narrowFull: { left: 3, top: 62, width: 62 },
   },
   {
     id: "c5",
@@ -96,9 +97,9 @@ export const EXTRA_CARDS: BoardCardData[] = [
     source: "—————",
     body: [52, "asked, answered, filed.", 24],
     rotate: -2.3,
-    wide: { left: 31, top: 78, width: 26 },
+    wide: { left: 31, top: 74, width: 26 },
     narrow: { left: 28, top: 92, width: 62 },
-    narrowFull: { left: 28, top: 80, width: 64 },
+    narrowFull: { left: 28, top: 76, width: 64 },
   },
 ];
 
@@ -178,18 +179,45 @@ export const CURSORS: CursorData[] = [
   },
 ];
 
+/** The ask bar: type a question, get a card on the board. */
+export const ASK = {
+  placeholder: "Ask the room: “why did we decide this?”",
+  hint: "spawns a card",
+  /** used when someone hits send on an empty bar */
+  fallback: "why did we decide this?",
+};
+
+/** Where a newly asked card lands before you move it. */
+export const SPAWN_SLOTS: { wide: Pos; narrow: Pos }[] = [
+  {
+    wide: { left: 7, top: 33, width: 24 },
+    narrow: { left: 6, top: 36, width: 62 },
+  },
+  {
+    wide: { left: 40, top: 70, width: 25 },
+    narrow: { left: 22, top: 12, width: 62 },
+  },
+  {
+    wide: { left: 73, top: 58, width: 23 },
+    narrow: { left: 8, top: 60, width: 62 },
+  },
+];
+
+export const MAX_SPAWNS = SPAWN_SLOTS.length;
+
 /**
  * The explainer ladder. Nothing is stated up front — each line is earned by
  * doing the thing it describes, so the board teaches itself.
  */
-export type Discovery = "drag" | "pin" | "presence";
+export type Discovery = "drag" | "pin" | "presence" | "ask";
 
 export const CAPTIONS: Record<"idle" | Discovery | "done", string> = {
-  idle: "drag anything",
+  idle: "drag anything. or ask the room something.",
   drag: "move it wherever. the room sees it.",
   pin: "three people. one claim.",
   presence: "someone else is already in here.",
+  ask: "now yours is on the board too.",
   done: "and it remembers who said it first.",
 };
 
-export const DISCOVERIES: Discovery[] = ["drag", "pin", "presence"];
+export const DISCOVERIES: Discovery[] = ["drag", "pin", "presence", "ask"];
