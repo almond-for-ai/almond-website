@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { PageRawView } from "@/components/PageRawView";
 import { Mount, Reveal } from "@/components/Motion";
 import { WaitlistForm } from "@/components/WaitlistForm";
+import { WordReveal } from "@/components/WordReveal";
 
 export const metadata: Metadata = {
   title: "Manifesto · Almond AI",
@@ -114,9 +115,12 @@ export default async function ManifestoPage({
                   {s.n}
                 </span>
                 <div>
-                  <h2 className="font-display text-[28px] font-normal leading-[1.2] tracking-[-0.01em] text-black md:text-[34px]">
-                    {s.title}
-                  </h2>
+                  <WordReveal
+                    as="h2"
+                    inView
+                    text={s.title}
+                    className="font-display text-[28px] font-normal leading-[1.2] tracking-[-0.01em] text-black md:text-[34px]"
+                  />
                   {s.body.map((p, j) => (
                     <p
                       key={j}

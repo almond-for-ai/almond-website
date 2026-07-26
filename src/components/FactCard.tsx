@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef } from "react";
+import { useReducedMotion } from "motion/react";
 import { CardArt, type ArtKind } from "@/components/CardArt";
 
 type Variant =
@@ -24,7 +28,15 @@ type Props = {
 
 const TONES: Record<
   Variant,
-  { bg: string; fg: string; labelBg: string; labelFg: string; accent: string }
+  {
+    bg: string;
+    fg: string;
+    labelBg: string;
+    labelFg: string;
+    accent: string;
+    /** inner colour of the cursor spotlight for this tone */
+    spotlight: string;
+  }
 > = {
   "accent-solid": {
     bg: "#7b4019",
@@ -32,6 +44,7 @@ const TONES: Record<
     labelBg: "rgba(255,255,255,0.16)",
     labelFg: "#ffffff",
     accent: "#ffffff",
+    spotlight: "rgba(255,255,255,0.13)",
   },
   "accent-light": {
     bg: "#a36740",
@@ -39,6 +52,7 @@ const TONES: Record<
     labelBg: "rgba(255,255,255,0.18)",
     labelFg: "#ffffff",
     accent: "#ffffff",
+    spotlight: "rgba(255,255,255,0.14)",
   },
   "black-solid": {
     bg: "#000000",
@@ -46,6 +60,7 @@ const TONES: Record<
     labelBg: "rgba(163,103,64,0.22)",
     labelFg: "#d6a578",
     accent: "#a36740",
+    spotlight: "rgba(214,165,120,0.16)",
   },
   "white-card": {
     bg: "#ffffff",
@@ -53,6 +68,7 @@ const TONES: Record<
     labelBg: "rgba(123,64,25,0.08)",
     labelFg: "#7b4019",
     accent: "#7b4019",
+    spotlight: "rgba(123,64,25,0.09)",
   },
   "grey-card": {
     bg: "#f5f5f5",
@@ -60,6 +76,7 @@ const TONES: Record<
     labelBg: "rgba(0,0,0,0.06)",
     labelFg: "rgba(0,0,0,0.6)",
     accent: "#7b4019",
+    spotlight: "rgba(123,64,25,0.10)",
   },
   terminal: {
     bg: "#0e0e0e",
@@ -67,6 +84,7 @@ const TONES: Record<
     labelBg: "rgba(255,255,255,0.08)",
     labelFg: "rgba(255,255,255,0.6)",
     accent: "#d6a578",
+    spotlight: "rgba(214,165,120,0.14)",
   },
 };
 
@@ -85,9 +103,24 @@ export function FactCard({
 }: Props) {
   const t = TONES[variant];
   const isCardBorder = variant === "white-card" || variant === "grey-card";
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+
+  // Cursor-following highlight. Written as CSS custom properties on the card
+  // so the gradient repaints without a React render per pointer move.
+  function trackPointer(e: React.PointerEvent<HTMLElement>) {
+    if (reduce) return;
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--sx", `${e.clientX - r.left}px`);
+    el.style.setProperty("--sy", `${e.clientY - r.top}px`);
+  }
 
   return (
     <article
+      ref={ref}
+      onPointerMove={trackPointer}
       className="group relative flex h-[403px] w-[340px] shrink-0 flex-col overflow-hidden rounded-[32px] p-7 transition-[transform,box-shadow] duration-500 ease-out will-change-transform hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_28px_64px_rgba(0,0,0,0.14)]"
       style={{
         background: t.bg,
@@ -95,6 +128,16 @@ export function FactCard({
         border: isCardBorder ? "1px solid rgba(0,0,0,0.06)" : "none",
       }}
     >
+      {/* Spotlight: walnut on light cards, warm white on dark ones */}
+      {reduce ? null : (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-[5] opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+          style={{
+            background: `radial-gradient(320px circle at var(--sx, 50%) var(--sy, 50%), ${t.spotlight}, transparent 70%)`,
+          }}
+        />
+      )}
       {art ? (
         <CardArt kind={art} className={artPlacement} opacity={artOpacity} />
       ) : null}

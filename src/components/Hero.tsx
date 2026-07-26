@@ -2,6 +2,8 @@ import Link from "next/link";
 import { FactCard } from "@/components/FactCard";
 import { HeroParallax } from "@/components/HeroParallax";
 import { Mount } from "@/components/Motion";
+import { VelocityMarquee } from "@/components/VelocityMarquee";
+import { WordReveal } from "@/components/WordReveal";
 import { AlmondGlyph } from "@/components/AlmondMark";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import type { PostMeta } from "@/lib/posts";
@@ -110,11 +112,11 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
             Almond AI
           </h1>
         </Mount>
-        <Mount delay={0.25} y={14}>
-          <p className="font-display text-[40px] font-normal leading-[48px] tracking-[-0.5px] text-black/55 md:text-[46px] md:leading-[54px]">
-            Something worth remembering.
-          </p>
-        </Mount>
+        <WordReveal
+          text="Something worth remembering."
+          delay={0.28}
+          className="font-display text-[40px] font-normal leading-[48px] tracking-[-0.5px] text-black/55 md:text-[46px] md:leading-[54px]"
+        />
 
         {/* Waitlist */}
         <Mount delay={0.4} y={12} className="mt-[28px]">
@@ -131,21 +133,15 @@ export function Hero({ latestPost }: { latestPost?: PostMeta }) {
           className="marquee-mask mt-[48px] w-full py-6"
         >
           <div style={{ overflowX: "clip", overflowY: "visible" }}>
-            <div className="marquee-track flex w-max">
-              {[0, 1].map((set) => (
-                <ul
-                  key={set}
-                  aria-hidden={set === 1}
-                  className="flex shrink-0 gap-[24px] pr-[24px]"
-                >
-                  {FACTS.map((f, i) => (
-                    <li key={i} className="shrink-0">
-                      <FactCard {...f} />
-                    </li>
-                  ))}
-                </ul>
-              ))}
-            </div>
+            <VelocityMarquee>
+              <ul className="flex shrink-0 gap-[24px] pr-[24px]">
+                {FACTS.map((f, i) => (
+                  <li key={i} className="shrink-0">
+                    <FactCard {...f} />
+                  </li>
+                ))}
+              </ul>
+            </VelocityMarquee>
           </div>
         </Mount>
       </HeroParallax>
