@@ -1,5 +1,5 @@
 import { BlogTeaserSection } from "@/components/BlogTeaserSection";
-import { GroveScene } from "@/components/GroveScene";
+import { BoardScene } from "@/components/BoardScene";
 import { Hero } from "@/components/Hero";
 import { MindGameSection } from "@/components/MindGameSection";
 import { OrbitScene } from "@/components/OrbitScene";
@@ -27,7 +27,7 @@ export default async function Home({
           <Hero latestPost={posts[0]} />
           <OrbitScene />
           <MindGameSection />
-          <GroveScene />
+          <BoardScene />
           <BlogTeaserSection posts={posts} />
         </>
       ) : (

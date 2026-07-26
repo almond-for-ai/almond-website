@@ -97,8 +97,9 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
       lines: [
         "A seed is a private thing.",
         "Thinking is not a solo sport.",
+        "A belief is a memory more than one person holds.",
         "Remembering is still the point.",
-        "Something is growing next to it.",
+        "The rest stays covered for now.",
       ],
     },
     facts: [
