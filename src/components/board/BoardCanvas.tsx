@@ -672,12 +672,14 @@ function AskBar({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!live || full}
-        placeholder={full ? "the board is full — drag what's there" : ASK.placeholder}
+        placeholder={
+          full ? "the board is full. drag what's there" : ASK.placeholder
+        }
         aria-label="Ask the room"
         className="min-w-0 flex-1 bg-transparent text-[12px] text-black/70 outline-none placeholder:text-black/35 md:text-[12.5px]"
       />
       <span className="hidden whitespace-nowrap font-mono text-[10px] text-black/25 md:inline">
-        {full ? "" : `— ${ASK.hint}`}
+        {full ? "" : ASK.hint}
       </span>
       <button
         type="submit"

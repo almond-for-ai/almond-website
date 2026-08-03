@@ -17,7 +17,7 @@ const GROVE_DATA = {
     chip: "Growing next to it",
     title: "One is a seed. Several make a grove.",
     subtitle:
-      "Almond is about remembering. This is the thing we're growing beside it — and yes, you can push it around.",
+      "Almond is about remembering. This is the thing we're growing beside it. Yes, you can push it around.",
   },
   board: {
     hint: "Drag the cards. Drag the belief. Nothing snaps back.",
@@ -43,7 +43,7 @@ const GROVE_DATA = {
       n: "03",
       title: "A belief is a memory more than one person holds.",
       body: [
-        "One card is a note. The same thing said three times, by three people, months apart, is something else — and it should be able to say so out loud.",
+        "One card is a note. The same thing said three times, by three people, months apart, is something else, and it should be able to say so out loud.",
         "That is what the middle of the board is.",
       ],
     },
