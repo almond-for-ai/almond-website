@@ -68,7 +68,7 @@ const PRICING_DATA = {
         "Unlimited users",
         "Unlimited captured decisions",
         "MCP server (the orchard)",
-        "All integrations: Claude Code, Figma, Figma Make",
+        "All integrations: Claude Code, Cursor, Figma, Figma Make",
         "BYO cloud (AWS, GCP, Azure)",
         "Priority support · SLA",
         "Unlimited memory retention",

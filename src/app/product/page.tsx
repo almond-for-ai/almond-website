@@ -45,7 +45,7 @@ const PRODUCT_DATA = {
     team: {
       title: "Your team's memory, in every tool you ship in.",
       subtitle:
-        "No new app to adopt. Decisions surface where the work happens: the editor, the frame, the issue. The whole team builds on what was already settled.",
+        "Almond makes AI multiplayer: the whole team shares one living memory instead of a thousand private threads. Decisions surface where the work happens — the editor, the frame, the issue.",
     },
     ctas: [
       { label: "Book demo", href: "/contact", kind: "primary" as const },
@@ -66,6 +66,28 @@ const PRODUCT_DATA = {
   flow: {
     eyebrow: "The mechanism",
     heading: "How the memory moves.",
+  },
+  layers: {
+    eyebrow: "The architecture",
+    heading: "Three layers. One living memory.",
+    lead: "Each layer makes the next possible. You can't share an agent that doesn't hold the team's memory — so the memory came first.",
+    items: [
+      {
+        name: "Memory",
+        status: "Live",
+        body: "The shared substrate. Almond captures the decisions and the reasoning made in any tool, structures them into a living graph, and injects the right context into whatever tool you open next.",
+      },
+      {
+        name: "Board",
+        status: "Shipped",
+        body: "A multiplayer board where teammates see each other's AI conversations in one shared space, fork them, and build on them. A thousand private threads become one workspace.",
+      },
+      {
+        name: "Team agent",
+        status: "In progress",
+        body: "One agent per project, grounded in the project's full memory, that anyone can query, redirect, and hand off. The memory and the board were built so this agent has something real to stand on.",
+      },
+    ],
   },
   captured: {
     eyebrow: "What gets captured",
@@ -102,7 +124,7 @@ const PRODUCT_DATA = {
       },
       {
         q: "Which tools work today?",
-        a: "Claude Code, Figma, and Figma Make are live. Cursor, Linear, and Notion are next. Anything that speaks MCP plugs in.",
+        a: "Claude Code, Cursor, Figma, and Figma Make are live. Linear, Notion, and v0 are next. Anything that speaks MCP plugs in.",
       },
     ],
     solo: [
@@ -273,6 +295,54 @@ export default async function ProductPage({
           <Reveal y={20} delay={0.1} className="mt-[48px]">
             <FlowTabs />
           </Reveal>
+        </div>
+      </section>
+
+      {/* ── The three layers (memory · board · agent) ────────── */}
+      <section
+        data-section="Layers"
+        className="w-full bg-grey-96 py-[80px] md:py-[120px]"
+      >
+        <div className="container-x">
+          <Reveal y={16}>
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-walnut-500">
+              {PRODUCT_DATA.layers.eyebrow}
+            </p>
+          </Reveal>
+          <Reveal y={20} delay={0.05}>
+            <h2 className="mt-[16px] max-w-[760px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-black md:text-[40px] md:leading-[44px] md:tracking-[-0.8px]">
+              {PRODUCT_DATA.layers.heading}
+            </h2>
+          </Reveal>
+          <Reveal y={16} delay={0.1}>
+            <p className="mt-[16px] max-w-[600px] text-[16px] leading-[26px] text-black/60">
+              {PRODUCT_DATA.layers.lead}
+            </p>
+          </Reveal>
+          <Stagger
+            as="ul"
+            className="mt-[48px] grid grid-cols-1 gap-[16px] md:grid-cols-3"
+          >
+            {PRODUCT_DATA.layers.items.map((layer) => (
+              <StaggerItem
+                key={layer.name}
+                as="li"
+                className="flex h-full flex-col rounded-[20px] border border-black/[0.08] bg-white p-[24px] md:p-[28px]"
+              >
+                <div className="flex items-center justify-between gap-[10px]">
+                  <h3 className="font-sans text-[18px] font-semibold tracking-[-0.18px] text-black">
+                    {layer.name}
+                  </h3>
+                  <span className="shrink-0 rounded-full border border-walnut-500/25 bg-walnut-500/[0.08] px-[10px] py-[3px] font-mono text-[10px] uppercase tracking-[0.14em] text-walnut-500">
+                    {layer.status}
+                  </span>
+                </div>
+                <p className="mt-[14px] text-[14px] leading-[22px] text-black/60">
+                  {layer.body}
+                </p>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
 

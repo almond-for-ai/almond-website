@@ -21,7 +21,7 @@ const TABS: Tab[] = [
   },
   {
     id: "understand",
-    label: "02 · Understand",
+    label: "02 · Structure",
     title: "Compile decisions into structure.",
     body: "Every captured signal lands as a typed node: linked, versioned, queryable. Not chat. A graph.",
   },

@@ -59,6 +59,12 @@ const CONTACT_DATA = {
       href: "mailto:contact.almondai@gmail.com",
     },
     {
+      label: "Phone",
+      value: "+91 89307 90886",
+      kind: "phone" as const,
+      href: "tel:+918930790886",
+    },
+    {
       label: "LinkedIn",
       value: "linkedin.com/company/hey-almond-ai",
       kind: "link" as const,

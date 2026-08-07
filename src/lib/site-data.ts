@@ -341,7 +341,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
       ],
     },
     tagline:
-      "We don't build another chat. We connect the ones you already use.",
+      "AI, but multiplayer. One shared memory across every tool your team already opens.",
     quote: "Memory, not models.",
     network: {
       eyebrow: "The network",

@@ -39,7 +39,7 @@ export const INTEGRATION_CATEGORIES: Category[] = [
     label: "Editors + agents",
     items: [
       { tool: "claude-code", does: "Memory injected into every prompt context.", status: "live" },
-      { tool: "cursor", does: "Past decisions surface inline as you type.", status: "next" },
+      { tool: "cursor", does: "Past decisions surface inline as you type.", status: "live" },
       { tool: "windsurf", does: "Shared context across every flow.", status: "mcp" },
       { tool: "cline", does: "Recalled constraints in the agent loop.", status: "mcp" },
       { tool: "antigravity", does: "IDE workspace where memory shapes generations.", status: "mcp" },
