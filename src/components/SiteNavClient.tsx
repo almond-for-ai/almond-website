@@ -5,7 +5,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import { AlmondMark } from "@/components/AlmondMark";
-import { SITE_NAV, SITE_CTA } from "@/lib/site-data";
+import { NavBetaCTA } from "@/components/NavBetaCTA";
+import { SITE_NAV } from "@/lib/site-data";
 import type { View } from "@/lib/view";
 
 type SectionLabel = string;
@@ -190,12 +191,7 @@ export function SiteNavClient() {
 
             <div className="h-5 w-px bg-black/10" aria-hidden />
 
-            <Link
-              href={SITE_CTA.href}
-              className="inline-flex items-center justify-center rounded-full bg-walnut-500 px-4 py-2 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-white transition-opacity hover:opacity-90"
-            >
-              {SITE_CTA.label}
-            </Link>
+            <NavBetaCTA />
           </div>
 
           <div className="flex shrink-0 items-center gap-2 md:hidden">
@@ -281,12 +277,9 @@ export function SiteNavClient() {
                 })}
               </nav>
 
-              <Link
-                href={SITE_CTA.href}
-                className="mt-3 flex w-full items-center justify-center rounded-[10px] bg-walnut-500 py-2.5 text-[13px] font-medium leading-none tracking-[-0.005em] text-white"
-              >
-                {SITE_CTA.label}
-              </Link>
+              <div className="mt-3">
+                <NavBetaCTA layout="stack" />
+              </div>
 
               <p className="mb-2.5 mt-4 px-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-black/35">
                 View

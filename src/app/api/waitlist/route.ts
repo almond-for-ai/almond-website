@@ -19,10 +19,13 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 async function saveSignup(
   email: string,
+  _name: string,
 ): Promise<{ position: number; alreadyIn: boolean }> {
   const key = email.toLowerCase();
   const alreadyIn = store.has(key);
   if (!alreadyIn) store.add(key);
+  // `_name` is captured here too — persist it alongside the email when you
+  // wire a durable sink (KV/D1/email tool).
   // Position is deterministic-ish: base + count of unique signups.
   const position = BASE_POSITION + store.size;
   return { position, alreadyIn };
@@ -30,9 +33,11 @@ async function saveSignup(
 
 export async function POST(request: Request) {
   let email = "";
+  let name = "";
   try {
-    const body = (await request.json()) as { email?: unknown };
+    const body = (await request.json()) as { email?: unknown; name?: unknown };
     email = typeof body.email === "string" ? body.email.trim() : "";
+    name = typeof body.name === "string" ? body.name.trim() : "";
   } catch {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
@@ -44,7 +49,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { position, alreadyIn } = await saveSignup(email);
+  const { position, alreadyIn } = await saveSignup(email, name);
 
   return NextResponse.json({ ok: true, position, alreadyIn });
 }
