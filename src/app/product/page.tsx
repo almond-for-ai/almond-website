@@ -223,7 +223,7 @@ export default async function ProductPage({
           </Mount>
           <AudienceCopy
             as="h1"
-            className="mt-[28px] max-w-[820px] font-sans text-[40px] font-medium leading-[44px] tracking-[-0.8px] text-black md:text-[60px] md:leading-[64px] md:tracking-[-1.2px]"
+            className="mt-[28px] max-w-[820px] font-sans text-[34px] font-medium leading-[38px] tracking-[-0.68px] text-black md:text-[48px] md:leading-[52px] md:tracking-[-0.96px]"
             solo={PRODUCT_DATA.hero.solo.title}
             team={PRODUCT_DATA.hero.team.title}
           />

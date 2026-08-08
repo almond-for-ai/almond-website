@@ -126,7 +126,7 @@ export default async function SelfHostPage({
             <span className="chip-accent">{SELF_HOST_TEASER.chip}</span>
           </Mount>
           <Mount delay={0.18} y={14} className="mt-[28px]">
-            <h1 className="max-w-[820px] font-sans text-[40px] font-medium leading-[44px] tracking-[-0.8px] text-black md:text-[60px] md:leading-[64px] md:tracking-[-1.2px]">
+            <h1 className="max-w-[820px] font-sans text-[34px] font-medium leading-[38px] tracking-[-0.68px] text-black md:text-[48px] md:leading-[52px] md:tracking-[-0.96px]">
               {SELF_HOST_TEASER.title}
             </h1>
           </Mount>

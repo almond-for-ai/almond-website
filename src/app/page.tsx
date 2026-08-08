@@ -75,7 +75,7 @@ export default async function Home({
 
           {/* headline + rotating word */}
           <Mount delay={0.2} y={14} className="mt-[24px]">
-            <h1 className="font-sans text-[40px] font-medium leading-[44px] tracking-[-0.8px] text-black md:text-[60px] md:leading-[64px] md:tracking-[-1.2px]">
+            <h1 className="font-sans text-[34px] font-medium leading-[38px] tracking-[-0.68px] text-black md:text-[48px] md:leading-[52px] md:tracking-[-0.96px]">
               {data.hero.titleLead}{" "}
               <span className="text-walnut-500">
                 <RotatingWord words={data.hero.rotatingWords} />
