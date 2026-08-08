@@ -25,7 +25,7 @@ const INTEGRATIONS_DATA = {
     title: "Almond meets your stack where it lives.",
     solo: {
       subtitle:
-        "The tools you already open, sharing one memory. Connect a tool once — everything and everyone you add inherits it.",
+        "The tools you already open, sharing one memory. Connect a tool once, everything and everyone you add inherits it.",
     },
     team: {
       subtitle:

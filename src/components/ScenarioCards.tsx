@@ -30,7 +30,7 @@ const SOLO_SCENARIOS: Scenario[] = [
   },
   {
     step: "Cold start",
-    problem: "New project, new person — the settled patterns are gone.",
+    problem: "New project, new person, the settled patterns are gone.",
     loop: "Almond surfaces the conventions and tradeoffs already settled, to whoever opens the tool.",
     outcome: "3 days to 1 hour",
   },

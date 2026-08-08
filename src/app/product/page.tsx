@@ -40,12 +40,12 @@ const PRODUCT_DATA = {
     solo: {
       title: "Memory that lives inside your tools.",
       subtitle:
-        "No chat window to babysit. No new app to adopt. Almond surfaces what's already been decided right inside Claude Code, Cursor, and Figma — so nothing gets re-explained twice.",
+        "No chat window to babysit. No new app to adopt. Almond surfaces what's already been decided right inside Claude Code, Cursor, and Figma, so nothing gets re-explained twice.",
     },
     team: {
       title: "Your team's memory, in every tool you ship in.",
       subtitle:
-        "Almond makes AI multiplayer: the whole team shares one living memory instead of a thousand private threads. Decisions surface where the work happens — the editor, the frame, the issue.",
+        "Almond makes AI multiplayer: the whole team shares one living memory instead of a thousand private threads. Decisions surface where the work happens, the editor, the frame, the issue.",
     },
     ctas: [
       { label: "Book demo", href: "/contact", kind: "primary" as const },
@@ -70,7 +70,7 @@ const PRODUCT_DATA = {
   layers: {
     eyebrow: "The architecture",
     heading: "Three layers. One living memory.",
-    lead: "Each layer makes the next possible. You can't share an agent that doesn't hold the team's memory — so the memory came first.",
+    lead: "Each layer makes the next possible. You can't share an agent that doesn't hold the team's memory, so the memory came first.",
     items: [
       {
         name: "Memory",
@@ -134,7 +134,7 @@ const PRODUCT_DATA = {
       },
       {
         q: "Who can see my memory?",
-        a: "You decide. Memory starts private to you. Add people and access follows your org — SSO, SCIM, and an audit trail on Orchard.",
+        a: "You decide. Memory starts private to you. Add people and access follows your org, SSO, SCIM, and an audit trail on Orchard.",
       },
     ],
     team: [

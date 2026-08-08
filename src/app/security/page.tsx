@@ -21,7 +21,7 @@ const SECURITY_DATA = {
     title: "Your memory, under your control.",
     solo: {
       subtitle:
-        "Encrypted, private by default, and yours to place — managed, your own cloud, or air-gapped behind your firewall.",
+        "Encrypted, private by default, and yours to place, managed, your own cloud, or air-gapped behind your firewall.",
     },
     team: {
       subtitle:

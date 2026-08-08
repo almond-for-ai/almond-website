@@ -177,14 +177,14 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
     },
     audience: {
       solo: {
-        body: "Claude Code, Cursor, Figma, ChatGPT — every AI you use, finally sharing one memory. Decide something once and never re-explain it again.",
+        body: "Claude Code, Cursor, Figma, ChatGPT, every AI you use, finally sharing one memory. Decide something once and never re-explain it again.",
         finalCta: {
           heading: "Memory across every tool you open.",
           body: "Set it up in ten minutes. Bring your own stack.",
         },
         value: {
           heading: "Decide once. Every AI remembers.",
-          lead: "Stop re-explaining. Stop re-prompting. What you settle in one tool follows you into the next — and to everyone who works with you.",
+          lead: "Stop re-explaining. Stop re-prompting. What you settle in one tool follows you into the next, and to everyone who works with you.",
           slots: {
             stat: {
               label: "Time",
