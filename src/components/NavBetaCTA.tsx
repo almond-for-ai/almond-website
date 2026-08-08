@@ -229,7 +229,7 @@ function BetaForm({ onClose }: { onClose: () => void }) {
           setEmail(e.target.value);
           if (status === "error") setStatus("idle");
         }}
-        placeholder="you@company.com"
+        placeholder="you@email.com"
         aria-label="Email address"
         className="h-[42px] w-full rounded-[10px] border border-black/[0.12] bg-white px-3.5 text-[14px] tracking-[-0.14px] text-black outline-none transition-colors placeholder:text-black/35 focus:border-walnut-500/50"
       />

@@ -125,7 +125,7 @@ export function BetaWaitlist({ className }: { className?: string }) {
                   setEmail(e.target.value);
                   if (status === "error") setStatus("idle");
                 }}
-                placeholder="you@company.com"
+                placeholder="you@email.com"
                 aria-label="Email address"
                 className="h-[52px] w-full flex-1 rounded-full border border-black/[0.12] bg-white px-[20px] text-[15px] tracking-[-0.15px] text-black outline-none transition-colors placeholder:text-black/35 focus:border-walnut-500/50"
               />

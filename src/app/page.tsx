@@ -15,6 +15,7 @@ import { PersonaChips } from "@/components/PersonaChips";
 import { ConnectorDiagram } from "@/components/ConnectorDiagram";
 import { ConnectionConstellation } from "@/components/ConnectionConstellation";
 import { MetricStrip } from "@/components/MetricStrip";
+import { PainStats } from "@/components/PainStats";
 import { OutcomeMarquee } from "@/components/OutcomeMarquee";
 import { ToolLogoWall } from "@/components/ToolLogoWall";
 import { ValueCardsGrid } from "@/components/ValueCardsGrid";
@@ -201,6 +202,33 @@ export default async function Home({
             label={data.impact.logoWallLabel}
             tools={data.impact.logoWallTools}
           />
+        </div>
+      </section>
+
+      {/* ── The pain: real stats ───────────────────────────── */}
+      <section
+        data-section="Pain"
+        className="w-full bg-grey-96 py-[100px] md:py-[140px]"
+      >
+        <div className="container-x">
+          <Reveal y={16}>
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-walnut-500">
+              The pain
+            </p>
+          </Reveal>
+          <Reveal y={20} delay={0.05}>
+            <h2 className="mt-[16px] max-w-[720px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-black md:text-[40px] md:leading-[44px] md:tracking-[-0.8px]">
+              The pain is peaking on both axes.
+            </h2>
+          </Reveal>
+          <Reveal y={16} delay={0.1}>
+            <p className="mt-[16px] max-w-[600px] text-[16px] leading-[26px] text-black/60">
+              Every tool switch is a context reset. Every new teammate is a full re-explain.
+            </p>
+          </Reveal>
+          <Reveal y={24} delay={0.14} className="mt-[48px] md:mt-[56px]">
+            <PainStats />
+          </Reveal>
         </div>
       </section>
 

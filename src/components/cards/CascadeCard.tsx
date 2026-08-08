@@ -81,7 +81,6 @@ function CascadeRowItem({
   inView: boolean;
 }) {
   const styles = LEVEL[row.level];
-  const nothing = row.level === 3;
   return (
     <motion.div
       initial={{ opacity: 0, x: -6 }}
@@ -106,13 +105,7 @@ function CascadeRowItem({
           styles.pill,
         ].join(" ")}
       >
-        {nothing ? (
-          <>
-            nothing <span className="text-[#c0573f]">∅</span>
-          </>
-        ) : (
-          row.survived
-        )}
+        {row.survived}
       </span>
     </motion.div>
   );

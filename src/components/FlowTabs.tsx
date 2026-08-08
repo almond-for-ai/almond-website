@@ -21,9 +21,9 @@ const TABS: Tab[] = [
   },
   {
     id: "understand",
-    label: "02 · Structure",
-    title: "Compile decisions into structure.",
-    body: "Every captured signal lands as a typed node: linked, versioned, queryable. Not chat. A graph.",
+    label: "02 · Converge",
+    title: "It finds the agreement.",
+    body: "Every tool and every teammate feeds the same brain. Memory management runs on Omega, our own fine-tuned model (in progress). Decisions are superseded, never overwritten, with a full audit trail, so old context steps aside instead of disappearing. A living graph that reconciles itself as you work.",
   },
   {
     id: "inject",
