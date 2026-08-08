@@ -45,13 +45,12 @@ export const INTEGRATION_CATEGORIES: Category[] = [
       { tool: "devin", does: "Shared context across every flow.", status: "mcp" },
       { tool: "cline", does: "Recalled constraints in the agent loop.", status: "mcp" },
       { tool: "antigravity", does: "IDE workspace where memory shapes generations.", status: "mcp" },
-      { tool: "codex", does: "Memory grounding OpenAI coding tasks.", status: "mcp" },
+      { tool: "codex", does: "Memory grounding OpenAI coding tasks.", status: "live" },
     ],
   },
   {
     label: "Design",
     items: [
-      { tool: "figma", does: "Decisions annotated on the frame itself.", status: "live" },
       { tool: "figma-make", does: "Prompts build on the decisions already made.", status: "live" },
       { tool: "v0", does: "Generations grounded in your token set.", status: "mcp" },
       { tool: "lovable", does: "Builds that respect prior intent.", status: "mcp" },
@@ -72,7 +71,7 @@ export const INTEGRATION_CATEGORIES: Category[] = [
     label: "Chat models",
     items: [
       { tool: "chatgpt", does: "Context loaded before you ask.", status: "mcp" },
-      { tool: "claude", does: "Your stack and constraints, preloaded.", status: "mcp" },
+      { tool: "claude", does: "Your stack and constraints, preloaded.", status: "live" },
       { tool: "gemini", does: "Context surfaced in multimodal threads.", status: "soon" },
       { tool: "grok", does: "Decisions recalled in xAI conversations.", status: "soon" },
     ],
