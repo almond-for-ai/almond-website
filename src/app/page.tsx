@@ -8,6 +8,7 @@ import { Mount, Reveal } from "@/components/Motion";
 import { AlmondGlyph } from "@/components/AlmondMark";
 import { HeroAudienceToggle } from "@/components/HeroAudienceToggle";
 import { HeroVisibilityTracker } from "@/components/HeroVisibilityTracker";
+import { BetaWaitlist } from "@/components/BetaWaitlist";
 import { AudienceCopy } from "@/components/AudienceCopy";
 import { RotatingWord } from "@/components/RotatingWord";
 import { PersonaChips } from "@/components/PersonaChips";
@@ -100,20 +101,16 @@ export default async function Home({
             />
           </Mount>
 
-          {/* CTAs */}
-          <Mount delay={0.4} y={12} className="mt-[28px]">
-            <div className="flex flex-wrap items-center gap-[12px]">
-              {data.hero.ctas.map((cta) => (
-                <Link
-                  key={cta.label}
-                  href={cta.href}
-                  className={
-                    cta.kind === "primary" ? "btn-primary" : "btn-secondary"
-                  }
-                >
-                  {cta.label}
-                </Link>
-              ))}
+          {/* Beta waitlist */}
+          <Mount delay={0.4} y={12} className="mt-[28px] max-w-[520px]">
+            <BetaWaitlist />
+            <div className="mt-[16px]">
+              <Link
+                href="/manifesto"
+                className="text-[14px] font-medium tracking-[-0.14px] text-black/60 underline-offset-4 hover:text-walnut-500 hover:underline"
+              >
+                Read the manifesto →
+              </Link>
             </div>
           </Mount>
 
