@@ -52,6 +52,7 @@ export const INTEGRATION_CATEGORIES: Category[] = [
     label: "Design",
     items: [
       { tool: "figma", does: "Decisions annotated on the frame itself.", status: "live" },
+      { tool: "figma-make", does: "Prompts build on the decisions already made.", status: "live" },
       { tool: "v0", does: "Generations grounded in your token set.", status: "mcp" },
       { tool: "lovable", does: "Builds that respect prior intent.", status: "mcp" },
     ],
@@ -95,8 +96,17 @@ export const INTEGRATION_CATEGORIES: Category[] = [
 
 function IntegrationItem({ item }: { item: Integration }) {
   const Logo = LOGO_BY_KEY[item.tool];
+  const isLive = item.status === "live";
   return (
-    <CardFrame tone="light">
+    <CardFrame
+      tone={isLive ? "cream" : "light"}
+      className={isLive ? "ring-1 ring-walnut-500/25" : undefined}
+      style={
+        isLive
+          ? { boxShadow: "0 8px 28px rgba(123,64,25,0.10)" }
+          : undefined
+      }
+    >
       <div className="flex h-full flex-col gap-[14px] p-[20px] md:p-[24px]">
         <div className="flex items-center gap-[10px]">
           <span className="inline-flex h-[26px] w-[26px] shrink-0 items-center justify-center">

@@ -6,6 +6,7 @@ export type ToolKey =
   | "claude-code"
   | "cursor"
   | "figma"
+  | "figma-make"
   | "chatgpt"
   | "claude"
   | "linear"
