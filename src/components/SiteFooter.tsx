@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { AlmondGlyph } from "@/components/AlmondMark";
 import { EmailCopy } from "@/components/EmailCopy";
+import { FooterMindGame } from "@/components/FooterMindGame";
 import { Reveal } from "@/components/Motion";
 
 export const SOCIAL_LINKS = {
   x: "https://x.com/Hey_AlmondAI",
   linkedin: "https://www.linkedin.com/company/hey-almond-ai",
-  email: "contact.almondai@gmail.com",
+  email: "contact@almondai.tech",
 } as const;
 
 type FooterLink = { label: string; href: string; external?: boolean };
@@ -43,7 +44,11 @@ const COLUMNS: FooterColumn[] = [
 
 export function SiteFooter() {
   return (
-    <footer className="w-full bg-black pb-[40px] pt-[64px] text-white">
+    <footer className="w-full bg-black pb-[40px] text-white">
+      {/* Mind Snap lives in the footer's own surface: ambient at rest, playable
+          in place, with no card edge between it and the links below. */}
+      <FooterMindGame />
+
       <div className="container-x flex flex-col">
         {/* Top: link columns */}
         <div className="grid grid-cols-2 gap-[40px] md:grid-cols-4 md:gap-[24px]">
@@ -108,7 +113,7 @@ export function SiteFooter() {
         <Reveal
           y={28}
           duration={0.9}
-          className="mt-[100px] mb-[80px] flex w-full justify-center text-white"
+          className="mt-[72px] mb-[72px] flex w-full justify-center text-white"
         >
           <AlmondGlyph size={180} />
         </Reveal>

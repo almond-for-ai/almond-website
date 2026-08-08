@@ -10,12 +10,12 @@ import {
   ClaudeLogo,
   ClineLogo,
   CursorLogo,
+  DevinLogo,
   FigmaLogo,
   GitHubLogo,
   LinearLogo,
   NotionLogo,
   V0Logo,
-  WindsurfLogo,
 } from "@/components/tool-logos";
 
 /**
@@ -76,7 +76,7 @@ const TOOLS: Tool[] = [
   // 30°  - ring 1
   { id: "claude", Logo: ClaudeLogo, ring: 1, angle: 30 },
   // 60°  - ring 2
-  { id: "windsurf", Logo: WindsurfLogo, ring: 2, angle: 60 },
+  { id: "devin", Logo: DevinLogo, ring: 2, angle: 60 },
   // 90°  - ring 1
   { id: "linear", Logo: LinearLogo, ring: 1, angle: 90 },
   // 120° - ring 0

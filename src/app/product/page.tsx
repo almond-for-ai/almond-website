@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { PageRawView } from "@/components/PageRawView";
 import { Mount, Reveal, Stagger, StaggerItem } from "@/components/Motion";
 import { AlmondGlyph } from "@/components/AlmondMark";
+import { BoardSection } from "@/components/BoardSection";
 import { FlowTabs } from "@/components/FlowTabs";
 import { InToolSurfaces } from "@/components/InToolSurfaces";
 import { AudienceToggle } from "@/components/AudienceToggle";
@@ -27,7 +28,7 @@ const LOGO_TOOLS: ToolKey[] = [
   "linear",
   "github",
   "notion",
-  "windsurf",
+  "devin",
   "v0",
   "claude",
   "cline",
@@ -345,6 +346,14 @@ export default async function ProductPage({
           </Stagger>
         </div>
       </section>
+
+      {/* ── The board layer, playable. Continues the grey run above
+             with no top padding so it reads as one surface. ───────── */}
+      <BoardSection
+        id="board"
+        density="full"
+        className="w-full bg-grey-96 pb-[80px] md:pb-[120px]"
+      />
 
       {/* ── What gets captured ───────────────────────────────── */}
       <section

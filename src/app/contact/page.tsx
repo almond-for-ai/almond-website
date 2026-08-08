@@ -46,23 +46,12 @@ const CONTACT_DATA = {
     },
   ],
   channels: [
-    {
-      label: "Schedule directly",
-      value: "Cal.com · slot opens in 24h",
-      kind: "cal" as const,
-      href: "mailto:contact.almondai@gmail.com?subject=Almond%20demo",
-    },
+    // Cal.com scheduling and the phone line are hidden until they are ready.
     {
       label: "Email",
-      value: "contact.almondai@gmail.com",
+      value: "contact@almondai.tech",
       kind: "email" as const,
-      href: "mailto:contact.almondai@gmail.com",
-    },
-    {
-      label: "Phone",
-      value: "+91 89307 90886",
-      kind: "phone" as const,
-      href: "tel:+918930790886",
+      href: "mailto:contact@almondai.tech",
     },
     {
       label: "LinkedIn",
@@ -112,7 +101,7 @@ export default async function ContactPage({
             <AudienceToggle variant="light" size="md" />
           </Mount>
           <Mount delay={0.18} y={14} className="mt-[28px]">
-            <h1 className="font-sans text-[44px] font-medium leading-[48px] tracking-[-0.88px] text-black md:text-[64px] md:leading-[68px] md:tracking-[-1.28px]">
+            <h1 className="font-sans text-[40px] font-medium leading-[44px] tracking-[-0.8px] text-black md:text-[60px] md:leading-[64px] md:tracking-[-1.2px]">
               {CONTACT_DATA.hero.title}
             </h1>
           </Mount>
@@ -129,40 +118,35 @@ export default async function ContactPage({
       <section data-section="Schedule" className="w-full pb-[80px] md:pb-[120px]">
         <div className="container-x">
           <div className="grid grid-cols-1 gap-[24px] md:grid-cols-[1.2fr_1fr] md:gap-[40px]">
-            {/* Cal placeholder */}
+            {/* Email us. The scheduler is hidden until it is ready. */}
             <Reveal y={20}>
               <div className="flex h-full flex-col rounded-[24px] border border-black/[0.08] bg-black p-[28px] text-white md:rounded-[32px] md:p-[40px]">
                 <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-walnut-300">
-                  Live scheduler
+                  Book a demo
                 </span>
                 <h2 className="mt-[16px] font-sans text-[28px] font-medium leading-[32px] tracking-[-0.56px] md:text-[32px] md:leading-[36px] md:tracking-[-0.64px]">
-                  Pick a slot.
+                  Email us.
                 </h2>
                 <p className="mt-[12px] text-[15px] leading-[22px] text-white/65">
-                  Cal.com embed lands here once the workspace is finished. In
-                  the meantime, email us with two times that work. We&apos;ll
-                  send a confirm within 24h.
+                  Send two times that work and we will confirm within 24 hours.
                 </p>
 
                 <div className="mt-[28px] flex flex-1 items-end">
                   <div className="w-full rounded-[16px] border border-white/[0.1] bg-white/[0.04] p-[20px]">
                     <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/45">
-                      // calendar placeholder
+                      Write to
                     </div>
-                    <div className="mt-[8px] font-mono text-[13px] leading-[20px] text-white/75">
-                      $ almond schedule --duration 30m
-                    </div>
-                    <div className="mt-[2px] font-mono text-[13px] leading-[20px] text-white/55">
-                      → opening contact.almondai@gmail.com
-                    </div>
-                    <div className="mt-[2px] font-mono text-[13px] leading-[20px] text-white/55">
-                      → response &lt; 24h
-                    </div>
+                    <a
+                      href="mailto:contact@almondai.tech?subject=Almond%20demo"
+                      className="mt-[10px] block break-all font-sans text-[20px] font-medium leading-[26px] tracking-[-0.2px] text-white transition-opacity hover:opacity-75 md:text-[24px] md:leading-[30px]"
+                    >
+                      contact@almondai.tech
+                    </a>
                   </div>
                 </div>
 
                 <a
-                  href="mailto:contact.almondai@gmail.com?subject=Almond%20demo"
+                  href="mailto:contact@almondai.tech?subject=Almond%20demo"
                   className="mt-[28px] inline-flex w-fit items-center justify-center rounded-full bg-white px-[24px] py-[10px] text-[15px] font-medium leading-[18px] tracking-[-0.3px] text-black transition-opacity hover:opacity-90"
                 >
                   Email to schedule
@@ -189,6 +173,7 @@ export default async function ContactPage({
                       {c.kind === "email" ? (
                         <EmailCopy
                           email={c.value}
+                          label={c.value}
                           className="mt-[8px] block truncate text-left font-sans text-[16px] font-medium leading-[22px] tracking-[-0.16px] text-black hover:text-walnut-500"
                         />
                       ) : (

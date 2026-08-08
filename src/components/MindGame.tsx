@@ -77,7 +77,16 @@ type Confetti = {
   life: number;
 };
 
-export function MindGame() {
+type MindGameProps = {
+  /** Skip the idle title card and deal the first round on mount. */
+  autoStart?: boolean;
+  /** Drop the card chrome so the board sits directly on the host surface. */
+  bare?: boolean;
+  /** When present, the game-over state offers a way back out. */
+  onExit?: () => void;
+};
+
+export function MindGame({ autoStart = false, bare = false, onExit }: MindGameProps = {}) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [gridSize, setGridSize] = useState(5);
   const [round, setRound] = useState(1);
@@ -319,6 +328,19 @@ export function MindGame() {
     return () => clearTimers();
   }, [clearTimers]);
 
+  /* Deal the first round on mount when the host asked for it. This reads the
+     latest beginGame through a ref so the effect depends only on autoStart:
+     depending on beginGame itself would restart the run every time a new best
+     score changes its identity, and a one-shot ref guard would leave the board
+     frozen after StrictMode's remount cleared the timers. */
+  const beginGameRef = useRef(beginGame);
+  beginGameRef.current = beginGame;
+  useEffect(() => {
+    if (!autoStart) return;
+    beginGameRef.current();
+    return () => clearTimers();
+  }, [autoStart, clearTimers]);
+
   const cells = useMemo(
     () => Array.from({ length: gridSize * gridSize }, (_, i) => i),
     [gridSize]
@@ -332,17 +354,17 @@ export function MindGame() {
       {/* HUD */}
       <div className="absolute inset-x-0 top-0 z-20 flex flex-wrap items-center justify-between gap-2 px-4 pt-4 md:px-8 md:pt-6">
         <div className="flex gap-2 text-[11px] font-medium text-white/90 md:text-[12px]">
-          <Stat label="Score" value={score} />
-          <Stat label="Best" value={best} />
-          <Stat label="Round" value={round} />
-          <Stat label="Time" value={`${timeLeft}s`} highlight={timeLeft <= 10} />
+          <Stat label="Score" value={score} bare={bare} />
+          <Stat label="Best" value={best} bare={bare} />
+          <Stat label="Round" value={round} bare={bare} />
+          <Stat label="Time" value={`${timeLeft}s`} highlight={timeLeft <= 10} bare={bare} />
         </div>
         <div className="flex gap-2">
           <button
             type="button"
             onClick={() => setSoundOn((s) => !s)}
             aria-label={soundOn ? "Mute sound" : "Unmute sound"}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white/25"
+            className={CONTROL_BUTTON[bare ? "bare" : "card"]}
           >
             {soundOn ? <IconSound /> : <IconMute />}
           </button>
@@ -351,9 +373,19 @@ export function MindGame() {
               type="button"
               onClick={phase === "paused" ? resume : pause}
               aria-label={phase === "paused" ? "Resume" : "Pause"}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white/25"
+              className={CONTROL_BUTTON[bare ? "bare" : "card"]}
             >
               {phase === "paused" ? <IconPlay /> : <IconPause />}
+            </button>
+          )}
+          {onExit && (
+            <button
+              type="button"
+              onClick={onExit}
+              aria-label="Close the game"
+              className={CONTROL_BUTTON[bare ? "bare" : "card"]}
+            >
+              <IconClose />
             </button>
           )}
         </div>
@@ -395,8 +427,8 @@ export function MindGame() {
       </div>
 
       {/* Start overlay */}
-      {phase === "idle" && (
-        <Overlay>
+      {phase === "idle" && !autoStart && (
+        <Overlay bare={bare}>
           <h3 className="text-[24px] font-medium tracking-[-0.48px] text-white md:text-[28px]">
             Mind Snap
           </h3>
@@ -415,7 +447,7 @@ export function MindGame() {
 
       {/* Paused overlay */}
       {phase === "paused" && (
-        <Overlay>
+        <Overlay bare={bare}>
           <h3 className="text-[20px] font-medium text-white">Paused</h3>
           <button
             type="button"
@@ -429,7 +461,7 @@ export function MindGame() {
 
       {/* Game over overlay */}
       {phase === "over" && (
-        <Overlay>
+        <Overlay bare={bare}>
           {newHigh && (
             <span className="mb-3 rounded-full bg-cyan-400/20 px-3 py-1 text-[12px] font-medium text-cyan-200">
               New High Score!
@@ -448,13 +480,24 @@ export function MindGame() {
               <div className="text-[28px] font-medium text-white">{best}</div>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={beginGame}
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-[15px] font-medium text-walnut-500 hover:bg-walnut-50"
-          >
-            Play Again
-          </button>
+          <div className="mt-6 flex flex-col items-center gap-3">
+            <button
+              type="button"
+              onClick={beginGame}
+              className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-[15px] font-medium text-walnut-500 hover:bg-walnut-50"
+            >
+              Play Again
+            </button>
+            {onExit && (
+              <button
+                type="button"
+                onClick={onExit}
+                className="text-[12px] uppercase tracking-[0.18em] text-white/45 transition hover:text-white/75"
+              >
+                Back to the footer
+              </button>
+            )}
+          </div>
         </Overlay>
       )}
 
@@ -501,15 +544,32 @@ export function MindGame() {
   );
 }
 
+const CONTROL_BUTTON = {
+  card: "flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white/25",
+  bare: "flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/60 transition hover:border-white/35 hover:text-white",
+} as const;
+
 function Stat({
   label,
   value,
   highlight,
+  bare,
 }: {
   label: string;
   value: number | string;
   highlight?: boolean;
+  bare?: boolean;
 }) {
+  if (bare) {
+    return (
+      <div className="flex items-baseline gap-1.5 uppercase tracking-[0.14em]">
+        <span className="text-white/35">{label}</span>
+        <span className={highlight ? "font-medium text-red-300" : "font-medium text-white/85"}>
+          {value}
+        </span>
+      </div>
+    );
+  }
   return (
     <div
       className={[
@@ -523,9 +583,14 @@ function Stat({
   );
 }
 
-function Overlay({ children }: { children: React.ReactNode }) {
+function Overlay({ children, bare }: { children: React.ReactNode; bare?: boolean }) {
   return (
-    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/55 px-6 backdrop-blur-sm">
+    <div
+      className={[
+        "absolute inset-0 z-20 flex flex-col items-center justify-center px-6",
+        bare ? "bg-black/70" : "bg-black/55 backdrop-blur-sm",
+      ].join(" ")}
+    >
       {children}
     </div>
   );
@@ -560,6 +625,14 @@ function IconPlay() {
   return (
     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
       <polygon points="6,4 20,12 6,20" />
+    </svg>
+  );
+}
+function IconClose() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+      <line x1="5" y1="5" x2="19" y2="19" />
+      <line x1="19" y1="5" x2="5" y2="19" />
     </svg>
   );
 }

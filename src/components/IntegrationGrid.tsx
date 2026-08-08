@@ -9,7 +9,7 @@ import type { ToolKey } from "@/lib/site-data";
  * page above supplies any audience-aware copy.
  */
 
-type Status = "live" | "next" | "mcp";
+type Status = "live" | "next" | "mcp" | "soon";
 
 type Integration = {
   tool: ToolKey;
@@ -26,12 +26,14 @@ const STATUS_LABEL: Record<Status, string> = {
   live: "Live",
   next: "Next",
   mcp: "via MCP",
+  soon: "Coming soon",
 };
 
 const STATUS_CLASS: Record<Status, string> = {
   live: "border-walnut-500/30 bg-walnut-500/[0.08] text-walnut-500",
   next: "border-black/[0.12] bg-black/[0.03] text-black/55",
   mcp: "border-black/[0.10] bg-transparent text-black/45",
+  soon: "border-black/[0.10] bg-transparent text-black/45",
 };
 
 export const INTEGRATION_CATEGORIES: Category[] = [
@@ -40,9 +42,10 @@ export const INTEGRATION_CATEGORIES: Category[] = [
     items: [
       { tool: "claude-code", does: "Memory injected into every prompt context.", status: "live" },
       { tool: "cursor", does: "Past decisions surface inline as you type.", status: "live" },
-      { tool: "windsurf", does: "Shared context across every flow.", status: "mcp" },
+      { tool: "devin", does: "Shared context across every flow.", status: "mcp" },
       { tool: "cline", does: "Recalled constraints in the agent loop.", status: "mcp" },
       { tool: "antigravity", does: "IDE workspace where memory shapes generations.", status: "mcp" },
+      { tool: "codex", does: "Memory grounding OpenAI coding tasks.", status: "mcp" },
     ],
   },
   {
@@ -56,12 +59,12 @@ export const INTEGRATION_CATEGORIES: Category[] = [
   {
     label: "Knowledge + planning",
     items: [
-      { tool: "notion", does: "Docs cite the decision as it stands today.", status: "next" },
-      { tool: "linear", does: "Issues trace to the decision that spawned them.", status: "next" },
-      { tool: "github", does: "PRs carry the reasoning, not just the diff.", status: "mcp" },
-      { tool: "confluence", does: "Team wikis enriched with live decisions.", status: "mcp" },
-      { tool: "google-drive", does: "Docs, sheets, and slides informed by memory.", status: "mcp" },
-      { tool: "granola", does: "Meeting notes tied to the decisions they produced.", status: "mcp" },
+      { tool: "notion", does: "Docs cite the decision as it stands today.", status: "soon" },
+      { tool: "linear", does: "Issues trace to the decision that spawned them.", status: "soon" },
+      { tool: "github", does: "PRs carry the reasoning, not just the diff.", status: "soon" },
+      { tool: "confluence", does: "Team wikis enriched with live decisions.", status: "soon" },
+      { tool: "google-drive", does: "Docs, sheets, and slides informed by memory.", status: "soon" },
+      { tool: "granola", does: "Meeting notes tied to the decisions they produced.", status: "soon" },
     ],
   },
   {
@@ -69,18 +72,17 @@ export const INTEGRATION_CATEGORIES: Category[] = [
     items: [
       { tool: "chatgpt", does: "Context loaded before you ask.", status: "mcp" },
       { tool: "claude", does: "Your stack and constraints, preloaded.", status: "mcp" },
-      { tool: "gemini", does: "Context surfaced in multimodal threads.", status: "mcp" },
-      { tool: "grok", does: "Decisions recalled in xAI conversations.", status: "mcp" },
-      { tool: "codex", does: "Memory grounding OpenAI coding tasks.", status: "mcp" },
+      { tool: "gemini", does: "Context surfaced in multimodal threads.", status: "soon" },
+      { tool: "grok", does: "Decisions recalled in xAI conversations.", status: "soon" },
     ],
   },
   {
     label: "Communication",
     items: [
-      { tool: "slack", does: "Channel threads grounded in team decisions.", status: "mcp" },
-      { tool: "discord", does: "Server context prefilled from memory.", status: "mcp" },
-      { tool: "gmail", does: "Email threads surfacing relevant past context.", status: "mcp" },
-      { tool: "calendar", does: "Meetings pre-loaded with decision history.", status: "mcp" },
+      { tool: "slack", does: "Channel threads grounded in team decisions.", status: "soon" },
+      { tool: "discord", does: "Server context prefilled from memory.", status: "soon" },
+      { tool: "gmail", does: "Email threads surfacing relevant past context.", status: "soon" },
+      { tool: "calendar", does: "Meetings pre-loaded with decision history.", status: "soon" },
     ],
   },
   {

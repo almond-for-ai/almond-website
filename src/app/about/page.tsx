@@ -48,7 +48,7 @@ const ABOUT_DATA = {
     body: "Almond is early and built in the open with design partners. We ship weekly and talk to every team that runs it.",
   },
   connect: [
-    { label: "Email", value: "contact.almondai@gmail.com", href: "mailto:contact.almondai@gmail.com" },
+    { label: "Email", value: "contact@almondai.tech", href: "mailto:contact@almondai.tech" },
     { label: "LinkedIn", value: "linkedin.com/company/hey-almond-ai", href: SOCIAL_LINKS.linkedin },
     { label: "X", value: "@Hey_AlmondAI", href: SOCIAL_LINKS.x },
   ],

@@ -343,6 +343,25 @@
   color: rgba(255, 255, 255, 1);
 }
 
+/* Footer Mind Snap: resting lattice breathes so the band reads as ambience */
+@keyframes lattice-breathe {
+  0%,
+  100% {
+    background-color: rgba(255, 255, 255, 0.045);
+  }
+  50% {
+    background-color: rgba(255, 255, 255, 0.11);
+  }
+}
+.lattice-breathe {
+  animation: lattice-breathe 4.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lattice-breathe {
+    animation: none;
+  }
+}
+
 /* Pricing table row hover */
 .pricing-row {
   transition: background-color 200ms cubic-bezier(0.44, 0, 0.56, 1);

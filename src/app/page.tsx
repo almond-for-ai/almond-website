@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BlogTeaserSection } from "@/components/BlogTeaserSection";
-import { MindGameSection } from "@/components/MindGameSection";
+import { BoardSection } from "@/components/BoardSection";
 import { RawView } from "@/components/RawView";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteNav, getViewFromSearchParams } from "@/components/SiteNav";
@@ -18,7 +18,6 @@ import { MetricStrip } from "@/components/MetricStrip";
 import { OutcomeMarquee } from "@/components/OutcomeMarquee";
 import { ToolLogoWall } from "@/components/ToolLogoWall";
 import { ValueCardsGrid } from "@/components/ValueCardsGrid";
-import { Lazy3D } from "@/components/illustrations/Lazy3D";
 import { SectionTracker } from "@/components/SectionTracker";
 import { getAllPosts } from "@/lib/posts";
 import { buildSiteData } from "@/lib/site-data";
@@ -76,7 +75,7 @@ export default async function Home({
 
           {/* headline + rotating word */}
           <Mount delay={0.2} y={14} className="mt-[24px]">
-            <h1 className="font-sans text-[40px] font-medium leading-[44px] tracking-[-0.8px] text-black md:text-[64px] md:leading-[68px] md:tracking-[-1.28px]">
+            <h1 className="font-sans text-[40px] font-medium leading-[44px] tracking-[-0.8px] text-black md:text-[60px] md:leading-[64px] md:tracking-[-1.2px]">
               {data.hero.titleLead}{" "}
               <span className="text-walnut-500">
                 <RotatingWord words={data.hero.rotatingWords} />
@@ -227,39 +226,10 @@ export default async function Home({
         </div>
       </section>
 
-      {/* ── MemoryGraph 3D, full-bleed black ──────────────── */}
-      <section
-        data-section="Graph"
-        className="w-full bg-black py-[80px] md:py-[120px]"
-      >
-        <div className="container-x">
-          <Reveal y={16}>
-            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-walnut-300">
-              Compiled memory
-            </p>
-          </Reveal>
-          <Reveal y={20} delay={0.05}>
-            <h2 className="mt-[16px] max-w-[820px] font-sans text-[28px] font-medium leading-[36px] tracking-[-0.56px] text-white md:text-[44px] md:leading-[52px] md:tracking-[-0.88px]">
-              Decisions become structure. Structure stays alive.
-            </h2>
-          </Reveal>
-          <Reveal y={24} delay={0.1} className="mt-[40px]">
-            <div className="capsule-50 bg-black p-[8px] md:p-[12px]">
-              <div className="h-[400px] w-full md:h-[520px]">
-                <Lazy3D
-                  name="MemoryGraph"
-                  colors={["#a36740", "#ffffff", "#7b4019"]}
-                />
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* ── The board: several minds, one memory ───────────── */}
+      <BoardSection id="board" />
 
-      {/* MindGame kept */}
-      <div data-section="Game" id="game">
-        <MindGameSection />
-      </div>
+      {/* MindGame moved into SiteFooter; MindGameSection retained as reference. */}
 
       {/* BlogTeaser kept */}
       <div data-section="Blog">

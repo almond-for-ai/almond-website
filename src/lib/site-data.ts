@@ -11,7 +11,7 @@ export type ToolKey =
   | "linear"
   | "github"
   | "notion"
-  | "windsurf"
+  | "devin"
   | "v0"
   | "cline"
   | "antigravity"
@@ -158,6 +158,7 @@ export const ROTATING_TOOLS = [
   "Cursor",
   "Linear",
   "Notion",
+  "your team",
   "your stack",
 ];
 
@@ -333,7 +334,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
         "linear",
         "github",
         "notion",
-        "windsurf",
+        "devin",
         "v0",
         "claude",
         "cline",
@@ -398,7 +399,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
           items: [
             { label: "LinkedIn", href: "https://www.linkedin.com/company/hey-almond-ai" },
             { label: "X", href: "https://x.com/Hey_AlmondAI" },
-            { label: "Email", href: "mailto:contact.almondai@gmail.com" },
+            { label: "Email", href: "mailto:contact@almondai.tech" },
           ],
         },
       ],

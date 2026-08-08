@@ -84,7 +84,6 @@ export function SiteNavClient() {
       { id: "hero-section", label: "Home" },
       { id: "product-section", label: "Product" },
       { id: "differentiator-section", label: "Why" },
-      { id: "game", label: "Game" },
       { id: "blog-posts-section", label: "Blog" },
     ];
 

@@ -23,6 +23,20 @@
   "images": {
     "binding": "IMAGES"
   },
+  "d1_databases": [
+    {
+      "binding": "WAITLIST_DB",
+      "database_name": "almond-waitlist",
+      "database_id": "fe4ce031-c8bd-408e-9ab2-d4ae97f481fa",
+      "migrations_dir": "migrations"
+    }
+  ],
+  // Empty placeholder so `wrangler types` declares RESEND_API_KEY; the real
+  // value comes from `wrangler secret put RESEND_API_KEY`, which overrides
+  // this at deploy (already set on the production worker).
+  "vars": {
+    "RESEND_API_KEY": ""
+  },
   "observability": {
     "enabled": false,
     "head_sampling_rate": 1,
@@ -62,6 +76,17 @@
       "images": {
         "binding": "IMAGES"
       },
+      "d1_databases": [
+        {
+          "binding": "WAITLIST_DB",
+          "database_name": "almond-waitlist-staging",
+          "database_id": "a39986fa-2175-4908-94b8-8b101e480353",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "vars": {
+        "RESEND_API_KEY": ""
+      },
       "observability": {
         "enabled": false,
         "head_sampling_rate": 1,
@@ -100,6 +125,19 @@
       ],
       "images": {
         "binding": "IMAGES"
+      },
+      // full-wip has no dedicated D1 database; it reuses the staging
+      // waitlist DB rather than mixing test signups into production data.
+      "d1_databases": [
+        {
+          "binding": "WAITLIST_DB",
+          "database_name": "almond-waitlist-staging",
+          "database_id": "a39986fa-2175-4908-94b8-8b101e480353",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "vars": {
+        "RESEND_API_KEY": ""
       },
       "observability": {
         "enabled": false,
