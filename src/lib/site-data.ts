@@ -178,14 +178,14 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
     },
     audience: {
       solo: {
-        body: "Claude Code, Cursor, Figma, ChatGPT, every AI you use, finally sharing one memory. Decide something once and never re-explain it again.",
+        body: "A memory the room holds together, not just you. Claude Code, Cursor, Figma, ChatGPT, every AI you use draws from the same one, so nothing gets decided twice.",
         finalCta: {
           heading: "Memory across every tool you open.",
           body: "Set it up in ten minutes. Bring your own stack.",
         },
         value: {
-          heading: "Decide once. Every AI remembers.",
-          lead: "Stop re-explaining. Stop re-prompting. What you settle in one tool follows you into the next, and to everyone who works with you.",
+          heading: "Decided once. Remembered by everyone who joins.",
+          lead: "Stop re-explaining. Stop re-prompting. What the room settles in one tool follows into the next, and to everyone who joins it.",
           slots: {
             stat: {
               label: "Time",
@@ -238,7 +238,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
         },
       },
       team: {
-        body: "Your team's memory, alive in every tool you ship in. Decisions persist where the work happens, not in a doc no one reads.",
+        body: "A memory the whole team holds together, alive in every tool you ship in. What the room decides persists where the work happens, not in a doc no one reads.",
         finalCta: {
           heading: "One brain for the whole team.",
           body: "Run a 30-minute demo on your real codebase.",
