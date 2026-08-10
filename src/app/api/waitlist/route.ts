@@ -8,12 +8,9 @@ import { sendWaitlistConfirmation } from "@/lib/email";
  * Persists to the `WAITLIST_DB` D1 database (binding declared in
  * wrangler.jsonc, schema in migrations/0001_waitlist.sql) and, on a
  * genuinely new signup, sends a confirmation via Resend using
- * `env.RESEND_API_KEY`. The response shape (`position`, `alreadyIn`) is
+ * `env.RESEND_API_KEY`. The response shape (`alreadyIn`) is
  * BetaWaitlist.tsx's contract for the "you're in the orchard" success state.
  */
-
-// Believable starting spot so early signups don't read as "#1".
-const BASE_POSITION = 137;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const RATE_LIMIT_MAX = 5;
@@ -84,25 +81,26 @@ export async function POST(request: NextRequest) {
 
     const alreadyIn = result.meta.changes === 0;
 
-    // Position is the row's own id, so it's stable across requests and
-    // consistent with the "spot #N" copy regardless of who else signs up
-    // in between. SQLite serializes writes, so this is race-free.
-    const row = await db
-      .prepare("SELECT id FROM waitlist WHERE email = ?1")
-      .bind(email)
-      .first<{ id: number }>();
-    const position = BASE_POSITION + (row?.id ?? 0);
-
     // Only email on a genuinely new row.
-    if (!alreadyIn && env.RESEND_API_KEY) {
-      ctx.waitUntil(
-        sendWaitlistConfirmation(env.RESEND_API_KEY, email).catch((err) => {
-          console.error("waitlist confirmation email failed", err);
-        }),
-      );
+    if (!alreadyIn) {
+      const apiKey = env.RESEND_API_KEY;
+      if (apiKey) {
+        ctx.waitUntil(
+          sendWaitlistConfirmation(apiKey, email).catch((err) => {
+            console.error("waitlist confirmation email failed", err);
+          }),
+        );
+      } else {
+        // Loud, because a missing key means signups land in D1 but nobody
+        // ever hears back, and the request still looks successful.
+        console.error(
+          "RESEND_API_KEY is not set; skipped waitlist confirmation email. " +
+            "Set it with `wrangler secret put RESEND_API_KEY`.",
+        );
+      }
     }
 
-    return NextResponse.json({ ok: true, position, alreadyIn });
+    return NextResponse.json({ ok: true, alreadyIn });
   } catch (err) {
     console.error("waitlist signup failed", err);
     return NextResponse.json({ error: "Something went wrong. Try again." }, { status: 500 });

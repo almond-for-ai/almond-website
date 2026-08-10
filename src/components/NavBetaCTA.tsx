@@ -135,7 +135,6 @@ function BetaForm({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
-  const [position, setPosition] = useState<number | null>(null);
   const [alreadyIn, setAlreadyIn] = useState(false);
 
   async function submit(e: React.FormEvent) {
@@ -156,7 +155,6 @@ function BetaForm({ onClose }: { onClose: () => void }) {
       });
       const data = (await res.json()) as {
         ok?: boolean;
-        position?: number;
         alreadyIn?: boolean;
         error?: string;
       };
@@ -165,7 +163,6 @@ function BetaForm({ onClose }: { onClose: () => void }) {
         setMessage(data.error ?? "Something went wrong.");
         return;
       }
-      setPosition(data.position ?? null);
       setAlreadyIn(Boolean(data.alreadyIn));
       setStatus("done");
     } catch {
@@ -190,12 +187,9 @@ function BetaForm({ onClose }: { onClose: () => void }) {
         </p>
         <p className="mt-1.5 font-sans text-[16px] font-medium tracking-[-0.16px] text-black">
           {name ? `See you soon, ${name.split(" ")[0]}.` : "You're on the list."}
-          {position != null && (
-            <>
-              {" "}
-              <span className="text-walnut-500">Spot #{position}.</span>
-            </>
-          )}
+        </p>
+        <p className="mt-1.5 text-[13px] leading-[19px] text-black/55">
+          We&apos;ll email you when your access is ready. No spam, nothing else.
         </p>
         <button
           type="button"

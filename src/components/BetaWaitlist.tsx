@@ -18,7 +18,6 @@ export function BetaWaitlist({ className }: { className?: string }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
-  const [position, setPosition] = useState<number | null>(null);
   const [alreadyIn, setAlreadyIn] = useState(false);
 
   async function submit(e: React.FormEvent) {
@@ -34,7 +33,6 @@ export function BetaWaitlist({ className }: { className?: string }) {
       });
       const data = (await res.json()) as {
         ok?: boolean;
-        position?: number;
         alreadyIn?: boolean;
         error?: string;
       };
@@ -43,7 +41,6 @@ export function BetaWaitlist({ className }: { className?: string }) {
         setMessage(data.error ?? "Something went wrong. Try again.");
         return;
       }
-      setPosition(data.position ?? null);
       setAlreadyIn(Boolean(data.alreadyIn));
       setStatus("done");
     } catch {
@@ -72,16 +69,10 @@ export function BetaWaitlist({ className }: { className?: string }) {
                 </p>
                 <p className="mt-[6px] font-sans text-[20px] font-medium leading-[26px] tracking-[-0.2px] text-black md:text-[24px]">
                   {alreadyIn ? "You're already on the list." : "You're on the list."}
-                  {position != null && (
-                    <>
-                      {" "}
-                      <span className="text-walnut-500">Spot #{position}.</span>
-                    </>
-                  )}
                 </p>
                 <p className="mt-[6px] text-[14px] leading-[21px] text-black/55">
-                  We&apos;ll email <span className="text-black/80">{email}</span> the
-                  moment your seat opens.
+                  We&apos;ll email <span className="text-black/80">{email}</span> when
+                  your access is ready. No spam, nothing else.
                 </p>
               </div>
             </div>

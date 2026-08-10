@@ -31,12 +31,11 @@
       "migrations_dir": "migrations"
     }
   ],
-  // Empty placeholder so `wrangler types` declares RESEND_API_KEY; the real
-  // value comes from `wrangler secret put RESEND_API_KEY`, which overrides
-  // this at deploy (already set on the production worker).
-  "vars": {
-    "RESEND_API_KEY": ""
-  },
+  // RESEND_API_KEY is deliberately NOT declared here. A plain-text var in this
+  // file is pushed on every deploy and would overwrite the secret of the same
+  // name, so the waitlist confirmation email would silently stop sending.
+  // Set it once per environment with `wrangler secret put RESEND_API_KEY`.
+  // Its type is declared by hand in cloudflare-env.d.ts.
   "observability": {
     "enabled": false,
     "head_sampling_rate": 1,
@@ -84,9 +83,6 @@
           "migrations_dir": "migrations"
         }
       ],
-      "vars": {
-        "RESEND_API_KEY": ""
-      },
       "observability": {
         "enabled": false,
         "head_sampling_rate": 1,
@@ -136,9 +132,6 @@
           "migrations_dir": "migrations"
         }
       ],
-      "vars": {
-        "RESEND_API_KEY": ""
-      },
       "observability": {
         "enabled": false,
         "head_sampling_rate": 1,
