@@ -1,11 +1,8 @@
-import fs from "node:fs/promises";
-import path from "node:path";
 import matter from "gray-matter";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import html from "remark-html";
-
-const POSTS_DIR = path.join(process.cwd(), "src", "content", "blog");
+import { RAW_POSTS } from "./posts.generated";
 
 type FallbackPost = {
   slug: string;
@@ -105,19 +102,6 @@ export type Post = PostMeta & {
   html: string;
 };
 
-async function listPostFiles(): Promise<string[]> {
-  try {
-    const entries = await fs.readdir(POSTS_DIR);
-    return entries.filter((f) => f.endsWith(".md") || f.endsWith(".mdx"));
-  } catch {
-    return [];
-  }
-}
-
-function toSlug(filename: string): string {
-  return filename.replace(/\.(md|mdx)$/i, "");
-}
-
 function fallbackMeta(): PostMeta[] {
   return FALLBACK_POSTS.map(({ content: _content, ...meta }) => meta).sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
@@ -134,26 +118,21 @@ async function markdownToHtml(content: string): Promise<string> {
 }
 
 export async function getAllPosts(): Promise<PostMeta[]> {
-  const files = await listPostFiles();
-  if (files.length === 0) {
+  if (RAW_POSTS.length === 0) {
     return fallbackMeta();
   }
 
-  const posts = await Promise.all(
-    files.map(async (file) => {
-      const raw = await fs.readFile(path.join(POSTS_DIR, file), "utf8");
-      const { data } = matter(raw);
-      const slug = toSlug(file);
-      return {
-        slug,
-        title: (data.title as string) ?? slug,
-        description: (data.description as string) ?? "",
-        date: (data.date as string) ?? new Date().toISOString(),
-        author: data.author as string | undefined,
-        cover: data.cover as string | undefined,
-      } satisfies PostMeta;
-    }),
-  );
+  const posts = RAW_POSTS.map(({ slug, raw }) => {
+    const { data } = matter(raw);
+    return {
+      slug,
+      title: (data.title as string) ?? slug,
+      description: (data.description as string) ?? "",
+      date: (data.date as string) ?? new Date().toISOString(),
+      author: data.author as string | undefined,
+      cover: data.cover as string | undefined,
+    } satisfies PostMeta;
+  });
 
   return posts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
@@ -161,11 +140,9 @@ export async function getAllPosts(): Promise<PostMeta[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const files = await listPostFiles();
-  const file = files.find((f) => toSlug(f) === slug);
-  if (file) {
-    const raw = await fs.readFile(path.join(POSTS_DIR, file), "utf8");
-    const { data, content } = matter(raw);
+  const entry = RAW_POSTS.find((p) => p.slug === slug);
+  if (entry) {
+    const { data, content } = matter(entry.raw);
 
     return {
       slug,
