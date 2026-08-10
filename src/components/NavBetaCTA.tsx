@@ -304,15 +304,18 @@ function VideoModal({ onClose }: { onClose: () => void }) {
             // eslint-disable-next-line jsx-a11y/media-has-caption
             <video src={DEMO_VIDEO_SRC} controls autoPlay className="h-full w-full" />
           ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#7B2D12] via-[#B4471F] to-[#D97742]">
-              <div className="flex h-[64px] w-[64px] items-center justify-center rounded-full bg-white/15 backdrop-blur">
-                <AlmondGlyph size={34} />
+            <div className="flex h-full w-full flex-col items-center justify-center gap-5 bg-gradient-to-br from-[#7B2D12] via-[#B4471F] to-[#D97742]">
+              <div className="flex h-[76px] w-[76px] items-center justify-center rounded-full border border-white/25 bg-white/15 text-white backdrop-blur">
+                <AlmondGlyph size={42} />
               </div>
               <div className="text-center">
-                <p className="font-sans text-[18px] font-medium tracking-[-0.18px] text-white">
-                  Demo coming soon
+                <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/55">
+                  Preview
                 </p>
-                <p className="mt-1 text-[13px] text-white/70">
+                <p className="mt-2 font-display text-[26px] font-normal tracking-[-0.26px] text-white md:text-[30px]">
+                  Demo coming soon.
+                </p>
+                <p className="mt-2 font-sans text-[14px] text-white/65">
                   A walkthrough of Almond will live here.
                 </p>
               </div>
