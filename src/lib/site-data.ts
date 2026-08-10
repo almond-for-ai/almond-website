@@ -392,7 +392,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
           items: [
             { label: "Security", href: "/security" },
             { label: "Self-host", href: "/self-host" },
-            { label: "SOC 2 (in progress)", href: "/security" },
+            { label: "SOC 2 (working towards it)", href: "/security" },
           ],
         },
         {

@@ -95,7 +95,7 @@ const PRICING_DATA = {
       features: [
         "Everything in Bunch",
         "Self-host / air-gapped deploy",
-        "SOC 2 (in progress)",
+        "SOC 2 (working towards it)",
         "Custom data retention policies",
         "SSO + SCIM",
         "Dedicated solutions engineer",
@@ -111,7 +111,7 @@ const PRICING_DATA = {
       { label: "MCP server", values: ["·", "Managed", "On-prem"] },
       { label: "Deploy", values: ["Cloud", "BYO cloud", "Self-host"] },
       { label: "Support", values: ["Community", "Priority + SLA", "Dedicated SE"] },
-      { label: "SOC 2", values: ["·", "·", "In progress"] },
+      { label: "SOC 2", values: ["·", "·", "Working towards it"] },
     ],
   },
   faq: [

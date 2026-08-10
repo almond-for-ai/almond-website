@@ -76,7 +76,7 @@ const SECURITY_DATA = {
     eyebrow: "Compliance",
     heading: "Where we stand, honestly.",
     items: [
-      { label: "SOC 2", status: "In progress" },
+      { label: "SOC 2", status: "Working towards it" },
       { label: "Encryption", status: "In transit + at rest" },
       { label: "Data residency", status: "Your cloud or on-prem" },
       { label: "Sub-processors", status: "Disclosed on request" },
@@ -243,6 +243,12 @@ export default async function SecurityPage({
             <h2 className="mt-[16px] font-sans text-[28px] font-medium leading-[1.1] tracking-[-0.56px] text-black md:text-[36px] md:leading-[40px] md:tracking-[-0.72px]">
               {SECURITY_DATA.compliance.heading}
             </h2>
+          </Reveal>
+          <Reveal y={16} delay={0.08}>
+            <p className="mt-[14px] max-w-[560px] text-[15px] leading-[23px] text-black/60">
+              We are working towards SOC 2 and will publish the report as soon
+              as it is certified.
+            </p>
           </Reveal>
           <Reveal y={20} delay={0.1}>
             <div className="mt-[40px] overflow-hidden rounded-[20px] border border-black/[0.08] bg-white">

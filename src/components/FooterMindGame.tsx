@@ -1,7 +1,8 @@
 "use client";
 
+import { useReducedMotion } from "motion/react";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const MindGame = dynamic(
   () => import("@/components/MindGame").then((m) => m.MindGame),
@@ -14,17 +15,33 @@ const STORAGE_KEY = "mindgame.best";
    band clips whatever overflows, so the lattice always reads as edge to edge. */
 const LATTICE_CELLS = 260;
 
+/* Total time for the wake flash to sweep from the first cell to the last. */
+const WAKE_SWEEP_MS = 900;
+/* Longest single-cell flash duration, so the tail cell finishes cleanly. */
+const WAKE_CELL_MS = 620;
+
 /**
  * The footer's top band. At rest it is ambience: a faint lattice of tiles that
  * breathe behind the footer, masked into the black at both edges so there is no
  * card, no border, no seam. Pressing play turns that same lattice into the
  * Mind Snap board in place, so the game is the footer rather than a box sitting
  * on top of it.
+ *
+ * Every time the band scrolls into view, the lattice wakes: a flash sweeps
+ * across the tiles, the Play button gets a double pulse, and a soft chime
+ * plays (best-effort — browsers that haven't seen a user gesture yet will
+ * just skip the audio). It re-arms once the band leaves view, so scrolling
+ * past it and back triggers it again rather than firing continuously while
+ * it sits on screen.
  */
 export function FooterMindGame() {
   const [live, setLive] = useState(false);
   const [best, setBest] = useState<number | null>(null);
+  const [waking, setWaking] = useState(false);
   const bandRef = useRef<HTMLDivElement>(null);
+  const liveRef = useRef(false);
+  liveRef.current = live;
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const raw = window.localStorage.getItem(STORAGE_KEY);
@@ -32,6 +49,69 @@ export function FooterMindGame() {
     const n = parseInt(raw, 10);
     if (!Number.isNaN(n) && n > 0) setBest(n);
   }, []);
+
+  const playChime = useCallback(() => {
+    try {
+      const Ctx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext?: typeof AudioContext })
+          .webkitAudioContext;
+      if (!Ctx) return;
+      const ctx = new Ctx();
+      const notes: [number, number][] = [
+        [523.25, 0],
+        [783.99, 0.09],
+      ];
+      notes.forEach(([freq, offset]) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        const start = ctx.currentTime + offset;
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0, start);
+        gain.gain.linearRampToValueAtTime(0.1, start + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.3);
+        osc.start(start);
+        osc.stop(start + 0.32);
+      });
+      window.setTimeout(() => ctx.close(), 700);
+    } catch {
+      // Autoplay-restricted or no audio support: the wave and pulse still land.
+    }
+  }, []);
+
+  // Edge-triggered: fire when the band crosses into view, not while it sits
+  // there. wasInView tracks the previous state so scroll jitter around the
+  // threshold doesn't retrigger, but leaving and coming back does.
+  const wasInView = useRef(false);
+  const wakingRef = useRef(false);
+  useEffect(() => {
+    if (reduceMotion) return;
+    if (typeof window === "undefined") return;
+    const el = bandRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const inView = entry.isIntersecting;
+        if (inView && !wasInView.current && !wakingRef.current && !liveRef.current) {
+          wakingRef.current = true;
+          setWaking(true);
+          playChime();
+          window.setTimeout(() => {
+            wakingRef.current = false;
+            setWaking(false);
+          }, WAKE_SWEEP_MS + WAKE_CELL_MS + 200);
+        }
+        wasInView.current = inView;
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [reduceMotion, playChime]);
 
   // The band grows well past the viewport when it wakes up, so follow it down
   // once the height transition has settled.
@@ -59,14 +139,14 @@ export function FooterMindGame() {
         live ? "h-[560px] md:h-[640px]" : "h-[200px] md:h-[260px]",
       ].join(" ")}
     >
-      <LatticeBackdrop dimmed={live} />
+      <LatticeBackdrop dimmed={live} waking={waking} />
 
       {live ? (
         <div className="container-x relative z-10 h-full">
           <MindGame autoStart bare onExit={exit} />
         </div>
       ) : (
-        <RestingInvite best={best} onPlay={play} />
+        <RestingInvite best={best} onPlay={play} waking={waking} />
       )}
     </div>
   );
@@ -76,7 +156,15 @@ export function FooterMindGame() {
    Resting state: a quiet line, not a hero
 ============================================================ */
 
-function RestingInvite({ best, onPlay }: { best: number | null; onPlay: () => void }) {
+function RestingInvite({
+  best,
+  onPlay,
+  waking,
+}: {
+  best: number | null;
+  onPlay: () => void;
+  waking: boolean;
+}) {
   return (
     <div className="container-x relative z-10 flex h-full flex-col items-center justify-center gap-[10px] text-center">
       <span className="text-[11px] uppercase tracking-[0.28em] text-white/35">
@@ -89,7 +177,10 @@ function RestingInvite({ best, onPlay }: { best: number | null; onPlay: () => vo
         <button
           type="button"
           onClick={onPlay}
-          className="rounded-full border border-white/20 px-[20px] py-[9px] text-[13px] font-medium text-white/80 transition hover:border-white/45 hover:text-white"
+          className={[
+            "rounded-full border border-white/20 px-[20px] py-[9px] text-[13px] font-medium text-white/80 transition hover:border-white/45 hover:text-white",
+            waking ? "button-wake-pulse" : "",
+          ].join(" ")}
         >
           Play
         </button>
@@ -107,15 +198,24 @@ function RestingInvite({ best, onPlay }: { best: number | null; onPlay: () => vo
    Ambient lattice
 ============================================================ */
 
-function LatticeBackdrop({ dimmed }: { dimmed: boolean }) {
-  // Index-derived so server and client render byte-identical markup.
+function LatticeBackdrop({
+  dimmed,
+  waking,
+}: {
+  dimmed: boolean;
+  waking: boolean;
+}) {
+  // Index-derived so server and client render byte-identical markup. Grid
+  // auto-flow places items left-to-right, row by row, so spreading the wake
+  // delay linearly by index reads as a wave crossing the lattice.
   const cells = useMemo(
     () =>
       Array.from({ length: LATTICE_CELLS }, (_, i) => ({
         i,
         // A sparse, non-repeating-looking subset breathes; the rest sit still.
         breathes: i % 7 === 3 || i % 11 === 5,
-        delay: `${((i * 137) % 4200) / 1000}s`,
+        breatheDelay: `${((i * 137) % 4200) / 1000}s`,
+        wakeDelay: `${Math.round((i / LATTICE_CELLS) * WAKE_SWEEP_MS)}ms`,
       })),
     [],
   );
@@ -137,9 +237,15 @@ function LatticeBackdrop({ dimmed }: { dimmed: boolean }) {
             key={c.i}
             className={[
               "aspect-square rounded-[10px] bg-white/[0.045] md:rounded-[12px]",
-              c.breathes ? "lattice-breathe" : "",
+              waking ? "lattice-wake" : c.breathes ? "lattice-breathe" : "",
             ].join(" ")}
-            style={c.breathes ? { animationDelay: c.delay } : undefined}
+            style={
+              waking
+                ? { animationDelay: c.wakeDelay }
+                : c.breathes
+                  ? { animationDelay: c.breatheDelay }
+                  : undefined
+            }
           />
         ))}
       </div>

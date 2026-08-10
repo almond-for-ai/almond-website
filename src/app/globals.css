@@ -362,6 +362,60 @@
   }
 }
 
+/* Footer Mind Snap: one-time wake sweep the first time the band scrolls into
+   view. Each tile flashes on a delay proportional to its grid position, so it
+   reads as a single wave crossing the lattice rather than a uniform blink. */
+@keyframes lattice-wake-flash {
+  0% {
+    background-color: rgba(255, 255, 255, 0.045);
+  }
+  45% {
+    background-color: rgba(255, 255, 255, 0.65);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.045);
+    box-shadow: none;
+  }
+}
+.lattice-wake {
+  animation-name: lattice-wake-flash;
+  animation-duration: 620ms;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+/* Footer Mind Snap: Play button catches the same wake moment with a soft
+   double pulse ring, so the eye lands on the one actionable thing. */
+@keyframes button-wake-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  30% {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+  60% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  85% {
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+}
+.button-wake-pulse {
+  animation: button-wake-pulse 1.6s ease-out 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lattice-wake,
+  .button-wake-pulse {
+    animation: none;
+  }
+}
+
 /* Pricing table row hover */
 .pricing-row {
   transition: background-color 200ms cubic-bezier(0.44, 0, 0.56, 1);
