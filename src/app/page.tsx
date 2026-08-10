@@ -11,7 +11,6 @@ import { HeroVisibilityTracker } from "@/components/HeroVisibilityTracker";
 import { BetaWaitlist } from "@/components/BetaWaitlist";
 import { AudienceCopy } from "@/components/AudienceCopy";
 import { RotatingWord } from "@/components/RotatingWord";
-import { PersonaChips } from "@/components/PersonaChips";
 import { ConnectorDiagram } from "@/components/ConnectorDiagram";
 import { ConnectionConstellation } from "@/components/ConnectionConstellation";
 import { MetricStrip } from "@/components/MetricStrip";
@@ -112,11 +111,6 @@ export default async function Home({
                 Read the manifesto →
               </Link>
             </div>
-          </Mount>
-
-          {/* persona chips */}
-          <Mount delay={0.5} y={10} className="mt-[28px]">
-            <PersonaChips />
           </Mount>
         </div>
       </section>

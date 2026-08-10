@@ -32,32 +32,24 @@ export const viewport: Viewport = {
   colorScheme: "dark light",
 };
 
+const TAGLINE_DESCRIPTION =
+  "AI, but multiplayer. Almond is the shared memory layer your whole team's tools draw from, so nothing gets decided twice.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://almondai.tech"),
   title: "Almond AI · The company compiler",
-  description:
-    "One memory for every AI you use. Almond captures decisions inside Claude Code, Cursor, and Figma, then injects them back into every prompt, every doc, every build.",
+  description: TAGLINE_DESCRIPTION,
   openGraph: {
     title: "Almond AI · The company compiler",
-    description:
-      "Memory, not models. The memory layer for AI-native companies.",
+    description: TAGLINE_DESCRIPTION,
     siteName: "Almond AI",
     type: "website",
     url: "/",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1024,
-        height: 576,
-        alt: "Almond AI",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Almond AI · The company compiler",
-    description: "Memory, not models.",
-    images: ["/og-image.png"],
+    description: TAGLINE_DESCRIPTION,
   },
 };
 
