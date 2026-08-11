@@ -18,7 +18,7 @@ function isActive(href: string, pathname: string): boolean {
 
 function pageLabelFromPath(pathname: string): string {
   if (pathname === "/") return "Home";
-  if (pathname.startsWith("/integrations")) return "Integration";
+  if (pathname.startsWith("/integrations")) return "Integrations";
   if (pathname.startsWith("/product")) return "Product";
   if (pathname.startsWith("/pricing")) return "Pricing";
   if (pathname.startsWith("/manifesto")) return "Manifesto";
