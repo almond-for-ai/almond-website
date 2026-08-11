@@ -177,24 +177,20 @@ function BetaForm({ onClose }: { onClose: () => void }) {
         initial={reduce ? false : { opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: EASE }}
-        className="text-center"
+        className="flex items-center gap-[10px]"
       >
-        <div className="mx-auto flex h-[44px] w-[44px] items-center justify-center rounded-full bg-walnut-500/[0.1]">
-          <MiniSprout reduce={!!reduce} />
-        </div>
-        <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-walnut-500">
-          {alreadyIn ? "Already planted" : "You're in the orchard"}
-        </p>
-        <p className="mt-1.5 font-sans text-[16px] font-medium tracking-[-0.16px] text-black">
-          {name ? `See you soon, ${name.split(" ")[0]}.` : "You're on the list."}
-        </p>
-        <p className="mt-1.5 text-[13px] leading-[19px] text-black/55">
-          We&apos;ll email you when your access is ready. No spam, nothing else.
+        <MiniCheck reduce={!!reduce} />
+        <p className="min-w-0 flex-1 text-[13px] leading-[19px] tracking-[-0.13px] text-black/70">
+          <span className="font-medium text-black">
+            {alreadyIn ? "Already on the list." : "You're on the list."}
+          </span>{" "}
+          <span className="text-black/45">We&apos;ll be in touch.</span>
         </p>
         <button
           type="button"
           onClick={onClose}
-          className="mt-3 text-[13px] font-medium text-black/50 hover:text-walnut-500"
+          aria-label="Close"
+          className="shrink-0 text-[12px] font-medium text-black/40 transition-colors hover:text-walnut-500"
         >
           Done
         </button>
@@ -321,35 +317,23 @@ function VideoModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-/* ─── tiny sprout for the success state ─────────────────────────────────── */
+/* ─── tiny tick for the success state ───────────────────────────────────── */
 
-function MiniSprout({ reduce }: { reduce: boolean }) {
+function MiniCheck({ reduce }: { reduce: boolean }) {
   return (
-    <svg width="26" height="26" viewBox="0 0 30 30" fill="none" aria-hidden>
-      <motion.path
-        d="M15 26 C15 20 15 17 15 14"
-        stroke="#7B4019"
-        strokeWidth="2"
-        strokeLinecap="round"
-        initial={reduce ? false : { pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
-      />
-      <motion.path
-        d="M15 16 C18 15 21 12 21 8 C17 8 15 11 15 15"
-        fill="#7B4019"
-        fillOpacity="0.85"
-        initial={reduce ? false : { scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        style={{ transformOrigin: "15px 12px" }}
-        transition={{ duration: 0.4, ease: EASE, delay: 0.4 }}
-      />
-      <motion.ellipse
-        cx="15" cy="24" rx="4.5" ry="3" fill="#D9975C"
-        initial={reduce ? false : { scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ type: "spring", stiffness: 400, damping: 16, delay: 0.05 }}
-      />
-    </svg>
+    <span className="flex h-[20px] w-[20px] shrink-0 items-center justify-center rounded-full bg-walnut-500">
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden>
+        <motion.path
+          d="M2.5 6.3 L4.9 8.7 L9.5 3.6"
+          stroke="#fff"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={reduce ? false : { pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.32, ease: EASE, delay: 0.08 }}
+        />
+      </svg>
+    </span>
   );
 }
