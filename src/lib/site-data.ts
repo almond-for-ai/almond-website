@@ -179,7 +179,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
     },
     audience: {
       solo: {
-        body: "One memory your whole team shares, not one per person. Claude Code, Cursor, Figma, ChatGPT all draw from it, so nothing gets decided twice.",
+        body: "Your team decides once. Claude Code, Cursor, Figma and ChatGPT all read from the same memory, so nobody re-explains it.",
         finalCta: {
           heading: "Memory across every tool you open.",
           body: "Set it up in ten minutes. Bring your own stack.",
@@ -239,7 +239,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
         },
       },
       team: {
-        body: "One memory your whole team shares, alive in every tool you ship in, so decisions stick where the work happens.",
+        body: "Your team decides once, and it holds. Every tool you ship in reads from the same memory, so nobody re-explains it.",
         finalCta: {
           heading: "One brain for the whole team.",
           body: "Run a 30-minute demo on your real codebase.",
