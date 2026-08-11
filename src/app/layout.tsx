@@ -35,12 +35,16 @@ export const viewport: Viewport = {
 const TAGLINE_DESCRIPTION =
   "AI, but multiplayer. Almond is the shared memory layer your whole team's tools draw from, so nothing gets decided twice.";
 
+// Browser tab / social title — keep in sync with multiplayer shared-memory
+// positioning (not the older "company compiler" framing).
+const SITE_TITLE = "Almond AI · Shared multiplayer memory";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://almondai.tech"),
-  title: "Almond AI · The company compiler",
+  title: SITE_TITLE,
   description: TAGLINE_DESCRIPTION,
   openGraph: {
-    title: "Almond AI · The company compiler",
+    title: SITE_TITLE,
     description: TAGLINE_DESCRIPTION,
     siteName: "Almond AI",
     type: "website",
@@ -48,7 +52,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Almond AI · The company compiler",
+    title: SITE_TITLE,
     description: TAGLINE_DESCRIPTION,
   },
 };
