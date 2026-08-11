@@ -25,7 +25,7 @@ const SOLO_SCENARIOS: Scenario[] = [
   {
     step: "Switching tools",
     problem: "Context dies between ChatGPT, Figma, and your editor.",
-    loop: "The thread follows you. What you decided in one tool shows up in the next.",
+    loop: "One shared memory follows the work. What the team settled in one tool shows up in the next.",
     outcome: "One thread",
   },
   {

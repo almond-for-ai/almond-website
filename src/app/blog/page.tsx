@@ -9,7 +9,7 @@ import { buildSiteData } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Blog · Almond AI",
-  description: "Notes on attention, memory, and taste.",
+  description: "Notes on shared memory, multiplayer AI, and taste.",
 };
 
 export default async function BlogIndexPage({
@@ -41,9 +41,9 @@ export default async function BlogIndexPage({
         <div className="container-x">
           <span className="chip-accent">Notes &amp; essays</span>
           <h1 className="mt-[28px] font-sans text-[40px] font-medium leading-[44px] tracking-[-0.8px] text-black">
-            Notes on attention,
+            Notes on shared memory,
             <br />
-            <span className="text-black/50">memory, and taste</span>
+            <span className="text-black/50">multiplayer AI, and taste</span>
           </h1>
         </div>
       </section>

@@ -12,16 +12,16 @@ import { SectionTracker } from "@/components/SectionTracker";
 export const metadata: Metadata = {
   title: "Security · Almond AI",
   description:
-    "Your company's memory, under your control. Encryption, deployment options, access controls, and compliance status.",
+    "Your team's shared memory, under your control. Encryption, deployment options, access controls, and compliance status.",
 };
 
 const SECURITY_DATA = {
   hero: {
     chip: "Security",
-    title: "Your memory, under your control.",
+    title: "Your shared memory, under your control.",
     solo: {
       subtitle:
-        "Encrypted, private by default, and yours to place, managed, your own cloud, or air-gapped behind your firewall.",
+        "Encrypted, private by default, and yours to place: managed, your own cloud, or air-gapped behind your firewall.",
     },
     team: {
       subtitle:

@@ -357,7 +357,7 @@ export function buildSiteData(posts: PostMeta[]): SiteData {
       },
     },
     blog: {
-      heading: "Notes on memory, models, and the company brain",
+      heading: "Notes on shared memory, multiplayer AI, and taste",
       viewAll: "/blog",
       posts: posts.map((p) => ({
         slug: p.slug,

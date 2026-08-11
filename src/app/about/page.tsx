@@ -9,7 +9,7 @@ import { SectionTracker } from "@/components/SectionTracker";
 export const metadata: Metadata = {
   title: "About · Almond AI",
   description:
-    "Why Almond exists: memory, not models. The connective layer for the tools you already use.",
+    "Why Almond exists: AI, but multiplayer. The shared memory layer your whole team's tools draw from.",
 };
 
 const ABOUT_DATA = {
@@ -17,12 +17,12 @@ const ABOUT_DATA = {
     chip: "About",
     title: "Memory, not models.",
     subtitle:
-      "The models keep getting better. The thing they forget is everything you already decided. Almond is the layer that remembers.",
+      "The models keep getting better. What they forget is everything your team already decided. Almond is the shared memory layer those tools draw from.",
   },
   thesis: {
     eyebrow: "The thesis",
-    heading: "We don't build another chat. We connect the ones you already use.",
-    body: "Every team's real knowledge lives scattered across the tools they work in. Almond captures it, compiles it into structure, and injects it back where the work happens. The long version is the manifesto.",
+    heading: "We don't build another chat. We make AI multiplayer.",
+    body: "Every team's real knowledge lives scattered across the tools they work in. Almond captures it into one living memory the whole team shares, and delivers it back where the work happens. The long version is the manifesto.",
     link: { label: "Read the manifesto", href: "/manifesto" },
   },
   believe: {
@@ -30,11 +30,11 @@ const ABOUT_DATA = {
     items: [
       {
         title: "Memory is the moat",
-        body: "Models are a commodity. What your team has decided is not. That's the asset worth compounding.",
+        body: "Models are a commodity. What your team has decided together is not. That's the asset worth compounding.",
       },
       {
         title: "No new destination",
-        body: "The best tool is no tool. Memory should show up inside what you already open, never another tab.",
+        body: "The best tool is no tool. Shared memory should show up inside what you already open, never another tab.",
       },
       {
         title: "You own it",

@@ -12,7 +12,7 @@ import { SectionTracker } from "@/components/SectionTracker";
 export const metadata: Metadata = {
   title: "Contact · Almond AI",
   description:
-    "Book a demo of Almond AI. 30 minutes on your real stack: Claude Code, Figma, Figma Make.",
+    "Book a demo of Almond's shared multiplayer memory. 30 minutes on your real stack: Claude Code, Figma, Figma Make.",
 };
 
 const CONTACT_DATA = {
@@ -21,7 +21,7 @@ const CONTACT_DATA = {
     title: "Book a demo.",
     solo: {
       subtitle:
-        "30 minutes on your real stack. We'll surface context you keep re-explaining and decisions you forgot you made.",
+        "30 minutes on your real stack. We'll show one shared memory your whole team's tools can draw from, and decisions you forgot you made.",
     },
     team: {
       subtitle:

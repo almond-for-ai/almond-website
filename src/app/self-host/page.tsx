@@ -9,7 +9,7 @@ import { SectionTracker } from "@/components/SectionTracker";
 export const metadata: Metadata = {
   title: "Self-host · Almond AI",
   description:
-    "Self-hosting Almond will be supported. Contact the team for more information.",
+    "Self-host Almond's shared memory layer on your own infrastructure. Contact the team for more information.",
 };
 
 /**
@@ -19,8 +19,8 @@ export const metadata: Metadata = {
  */
 const SELF_HOST_TEASER = {
   chip: "Self-host · Coming soon",
-  title: "Run Almond on your own infrastructure.",
-  body: "Self-hosting will be supported. Our team is working hard on it and we will share an update as soon as it is available.",
+  title: "Run shared memory on your own infrastructure.",
+  body: "Self-hosting Almond's shared memory layer will be supported. Our team is working hard on it and we will share an update as soon as it is available.",
   cta: { label: "Contact the team", href: "/contact" },
 };
 

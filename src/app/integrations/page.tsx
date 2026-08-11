@@ -16,7 +16,7 @@ import { SectionTracker } from "@/components/SectionTracker";
 export const metadata: Metadata = {
   title: "Integrations · Almond AI",
   description:
-    "Almond meets your stack where it lives. Claude Code, Figma, Cursor, Linear, Notion and anything that speaks MCP.",
+    "Connect your stack to one shared memory. Claude Code, Figma, Cursor, Linear, Notion, and anything that speaks MCP.",
 };
 
 const INTEGRATIONS_DATA = {
@@ -25,7 +25,7 @@ const INTEGRATIONS_DATA = {
     title: "Almond meets your stack where it lives.",
     solo: {
       subtitle:
-        "The tools you already open, sharing one memory. Connect a tool once, everything and everyone you add inherits it.",
+        "The tools you already open, sharing one multiplayer memory. Connect a tool once, everything and everyone you add inherits it.",
     },
     team: {
       subtitle:

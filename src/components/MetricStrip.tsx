@@ -29,7 +29,7 @@ const METRICS: Metric[] = [
     value: "1",
     numeric: 1,
     label: "Memory",
-    caption: "One compiled layer. Not ten silos.",
+    caption: "One shared layer. Not ten silos.",
     tone: "accent",
   },
   {

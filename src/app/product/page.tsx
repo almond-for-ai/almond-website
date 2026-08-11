@@ -17,7 +17,7 @@ import type { ToolKey } from "@/lib/site-data";
 export const metadata: Metadata = {
   title: "Product · Almond AI",
   description:
-    "Memory that lives inside the tools you already open. No chat window. Almond captures decisions, compiles them into structure, and injects them back where you work.",
+    "AI, but multiplayer. Shared memory that lives inside the tools you already open, so the whole team draws from one living context.",
 };
 
 const LOGO_TOOLS: ToolKey[] = [
@@ -39,9 +39,9 @@ const PRODUCT_DATA = {
   hero: {
     chip: "Product · private beta",
     solo: {
-      title: "Memory that lives inside your tools.",
+      title: "Shared memory inside every tool you open.",
       subtitle:
-        "No chat window to babysit. No new app to adopt. Almond surfaces what's already been decided right inside Claude Code, Cursor, and Figma, so nothing gets re-explained twice.",
+        "No chat window to babysit. No new app to adopt. Almond makes AI multiplayer: one living memory the whole team shares, surfaced inside Claude Code, Cursor, and Figma.",
     },
     team: {
       title: "Your team's memory, in every tool you ship in.",
@@ -56,8 +56,8 @@ const PRODUCT_DATA = {
   surfaces: {
     eyebrow: "Inside your tools",
     solo: {
-      heading: "Not a chat. A layer underneath the tools you open.",
-      lead: "Almond never asks you to switch context. The memory shows up in the surface you're already working in.",
+      heading: "Not a chat. A shared layer under the tools you open.",
+      lead: "Almond never asks you to switch context. Team memory shows up in the surface you're already working in.",
     },
     team: {
       heading: "Not a doc nobody reads. Memory where the work happens.",
@@ -121,7 +121,7 @@ const PRODUCT_DATA = {
     shared: [
       {
         q: "Does Almond have a chat interface?",
-        a: "No. Almond is a layer, not a tool. Memory shows up inside the tools you already use.",
+        a: "No. Almond is a shared memory layer, not a tool. Context shows up inside the tools you already use.",
       },
       {
         q: "Which tools work today?",

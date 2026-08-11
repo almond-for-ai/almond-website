@@ -8,7 +8,8 @@ import { SectionTracker } from "@/components/SectionTracker";
 
 export const metadata: Metadata = {
   title: "Pricing · Almond AI",
-  description: "Pricing is not final yet. Contact the team for more information.",
+  description:
+    "Pricing for Almond's shared multiplayer memory is not final yet. Contact the team for more information.",
 };
 
 /**
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 const PRICING_TEASER = {
   chip: "Pricing",
   title: "Pricing is on the way.",
-  body: "We are still settling the tiers, so we are not publishing numbers yet. Contact the team and we will walk you through what fits.",
+  body: "We are still settling the tiers for shared multiplayer memory, so we are not publishing numbers yet. Contact the team and we will walk you through what fits.",
   cta: { label: "Contact the team", href: "/contact" },
 };
 

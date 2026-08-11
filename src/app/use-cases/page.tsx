@@ -12,16 +12,16 @@ import { SectionTracker } from "@/components/SectionTracker";
 export const metadata: Metadata = {
   title: "Use cases · Almond AI",
   description:
-    "How Almond keeps context alive across Claude Code, Cursor, and Figma, from the first commit to the whole company.",
+    "How shared multiplayer memory keeps context alive across Claude Code, Cursor, and Figma, from the first commit to the whole team.",
 };
 
 const USE_CASES_DATA = {
   hero: {
     chip: "Use cases",
     solo: {
-      title: "Many tools. One memory.",
+      title: "Many tools. One shared memory.",
       subtitle:
-        "Work moves fast across Claude Code, Cursor, and Figma. Almond keeps the thread so nothing gets re-explained, by you or anyone who joins.",
+        "Work moves fast across Claude Code, Cursor, and Figma. Almond keeps one living memory the whole team draws from, so nothing gets re-explained.",
     },
     team: {
       title: "One team. Many tools. One memory.",

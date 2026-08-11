@@ -219,7 +219,7 @@ export default async function Home({
           </Reveal>
           <Reveal y={16} delay={0.1}>
             <p className="mt-[16px] max-w-[600px] text-[16px] leading-[26px] text-black/60">
-              Every tool switch is a context reset. Every new teammate is a full re-explain.
+              Every tool switch is a context reset. Every new teammate is a full re-explain. Solo AI has no shared memory.
             </p>
           </Reveal>
           <Reveal y={24} delay={0.14} className="mt-[48px] md:mt-[56px]">

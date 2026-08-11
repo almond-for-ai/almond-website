@@ -9,7 +9,7 @@ import { SectionTracker } from "@/components/SectionTracker";
 export const metadata: Metadata = {
   title: "Manifesto · Almond AI",
   description:
-    "Memory, not models. Why we're building the company compiler. The memory layer for AI-native companies.",
+    "Memory, not models. Why AI needs a shared multiplayer memory layer, so nothing gets decided twice.",
 };
 
 const MANIFESTO_DATA = {
@@ -35,7 +35,7 @@ const MANIFESTO_DATA = {
       body: [
         "Every prompt starts from zero. The model has no idea you fought this exact battle last Thursday. No idea why the auth flow is the way it is. No idea which approach you considered and rejected.",
         "So you re-type. You re-explain. You re-decide. The same decisions, over and over, with slightly different words each time.",
-        "Your team has memory. Your tools don't. We close the gap.",
+        "Your team has memory. Your tools don't. We close the gap with one shared layer the whole stack draws from.",
       ],
     },
     {
@@ -185,12 +185,12 @@ export default async function ManifestoPage({
         <div className="container-x text-center">
           <Reveal y={20}>
             <h2 className="mx-auto max-w-[760px] font-display text-[40px] font-normal leading-[44px] tracking-[-0.8px] text-white md:text-[64px] md:leading-[64px] md:tracking-[-1.28px]">
-              Build your company a brain.
+              Give the whole team one memory.
             </h2>
           </Reveal>
           <Reveal y={16} delay={0.05}>
             <p className="mx-auto mt-[20px] max-w-[480px] text-[16px] leading-[24px] text-white/60">
-              30-minute demo on your real stack.
+              30-minute demo of shared memory on your real stack.
             </p>
           </Reveal>
           <Reveal y={12} delay={0.1} className="mt-[32px]">
