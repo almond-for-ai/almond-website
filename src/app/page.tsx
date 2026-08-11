@@ -16,7 +16,8 @@ import { ConnectionConstellation } from "@/components/ConnectionConstellation";
 import { MetricStrip } from "@/components/MetricStrip";
 import { PainStats } from "@/components/PainStats";
 import { OutcomeMarquee } from "@/components/OutcomeMarquee";
-import { ToolLogoWall } from "@/components/ToolLogoWall";
+// Hidden for now — keep component; re-enable by uncommenting render below.
+// import { ToolLogoWall } from "@/components/ToolLogoWall";
 import { ValueCardsGrid } from "@/components/ValueCardsGrid";
 import { SectionTracker } from "@/components/SectionTracker";
 import { getAllPosts } from "@/lib/posts";
@@ -190,13 +191,14 @@ export default async function Home({
           />
         </div>
 
-        {/* Companion social-proof: tool logo wall */}
+        {/* Companion social-proof: tool logo wall — hidden for now
         <div className="container-x mt-[64px] md:mt-[88px]">
           <ToolLogoWall
             label={data.impact.logoWallLabel}
             tools={data.impact.logoWallTools}
           />
         </div>
+        */}
       </section>
 
       {/* ── The pain: real stats ───────────────────────────── */}
