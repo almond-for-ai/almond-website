@@ -1,6 +1,11 @@
 import { Resend } from "resend";
 
-const FROM = "Almond <hello@almondai.tech>";
+// Sends as the real Google Workspace mailbox rather than hello@, which is not
+// a monitored inbox. Resend still does the sending (Workspace handles receiving
+// at this address); that split is fine, and it means a reply lands somewhere a
+// human reads. No extra DNS needed: Resend is verified for almondai.tech, so
+// any address on the domain is allowed to send.
+const FROM = "Almond <contact@almondai.tech>";
 const REPLY_TO = "contact@almondai.tech";
 
 // Research (see PR/commit note) converges on: Gmail's Promotions classifier
